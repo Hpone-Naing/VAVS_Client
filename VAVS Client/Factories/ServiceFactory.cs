@@ -1,0 +1,19 @@
+﻿using VAVS_Client.Services;
+
+namespace VAVS_Client.Factories
+{
+    public interface ServiceFactory
+    {
+        UserService CreateUserService();
+        LoginAuthService CreateLoginAuthService();
+        VehicleStandardValueService CreateVehicleStandardValueService();
+        DeviceInfoService CreateDeviceInfoService();
+        FileService CreateFileService();
+        PersonalDetailService CreatePersonalDetailService();
+        StateDivisionService CreateStateDivisionService();
+        TownshipService CreateTownshipService();
+        SMSVerificationService CreateSMSVerificationService();
+        TaxCalculationService CreateTaxCalculationService();
+
+    }
+}

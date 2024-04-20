@@ -1,0 +1,196 @@
+﻿@model VAVS_Client.Paging.PagingList<VAVS_Client.Models.VehicleStandardValue>
+
+@{
+    Layout = "_Layout";
+}
+
+@{
+    ViewData["Title"] = "Search Vehicle";
+}
+<div class="d-flex justify-content-center align-item-center pb-4">
+    <label class="text-primary h4"> မော်တော်ယာဥ်ရှာရန်</label>
+</div>
+@if (TempData.ContainsKey("Message") && TempData.ContainsKey("CssColor"))
+{
+    <div class="alert @TempData["CssColor"]"> @TempData["Message"] </div>
+}
+<div class="row mt-3 search-container">
+    <div class="col-lg-8">
+        <form class="input-group" method="get" action="@Url.Action("SearchVehicleStandardValue", "VehicleStandardValue")">
+
+            <div class="col">
+                <input type="text" class="form-control" name="SearchString" placeholder="[Enter Vehicle Number to Search]" style="border-top-left-radius: 25px !important;border-bottom-left-radius: 25px; border-top-right-radius:25px; border-bottom-right-radius:25px;">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="background-color: #3c90c3ed;" class="row mt-3 border border-dark">
+    <div class="d-flex justify-content-center align-item-center p-1">
+        @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+        {
+            <label class="text-black"> ရှာ‌ဖွေမှုရလဒ်များ </label>
+        }
+        else
+        {
+            <label class="text-black"> ယာဥ်နံပါတ်ဖြင့်ရှာဖွေပါ </label>
+        }
+    </div>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var item in Model)
+    {
+        <div class="row mt-1 border border-dark">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Brand</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        @Html.DisplayFor(modelItem => item.VehicleBrand)
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="row p-2" style="background-color: #c0c0c052;">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ယာဥ်နံပါတ်</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        @Html.DisplayFor(modelItem => item.VehicleNumber)
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center mt-2 mb-2">
+                <a class="btn btn-primary rounded-pill" asp-controller="VehicleStandardValue" asp-action="Details" asp-route-id="@item.VehicleStandardValuePkid">အသေးစိတ်</a>
+            </div>
+        </div>
+    }
+
+    <br />
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var totalPageNo = Model.TotalPageNo;
+    var currentPageNo = Model.PageIndex;
+    var searchString = ViewBag.SearchString ?? null;
+
+    <a asp-action="List"
+       asp-route-pageNo="@(Model.PageIndex - 1)"
+       asp-route-SearchString="@searchString"
+       class="link btn btn-primary btn-sm @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="List"
+       asp-route-pageNo="@(Model.PageIndex + 1)"
+       asp-route-SearchString="@searchString"
+       class="link btn btn-primary btn-sm @nextDisabled">
+        Next
+    </a>
+    <span>
+        Page No : @currentPageNo of @totalPageNo
+    </span>
+}
+else
+{
+    if (!string.IsNullOrEmpty(ViewBag.SearchString))
+    {
+        <div class="d-flex align-item-center justify-content-center mt-2">
+            <span class="text-danger" style="font-size: 20px;font-weight: bold;opacity: 0.5;">ရှာဖွေမှုရလာဒ်များမတွေ့ရှိပါ</span>
+        </div>
+        <div class="d-flex align-item-center justify-content-center mt-2">
+            <span class="text-danger" style="font-size: 20px;font-weight: bold;opacity: 0.5;">မော်တော်ယာဥ်အချက်အလက်များဖြင့်ရှာဖွေပါမည်</span>
+            
+        </div>
+        <div class="d-flex align-item-center justify-content-center mt-2">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#search" style="border-radius: 50px;padding-bottom: 10px;">
+                ရှာဖွေမည်
+            </button>
+        </div>
+    }
+}
+
+<!-- Search model-->
+<div class="modal fade" id="search" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content rounded">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="staticBackdropLabel" style="font-size: 20px;font-weight: bold;">Search Here</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("GetVehicleValue", "VehicleStandardValue")">
+                    <div class="row mt-1 border border-dark">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> Manufacturer: </label>
+                                <select class="form-control" name="manufacturer" required>
+                                    <option value="">?</option>
+                                    <option value="MITSUBISHI">MITSUBISHI</option>
+                                    <option value="ZAR THA PYIN L/T(1)TON">ZAR THA PYIN L/T(1)TON</option>
+                                    <option value="CIMC">CIMC</option>
+                                    <option value="FORLAND">FORLAND</option>
+                                    <option value="NISSAN DIESEL">NISSAN DIESEL</option>
+                                    <option value="ISUZU">ISUZU</option>
+                                    <option value="TOYOTA">TOYOTA</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> BuildType: </label>
+                                <select class="form-control" name="buildType" required>
+                                    <option value="">?</option>
+                                    <option value="STATION WAGON (4x4)(R)">STATION WAGON (4x4)(R)</option>
+                                    <option value="PICKUP (4x2)(R)">PICKUP (4×2)(R)</option>
+                                    <option value="DUMP TRUCK (4x2)(L)">DUMP TRUCK (4×2)(L)</option>
+                                    <option value="TRANSPORTER (6x4)(R)">TRANSPORTER (6×4)(R)</option>
+                                    <option value="EJW41 Bus (4x2)(R)">EJW41 Bus (4×2)(R)</option>
+                                    <option value="STATION WAGON (4x4)(L)">STATION WAGON (4×4)(L)</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> fuelType: </label>
+                                <select class="form-control" name="fuelType" required>
+                                    <option value="">?</option>
+                                    <option value="DIESEL">DIESEL</option>
+                                    <option value="PETROL">PETROL</option>
+                                    <option value="12/">-</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group mt-2">
+                                <label class="control-label"> VehicleBrand: </label>
+                                <select class="form-control" name="vehicleBrand" required>
+                                    <option value="">?</option>
+                                    <option value="PAJERO">PAJERO</option>
+                                    <option value="Tank Trailer">Tank Trailer</option>
+                                    <option value="CW66PE">CW66PE</option>
+                                    <option value="journey">journey</option>
+                                    <option value="OROLLA CROSS ZSG10">OROLLA CROSS ZSG10</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> ModelYear: </label>
+                                <select name="modelYear" class="form-control">
+                                    <option value="">Select Year</option>
+                                    @for (int year = 1980; year <= 2024; year++)
+                                    {
+                                        <option value="@year">@year</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> EnginePower: </label>
+                                <input class="form-control"  name="enginePower" placeholder="Engine Power" required />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-item-center mt-3 mb-2">
+                            <input type="submit" value="Search" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Search model -->

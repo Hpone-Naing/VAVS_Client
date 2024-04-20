@@ -1,0 +1,91 @@
+﻿@model VAVS_Client.Models.VehicleStandardValue
+
+@{
+    Layout = "_Layout";
+}
+
+@{
+    ViewData["Title"] = "TaxCalculation";
+}
+<div>
+    <form method="post" action="@Url.Action("ShowCalculatedTaxForm", "TaxCalculation")" enctype="multipart/form-data">
+        <div class="row mt-1 border border-dark">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> REG.NO: </label>
+                    <div class="col">
+                        <input class="form-control" />
+                    </div>
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> Type: </label>
+                    <input class="form-control" asp-for="BuildType" value="@Model.BuildType" readonly />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> EP: </label>
+                    <input class="form-control" asp-for="EnginePower" value="@Model.EnginePower" readonly />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> M_Year: </label>
+                    <input class="form-control" asp-for="ModelYear" value="@Model.ModelYear" readonly />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group mt-2">
+                    <label class="control-label"> MAKE_MODEL: </label>
+                    <input class="form-control" asp-for="VehicleBrand" value="@Model.VehicleBrand" readonly />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> ENGINE_NO: </label>
+                    <input class="form-control" required />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> FUEL: </label>
+                    <input class="form-control" asp-for="Fuel.FuelType" value="@Model.Fuel.FuelType" readonly />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="control-label"> Contract Price: </label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text">သိန်း</span>
+                        </div>
+                        <input id="price" type="text" class="form-control" name="ContractPrice" maxlength="5" pattern="[0-9]*" title="Please enter digits only" onkeyup="changeUnit(this)" required>
+                        <div class="input-group-append">
+                            <select id="select-unit" name="unit" disabled>
+                                <option value="">-</option>
+                                <option value="1">ခု</option>
+                                <option value="10">ဆယ်</option>
+                                <option value="100">ရာ</option>
+                                <option value="1000">ထောင်</option>
+                                <option value="10000">သောင်း</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                <label class="control-label"> Asset Tax: </label>
+                <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <span class="input-group-text">သိန်း</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="StandardValue" value="@Model.StandardValue" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text">Kyat</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-item-center mt-3 mb-2">
+                <input type="submit" value="Next" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>

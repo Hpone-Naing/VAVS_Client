@@ -1,0 +1,307 @@
+﻿@model VAVS_Client.ViewModels.LoginView
+@{
+    Layout = "_AuthLayout";
+}
+<!--Register -->
+<div class="card">
+    <div class="card-body">
+
+        @if (TempData.ContainsKey("Message") && TempData.ContainsKey("CssColor"))
+        {
+            @if (TempData.ContainsKey("Option"))
+            {
+                @if (TempData["Option"] != null && TempData["Option"].Equals("true"))
+                {
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var myModal = new bootstrap.Modal(document.getElementById('alertModel'));
+                            myModal.show();
+                        });
+                    </script>
+                }
+                else if (TempData["Option"] != null && TempData["Option"].Equals("createForm"))
+                {
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                            myModal.show();
+                        });
+                    </script>
+                }
+                else
+                {
+                    <div class="alert @TempData["CssColor"] text-center alert-msg" role="alert">
+                        @TempData["Message"]
+                    </div>
+                }
+            }
+        }
+
+        <div class="d-flex justify-content-center align-item-center">
+            <h4>Welcome To</h4>
+        </div>
+        <!-- Logo -->
+        <div class="d-flex align-item-center justify-content-center">
+            <a asp-controller="Login" asp-action="Index" class="app-brand-link gap-2">
+                <span class="app-brand-text demo text-body fw-bolder">VAVS Client</span>
+            </a>
+        </div>
+        <div class="app-brand justify-content-center">
+            <a asp-controller="Login" asp-action="Index" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                    <img src="~/Content/images/MADBIMG.jpg" width="90px;" />
+                </span>
+            </a>
+        </div>
+        <!-- /Logo -->
+        @{
+            bool rememberMe = ViewBag.IsRememberMe ?? false;
+        }
+        @if (rememberMe)
+        {
+            <p class="mb-4">Tab picture to Login</p>
+            <div class="app-brand justify-content-center">
+                <a asp-controller="VehicleData" asp-action="List" class="app-brand-link gap-2">
+                    <span class="app-brand-logo demo">
+                        <img src="~/Content/images/MADBIMG.jpg" class="img-thumbnail" width="110px" />
+                    </span>
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-outline-primary d-flex justify-content-center align-item-center" asp-controller="Login" asp-action="RemoveOneTapLogin">Remove one tap Login</a>
+            </div>
+        }
+        else
+        {
+            <p class="mb-2">Please sign-in to your account</p>
+
+            <form class="mb-3" action="@Url.Action("CheckLoginAuthentication", "Login")" method="post">
+                <div class="form-group mt-2 mb-3">
+                    <label class="control-label"> Nrc Number: </label>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <select class="form-control" name="NRCTownshipNumber" required>
+                                <option value="">?</option>
+                                <option value="၁၂/">၁၂/</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" name="NRCTownshipInitial" required>
+                                <option value="">?</option>
+                                <option value="လသယ">လသယ</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" name="NRCType" required>
+                                <option value="">?</option>
+                                <option value="(နိုင်)">(နိုင်)</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="NRCNumber" required pattern="[0-9၀၁၂၃၄၅၆၇၈၉]+" title="NRC number must contain only digits (0-9) or Myanmar numerals (၀-၉)" />
+                        </div>
+                        <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipNumber"></span>
+                        <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
+                        <span class="text-danger" asp-validation-for="PersonalDetail.NRCType"></span>
+                        <span class="text-danger" asp-validation-for="PersonalDetail.NRCNumber"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                </div>
+            </form>
+        }
+        <p class="text-center">
+            <span>New on our platform?</span>
+            <!-- Button trigger modal -->
+            <a data-bs-toggle="modal" data-bs-target="#register" style="cursor:pointer;">
+                <span class="text-primary">Create an account</span>
+            </a>
+        </p>
+    </div>
+</div>
+<!-- /Register -->
+<!-- Alert model -->
+<div class="modal fade" id="alertModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="staticBackdropLabel" style="font-size: 20px;font-weight: bold;">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert @TempData["CssColor"] text-center" role="alert">
+                    @TempData["Message"]
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create model-->
+<div class="modal fade" id="register" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="staticBackdropLabel" style="font-size: 20px;font-weight: bold;">Register Here</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("CheckRegisterAuthentication", "RegistrationAuthCode")" enctype="multipart/form-data">
+                    <div class="row mt-1 border border-dark">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group mt-2">
+                                <label class="control-label"> Nrc Number: </label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-control" asp-for="PersonalDetail.NRCTownshipNumber" required>
+                                            <option value="">?</option>
+                                            <option value="12/">12</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" asp-for="PersonalDetail.NRCTownshipInitial" required>
+                                            <option value="">?</option>
+                                            <option value="UKATA">UKATA</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" asp-for="PersonalDetail.NRCType" required>
+                                            <option value="">?</option>
+                                            <option value="(C)">C (Citizen)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" asp-for="PersonalDetail.NRCNumber" required />
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipNumber"></span>
+                                    <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
+                                    <span class="text-danger" asp-validation-for="PersonalDetail.NRCType"></span>
+                                    <span class="text-danger" asp-validation-for="PersonalDetail.NRCNumber"></span>
+                                </div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.EntryDate"></label>
+                                <input class="form-control" asp-for="PersonalDetail.EntryDate" placeholder="Entry Date" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.EntryDate"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label">State/Division</label>
+                                <select class="form-control" asp-for="PersonalDetail.StateDivisionPkid" asp-items="ViewBag.StateDivisions" required></select>
+                                <span class="text-danger" asp-validation-for="PersonalDetail.StateDivisionPkid"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Quarter"></label>
+                                <input class="form-control" asp-for="PersonalDetail.Quarter" placeholder="ရပ်ကွက်" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.Quarter"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.HousingNumber"></label>
+                                <input class="form-control" asp-for="PersonalDetail.HousingNumber" placeholder="အိမ်အမှတ်" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.HousingNumber"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Email"></label>
+                                <input class="form-control" asp-for="PersonalDetail.Email" placeholder="Email" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.Email"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <!--<div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.PersonTINNumber"></label>
+                                <input class="form-control" asp-for="PersonalDetail.PersonTINNumber" placeholder="အခွန်ထမ်းအှတ်ပုံတင်အမှတ်" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.PersonTINNumber"></span>
+                            </div>-->
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Name"></label>
+                                <input class="form-control" asp-for="PersonalDetail.Name" placeholder="အမည်" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.Name"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Township"></label>
+                                <select class="form-control" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                                <span class="text-danger" asp-validation-for="PersonalDetail.TownshipPkid"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Street"></label>
+                                <input class="form-control" asp-for="PersonalDetail.Street" placeholder="လမ်းအမှတ်" required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.Street"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.PhoneNumber"></label>
+                                <input class="form-control phone" asp-for="PersonalDetail.PhoneNumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
+                                <span class="text-danger" asp-validation-for="PersonalDetail.PhoneNumber"></span>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label asp-for="PersonalDetail.NrcFrontImageFile" class="control-label"></label>
+                                    <label class="file-input mt-2">
+                                        <span class="file-input-label">Choose Image</span>
+                                        <input asp-for="PersonalDetail.NrcFrontImageFile" onchange="hi(event, 'frontPreview');" required/>
+                                        <div class="preview" id="frontPreview">
+                                            <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                                        </div>
+                                    </label>
+                                    <span asp-validation-for="PersonalDetail.NrcFrontImageFile" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <label asp-for="PersonalDetail.NrcBackImageFile" class="control-label"></label>
+                                    <label class="file-input mt-2">
+                                        <span class="file-input-label">Choose Image</span>
+                                        <input asp-for="PersonalDetail.NrcBackImageFile" onchange="hi(event, 'backPreview');" required/>
+                                        <div class="preview" id="backPreview">
+                                            <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                                        </div>
+                                    </label>
+                                    <span asp-validation-for="PersonalDetail.NrcBackImageFile" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-item-center mt-3 mb-2">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Create -->
+<!-- Check Real User Model -->
+<div class="modal fade" id="search" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="staticBackdropLabel" style="font-size: 20px;font-weight: bold;">Auth</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" onsubmit="CheckRealUser(); return false;">
+                    <div class="row mt-1 border border-dark">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="form-group mt-2 ms-2">
+                                <label class="control-label mt-2">ကားနံပါတ်</label>
+                                <input class="form-control mt-1" id="vehicleNumber" placeholder="ကားနံပါတ်" required />
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group mt-2 ms-2">
+                                <label class="control-label">Chassis Number</label>
+                                <input class="form-control mt-1 mb-3" id="chassisNumber" placeholder="Chassis Number" required />
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-item-center mt-3 mb-2">
+                        <input type="submit" value="Search" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Check Real User Model -->
