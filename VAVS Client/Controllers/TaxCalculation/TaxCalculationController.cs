@@ -26,7 +26,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
             PersonalInformation personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
             string contractPriceString = Request.Form["ContractPrice"];
             long ContractPrice = Utility.MakeDigit(contractPriceString);
-            long AssetValue = Utility.MakeDigit(vehicleStandardValue.StandardValue);
+            long AssetValue = Utility.MakeDigit(vehicleStandardValue.StandardValue, "true");
             long totalTax = _serviceFactory.CreateTaxCalculationService().CalculateTotalTax(ContractPrice, AssetValue);
 
             TaxpayerInfo taxpayerInfo = new TaxpayerInfo

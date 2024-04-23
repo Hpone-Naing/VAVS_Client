@@ -39,6 +39,7 @@ namespace VAVS_Client.Controllers.Auth
 
         public async Task<IActionResult> LoginUser()
         {
+            
             bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
             if (isUseVpn)
             {

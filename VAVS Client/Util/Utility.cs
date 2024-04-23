@@ -79,9 +79,14 @@ namespace VAVS_Client.Util
             }
         }
 
-        public static long MakeDigit(string digit)
+        public static long MakeDigit(string digit, string option = null)
         {
-            string makedDigit = digit + "00000";
+            string makedDigit;
+
+            if(option == null)
+                makedDigit = digit;
+            else
+                makedDigit = digit + "00000";
 
             long result;
             if (long.TryParse(makedDigit, out result))
