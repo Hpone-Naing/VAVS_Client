@@ -10,13 +10,13 @@ namespace VAVS_Client.Models
 
         [Required]
         [StringLength(15)]
-        public string TownshipCode { get; set; }
+        public string? TownshipCode { get; set; }
 
         [StringLength(100)]
-        public string TownshipName { get; set; }
+        public string? TownshipName { get; set; }
 
         [StringLength(5)]
-        public string DistrictCode { get; set; }
+        public string? DistrictCode { get; set; }
 
         [ForeignKey("StateDivision")]
         [DisplayName("State Division")]

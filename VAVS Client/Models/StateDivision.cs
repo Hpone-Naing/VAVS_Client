@@ -8,18 +8,18 @@
 
         [Required]
         [StringLength(2)]
-        public string StateDivisionCode { get; set; }
+        public string? StateDivisionCode { get; set; }
 
         [StringLength(100)]
-        public string StateDivisionName { get; set; }
+        public string? StateDivisionName { get; set; }
 
         [StringLength(100)]
-        public string CityOfRegion { get; set; }
+        public string? CityOfRegion { get; set; }
 
         [StringLength(10)]
-        public string EngShortCode { get; set; }
+        public string? EngShortCode { get; set; }
 
         [StringLength(10)]
-        public string MynShortCode { get; set; }
+        public string? MynShortCode { get; set; }
     }
 }
