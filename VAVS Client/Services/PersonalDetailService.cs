@@ -7,7 +7,7 @@ namespace VAVS_Client.Services
         PersonalDetail FindPersonalDetailByNrc(string nrc);
         bool CreatePersonalDetail(PersonalDetail personalDetail);
         PersonalDetail FindPersonalDetailByPhoneNumber(string phoneNumber);
-        Task<PersonalInformation> GetPersonalInformationByNRC(string nrc);
-
+        Task<PersonalDetail> GetPersonalInformationByNRC(string nrc);
+        Task<PersonalDetail> GetPersonalInformationByNRCInDBAndAPI(string nrc);
     }
 }

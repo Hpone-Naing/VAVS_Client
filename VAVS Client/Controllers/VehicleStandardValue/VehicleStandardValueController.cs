@@ -15,19 +15,28 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         }
         public async Task<IActionResult> SearchVehicleStandardValue()
         {
-            string searchString = Request.Query["SearchString"];
-
-            ViewBag.SearchString = searchString;
-            if (string.IsNullOrEmpty(searchString))
-                return View();
-
-            VehicleStandardValue vehicleStandardValue = await _serviceFactory.CreateVehicleStandardValueService().GetVehicleValueByVehicleNumber(searchString);
-            if (vehicleStandardValue == null)
+            try
             {
-                ViewBag.SearchString = "Not Found";
-                return View("SearchVehicleStandardValue");
+                string searchString = Request.Query["SearchString"];
+
+                ViewBag.SearchString = searchString;
+                if (string.IsNullOrEmpty(searchString))
+                    return View();
+
+                VehicleStandardValue vehicleStandardValue = await _serviceFactory.CreateVehicleStandardValueService().GetVehicleValueByVehicleNumberInDBAndAPI(searchString);//await _serviceFactory.CreateVehicleStandardValueService().GetVehicleValueByVehicleNumber(searchString);
+                if (vehicleStandardValue == null)
+                {
+                    ViewBag.SearchString = "Not Found";
+                    return View("SearchVehicleStandardValue");
+                }
+                return View("Details", vehicleStandardValue);
             }
-            return View("Details", vehicleStandardValue);
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception occur: " + e);
+                Utility.AlertMessage(this, "Server Error encounter. Fail to view detail page.", "alert-danger");
+                return RedirectToAction(nameof(SearchVehicleStandardValue));
+            }
         }
 
 

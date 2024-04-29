@@ -46,7 +46,7 @@
         </div>
         <!-- /Logo -->
         <p class="mb-4">We have sent OTP code to Phone number: {@ViewBag.PhoneNumber}</p>
-        <form class="mb-3" method="post" action="@Url.Action("CheckLoginAuthentication", "Login")">
+        <form class="mb-3" method="post" action="@Url.Action("CheckLoginOTPCode", "Login")">
             <div class="mb-3">
                 <div id="otpContainer" class="container mb-4">
                     <div id="inputs" class="inputs ms-4">

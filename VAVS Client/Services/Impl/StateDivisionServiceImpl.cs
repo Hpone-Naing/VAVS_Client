@@ -12,6 +12,21 @@ namespace VAVS_Client.Services.Impl
             _logger = logger;
         }
 
+        public StateDivision FindStateDivisionByPkId(int pkId)
+        {
+            _logger.LogInformation(">>>>>>>>>> [StateDivisionServiceImpl][FindStateDivisionByPkId]  Find  StateDivision by PkId. <<<<<<<<<<");
+            try
+            {
+                _logger.LogInformation($">>>>>>>>>> Success. Find StateDivision by Pkid. <<<<<<<<<<");
+                return FindById(pkId);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding  StateDivision by pkid. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
         public List<SelectListItem> GetSelectListStateDivisions()
         {
             _logger.LogInformation(">>>>>>>>>> [StateDivisionServiceImpl][GetSelectListStateDivisions]  Get SelectList StateDivisions. <<<<<<<<<<");

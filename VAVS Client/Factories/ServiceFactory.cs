@@ -8,6 +8,7 @@ namespace VAVS_Client.Factories
         LoginAuthService CreateLoginAuthService();
         VehicleStandardValueService CreateVehicleStandardValueService();
         DeviceInfoService CreateDeviceInfoService();
+        TaxPayerInfoService CreateTaxPayerInfoService();
         FileService CreateFileService();
         PersonalDetailService CreatePersonalDetailService();
         StateDivisionService CreateStateDivisionService();

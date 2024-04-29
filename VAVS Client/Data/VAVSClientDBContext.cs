@@ -15,6 +15,7 @@
         public virtual DbSet<Fuel> Fuels { get; set; }
         public virtual DbSet<VehicleStandardValue> VehicleStandardValues { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<TaxValidation> TaxValidations { get; set; }
 
     }
 }

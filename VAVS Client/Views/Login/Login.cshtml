@@ -89,6 +89,7 @@
                             <select class="form-control" name="NRCTownshipInitial" required>
                                 <option value="">?</option>
                                 <option value="လသယ">လသယ</option>
+                                <option value="ဥကတ">ဥကတ</option>
                             </select>
                         </div>
                         <div class="col">
@@ -188,7 +189,7 @@
                             </div>
                             <div class="form-group mt-2">
                                 <label class="control-label">State/Division</label>
-                                <select class="form-control" asp-for="PersonalDetail.StateDivisionPkid" asp-items="ViewBag.StateDivisions" required></select>
+                                <select class="form-control" id="lstStateDivisionId" asp-for="PersonalDetail.StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required></select>
                                 <span class="text-danger" asp-validation-for="PersonalDetail.StateDivisionPkid"></span>
                             </div>
                             <div class="form-group mt-2">
@@ -219,14 +220,14 @@
                                 <span class="text-danger" asp-validation-for="PersonalDetail.Name"></span>
                             </div>
                             <div class="form-group mt-2">
-                                <label class="control-label" asp-for="PersonalDetail.Township"></label>
-                                <select class="form-control" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required></select>
-                                <span class="text-danger" asp-validation-for="PersonalDetail.TownshipPkid"></span>
-                            </div>
-                            <div class="form-group mt-2">
                                 <label class="control-label" asp-for="PersonalDetail.Street"></label>
                                 <input class="form-control" asp-for="PersonalDetail.Street" placeholder="လမ်းအမှတ်" required />
                                 <span class="text-danger" asp-validation-for="PersonalDetail.Street"></span>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="control-label" asp-for="PersonalDetail.Township"></label>
+                                <select class="form-control" id="lstTownship" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                                <span class="text-danger" asp-validation-for="PersonalDetail.TownshipPkid"></span>
                             </div>
                             <div class="form-group mt-2">
                                 <label class="control-label" asp-for="PersonalDetail.PhoneNumber"></label>

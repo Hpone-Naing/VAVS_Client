@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FireSharp.Config;
 using FireSharp.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace VAVS_Client.Util
 {
@@ -21,7 +22,8 @@ namespace VAVS_Client.Util
         public static int NEXT_REGISTER_TIME_IN_SECOND = 0;
         public static string REGISTRATION_AUTH_FIREBASE_PATH = "DeviceInfos/";
         public static string LOGIN_AUTH_FIREBASE_PATH = "LoginAuths/";
-
+        public static string LoginUserInfo_FIREBASE_PATH = "LoginUserInfos/";
+        public static string TOKEN = "Heo2fgUj2IajZp4Qvbr0wzV9rnygp5GdvnrmOsdT";
         /*
          * API KEYS
          */
@@ -39,6 +41,28 @@ namespace VAVS_Client.Util
         {
             return String.Concat(townshipNumber, townshipInitial, type, number);
         }
+
+        public static string ConcatNRCSemiComa(string nrc)
+        {
+            
+                string pattern = @"/";
+                string replacedString = Regex.Replace(nrc, pattern, "/;");
+                pattern = @"\(";
+                replacedString = Regex.Replace(replacedString, pattern, ";(");
+                pattern = @"\)";
+                replacedString = Regex.Replace(replacedString, pattern, ");");
+                return replacedString;
+        }
+
+        public static string[] SplitNrc(string nrc)
+        {
+
+            return new string[] { nrc.Split('/')[0]+"/", nrc.Split('(')[0].Split('/')[1], "("+nrc.Split(')')[0].Split('/')[1].Split('(')[1]+")", nrc.Split(')')[1] };
+            
+        }
+
+
+
         public static IFirebaseConfig GetFirebaseConfig()
         {
             IFirebaseConfig config = new FirebaseConfig
@@ -97,23 +121,6 @@ namespace VAVS_Client.Util
             {
                 throw new ArgumentException("Digit is not valid.");
             }
-
         }
-
-        public static AdvanceSearch MakeAdvanceSearch(HttpContext context)
-        {
-            string cngQty = context.Request.Query["CngQty"];
-            string cctvInstalled = context.Request.Query["CctvInstalled"];
-            string totalBusStop = context.Request.Query["TotalBusStop"];
-            string totalBusStopOption = context.Request.Query["TotalBusStopOption"];
-
-            AdvanceSearch advanceSearch = new AdvanceSearch();
-            advanceSearch.CngQty = cngQty;
-            advanceSearch.CctvInstalled = cctvInstalled;
-            advanceSearch.TotalBusStop = totalBusStop;
-            advanceSearch.TotalBusStopOption = totalBusStopOption;
-            return advanceSearch;
-        }
-
     }
 }

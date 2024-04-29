@@ -91,47 +91,7 @@ namespace VAVS_Client.Services.Impl
                 throw;
             }
         }
-        private IQueryable<T> FiltersWithoutAdvSearchOptions<T>(IQueryable<T> query, AdvanceSearch advanceSearch) where T : class
-        { 
-            return query.Where(obj =>
-                (!string.IsNullOrEmpty(advanceSearch.CngQty) && EF.Property<string>(obj, "CngQty") != null && EF.Property<string>(obj, "CngQty").ToLower().Contains(advanceSearch.CngQty.ToLower()))
-                || (!string.IsNullOrEmpty(advanceSearch.CctvInstalled) && EF.Property<string>(obj, "CctvInstalled") != null && EF.Property<string>(obj, "CctvInstalled").ToLower().Contains(advanceSearch.CctvInstalled.ToLower()))
-                );
-        }
-
-        private bool FilterAdvSearchOptions(Object obj, string colName, string advSearchString, string advSearchOption)
-        {
-            string columnValue = (string)EF.Property<string>(obj, colName);
-            if (int.TryParse(columnValue, out int parseIntColumnValue))
-            {
-                var parseIntAdvSeaerchString = int.Parse(advSearchString);
-                switch (advSearchOption)
-                {
-                    case ">":
-                        return parseIntColumnValue > parseIntAdvSeaerchString;
-                    case ">=":
-                        return parseIntColumnValue >= parseIntAdvSeaerchString;
-                    case "<":
-                        return parseIntColumnValue < parseIntAdvSeaerchString;
-                    case "<=":
-                        return parseIntColumnValue <= parseIntAdvSeaerchString;
-                    default:
-                        return false;//throw new ArgumentException($"Invalid option: {option}");
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public List<T> AdvanceSearch<T>(AdvanceSearch advanceSearch, DbSet<T> dbSet) where T : class
-        {
-            var query = dbSet.AsQueryable();
-            query = FiltersWithoutAdvSearchOptions(query, advanceSearch);
-            return query.ToList();
-        }
-
+        
         public T FindById(int id)
         {
             _logger.LogInformation(">>>>>>>>>> [AbstractServiceImpl][IsSearchDataContained] Find object by pkId <<<<<<<<<<");
@@ -153,7 +113,7 @@ namespace VAVS_Client.Services.Impl
             {
                 _logger.LogInformation(">>>>>>>>>> Found object's specific columnName's value match stringValue <<<<<<<<<<");
                 return _context.Set<T>().FirstOrDefault(entity =>
-                 EF.Property<string>(entity, columnName) == str);
+                   entity != null && EF.Property<string>(entity, columnName)!=null && EF.Property<string>(entity, columnName) == str);
             }
             catch(Exception e)
             {

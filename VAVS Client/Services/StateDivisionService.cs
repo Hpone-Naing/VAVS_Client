@@ -6,5 +6,7 @@ namespace VAVS_Client.Services
     {
         List<StateDivision> GetStateDivisions();
         List<SelectListItem> GetSelectListStateDivisions();
+        StateDivision FindStateDivisionByPkId(int pkId);
+
     }
 }

@@ -32,9 +32,6 @@ namespace VAVS_Client.Util
 
             return null;
         }
-
-       
-
         
         public static bool IsRememberMe(HttpContext httpContext)
         {
@@ -47,7 +44,11 @@ namespace VAVS_Client.Util
         {
             LoginUserInfo loginUserInfo = GetLoginUserInfo(httpContext);
             return loginUserInfo != null;
+        }
 
+        public static string GetToken(HttpContext httpContext)
+        {
+            return httpContext.Session.GetString(HashUtil.ComputeSHA256Hash(Utility.TOKEN));
         }
     }
 }

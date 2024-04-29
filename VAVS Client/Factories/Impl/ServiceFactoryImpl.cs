@@ -45,6 +45,11 @@ namespace VAVS_Client.Factories.Impl
             return new DeviceInfoServiceImpl(_firebaseConfig);
         }
 
+        public TaxPayerInfoService CreateTaxPayerInfoService()
+        {
+            return new TaxPayerInfoServiceImpl(_firebaseConfig);
+        }
+
         public LoginAuthService CreateLoginAuthService()
         {
             return new LoginAuthServiceImpl(_firebaseConfig);
@@ -76,10 +81,15 @@ namespace VAVS_Client.Factories.Impl
             return new SMSVerificationServiceImpl(_httpClient);
         }
 
+        public FuelTypeService CreateFuelTypeService()
+        {
+            ILogger<FuelTypeServiceImpl> fuelServiceLogger = new Logger<FuelTypeServiceImpl>(_loggerFactory);
+            return new FuelTypeServiceImpl(_context, fuelServiceLogger);
+        }
         public TaxCalculationService CreateTaxCalculationService()
         {
             ILogger<TaxCalculationServiceImpl> taxCalculationServiceLogger = new Logger<TaxCalculationServiceImpl>(_loggerFactory);
-            return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger);
+            return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger, CreatePersonalDetailService(), CreateTownshipService(), CreateStateDivisionService(), CreateVehicleStandardValueService(), CreateVehicleStandardValueService(), CreateFuelTypeService());
         }
     }
 }

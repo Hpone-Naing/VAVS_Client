@@ -1,0 +1,31 @@
+﻿@model VAVS_Client.Classes.TaxCalculation.TaxInfo
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card">
+    <div class="card-body">
+        <p class="mb-2">အခွန်ရုံးမြို့နယ်ရွေးပါ</p>
+
+        <form class="mb-3" action="@Url.Action("SaveTaxTransaction", "TaxCalculation")" method="post">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group mt-2">
+                        <label class="control-label">State/Division</label>
+                        <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required=""></select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group mt-2">
+                        <label class="control-label">Township</label>
+                        <select class="form-control" id="lstTownship" asp-for="TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2 mt-2 d-flex justify-content-center align-item-center">
+                <button class="btn btn-primary d-grid" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

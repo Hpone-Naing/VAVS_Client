@@ -4,6 +4,6 @@ namespace VAVS_Client.APIService
 {
     public interface PersonalDetailAPIService
     {
-        Task<PersonalInformation> GetPersonalInformationByNRC(string nrc);
+        Task<PersonalDetail> GetPersonalInformationByNRC(string nrc);
     }
 }

@@ -8,56 +8,56 @@ namespace VAVS_Client.Models
         [Key]
         public int PersonalPkid { get; set; }
         
-        public DateTime TransactionID { get; set; }
+        public DateTime? TransactionID { get; set; }
 
         public DateTime? EntryDate { get; set; }
 
         [StringLength(30)]
-        public string PersonTINNumber { get; set; }
+        public string? PersonTINNumber { get; set; }
 
         [StringLength(200)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [StringLength(50)]
-        public string NRCTownshipNumber { get; set; }
+        public string? NRCTownshipNumber { get; set; }
 
         [StringLength(50)]
-        public string NRCTownshipInitial { get; set; }
+        public string? NRCTownshipInitial { get; set; }
 
         [StringLength(50)]
-        public string NRCType { get; set; }
+        public string? NRCType { get; set; }
 
         [StringLength(50)]
-        public string NRCNumber { get; set; }
+        public string? NRCNumber { get; set; }
 
         [MaxLength(200)]
-        public string NRCFrontImagePath { get; set; }
+        public string? NRCFrontImagePath { get; set; }
 
         [NotMapped]
         [DisplayName("မှတ်ပုံတင်‌ရှေ့ပိုင်းပုံထည့်ရန်")]
-        public IFormFile NrcFrontImageFile { get; set; }
+        public IFormFile? NrcFrontImageFile { get; set; }
 
         [MaxLength(200)]
-        public string NRCBackImagePath { get; set; }
+        public string? NRCBackImagePath { get; set; }
 
         [NotMapped]
         [DisplayName("မှတ်ပုံတင်‌နောက်ပိုင်းပုံထည့်ရန်")]
-        public IFormFile NrcBackImageFile { get; set; }
+        public IFormFile? NrcBackImageFile { get; set; }
 
         [StringLength(100)]
-        public string Quarter { get; set; }
+        public string? Quarter { get; set; }
 
         [StringLength(200)]
-        public string Street { get; set; }
+        public string? Street { get; set; }
 
         [StringLength(200)]
-        public string HousingNumber { get; set; }
+        public string? HousingNumber { get; set; }
 
         [StringLength(50)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [StringLength(50)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         
 

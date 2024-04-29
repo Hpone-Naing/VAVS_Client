@@ -4,6 +4,7 @@ using System.Net;
 using VAVS_Client.Classes;
 using VAVS_Client.Data;
 using VAVS_Client.Util;
+using VAVS_Client.Models;
 
 namespace VAVS_Client.APIService.Impl
 {
@@ -16,7 +17,7 @@ namespace VAVS_Client.APIService.Impl
             _httpClient = httpClient;
             _logger = logger;
         }
-        public async Task<PersonalInformation> GetPersonalInformationByNRC(string nrc)
+        public async Task<PersonalDetail> GetPersonalInformationByNRC(string nrc)
         {
             _logger.LogInformation(">>>>>>>>>> [PersonalDetailAPIServiceImpl][GetPersonalInformationByNRC] Get personal information by nrc. <<<<<<<<<<");
             try
@@ -35,7 +36,13 @@ namespace VAVS_Client.APIService.Impl
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    PersonalInformation personalInfo = JsonConvert.DeserializeObject<PersonalInformation>(json);
+                    //PersonalInformation personalInfo = JsonConvert.DeserializeObject<PersonalInformation>(json);
+                    PersonalDetail personalInfo = JsonConvert.DeserializeObject<PersonalDetail>(json);
+                    string[] splitedNrc = Utility.SplitNrc(nrc);
+                    personalInfo.NRCTownshipNumber = splitedNrc[0];
+                    personalInfo.NRCTownshipInitial = splitedNrc[1];
+                    personalInfo.NRCType = splitedNrc[2];
+                    personalInfo.NRCNumber = splitedNrc[3];
                     return personalInfo;
                 }
 
@@ -46,7 +53,7 @@ namespace VAVS_Client.APIService.Impl
             }
             catch (Exception e)
             {
-                _logger.LogError(">>>>>>>>>> Error occur when finding person by phone number. <<<<<<<<<<" + e);
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
                 throw;
             }
         }

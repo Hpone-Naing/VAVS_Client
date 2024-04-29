@@ -20,7 +20,7 @@ namespace VAVS_Client.Services.Impl
         {
             client = new FireSharp.FirebaseClient(_firebaseConfig);
             var data = loginAuth;
-            SetResponse setResponse = client.Set(Utility.LOGIN_AUTH_FIREBASE_PATH + HashUtil.ComputeSHA256Hash(loginAuth.PhoneNumber), data);
+            SetResponse setResponse = client.Set(Utility.LOGIN_AUTH_FIREBASE_PATH + HashUtil.ComputeSHA256Hash(loginAuth.Nrc), data);
 
             if (setResponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -42,7 +42,16 @@ namespace VAVS_Client.Services.Impl
             Console.WriteLine("fb LoginAuth by ip: " + JsonConvert.SerializeObject(loginAuth));
             return loginAuth;
         }
-        
+
+        public LoginAuth GetLoginAuthByNrc(string nrc)
+        {
+            client = new FireSharp.FirebaseClient(_firebaseConfig);
+            FirebaseResponse response = client.Get(Utility.LOGIN_AUTH_FIREBASE_PATH + HashUtil.ComputeSHA256Hash(nrc));
+            LoginAuth loginAuth = JsonConvert.DeserializeObject<LoginAuth>(response.Body);
+            Console.WriteLine("fb LoginAuth by ip: " + JsonConvert.SerializeObject(loginAuth));
+            return loginAuth;
+        }
+
         public void UpdateOtp(string phoneNumber, string hashedOtp = null)
         {
             LoginAuth loginAuth = GetLoginAuthByPhoneNumber(phoneNumber);
@@ -52,9 +61,9 @@ namespace VAVS_Client.Services.Impl
             }
             CreateLoginAuth(loginAuth);
         }
-        public void UpdateResendCodeTime(string phoneNumber, string hashedOtp = null)
+        public void UpdateResendCodeTime(string nrc, string hashedOtp = null)
         {
-            LoginAuth loginAuth = GetLoginAuthByPhoneNumber(phoneNumber);
+            LoginAuth loginAuth = GetLoginAuthByNrc(nrc);
             if (loginAuth != null)
             {
                 if (loginAuth.IsExceedMaximunResendCode() || (loginAuth.ReResendCodeTime != null && !loginAuth.AllowNextTimeResendOTP()))
@@ -80,7 +89,7 @@ namespace VAVS_Client.Services.Impl
                     loginAuth.ResendOTPCount++;
                 }
                 CreateLoginAuth(loginAuth);
-                Console.WriteLine("After UpdateResendTime " + JsonConvert.SerializeObject(GetLoginAuthByPhoneNumber(phoneNumber)));
+                Console.WriteLine("After UpdateResendTime " + JsonConvert.SerializeObject(GetLoginAuthByNrc(nrc)));
             }
         }
      }

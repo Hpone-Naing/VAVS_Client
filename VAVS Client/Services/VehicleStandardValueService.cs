@@ -11,8 +11,12 @@ namespace VAVS_Client.Services
         VehicleStandardValue FindVehicleStandardValueByIdYBSTableEgerLoad(int id);
         VehicleStandardValue FindVehicleStandardValueByIdContainSoftDeleteEgerLoad(int id);
         VehicleStandardValue FindVehicleByVehicleNumber(string vehicleNumer);
+        VehicleStandardValue FindVehicleByVehicleNumberEgerLoad(string vehicleNumer);
+        Task<VehicleStandardValue> GetVehicleValueByVehicleNumberInDBAndAPI(string carNumber);
         Task<VehicleStandardValue> GetVehicleValue(string manufacturer, string buildType, string fuelType, string vehicleBrand, string modelYear, string enginePower);
         Task<VehicleStandardValue> GetVehicleValueByVehicleNumber(string carNumber);
+        bool CreateVehicleStandardValue(VehicleStandardValue vehicleStandardValue);
+
 
     }
 }

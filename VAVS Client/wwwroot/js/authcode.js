@@ -38,6 +38,7 @@ function initializeRemainingTime() {
     var remainingTime = document.getElementById('remainingTime');
     if (remainingTime != null) {
         var expireTimeString = remainingTime.getAttribute('data-expire-time');
+        console.log("expire time str:............... " + expireTimeString)
         var remainingTimeElement = document.getElementById('remainingTime');
 
         function updateCountdown() {

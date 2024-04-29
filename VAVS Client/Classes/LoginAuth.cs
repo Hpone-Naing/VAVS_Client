@@ -4,6 +4,7 @@ namespace VAVS_Client.Classes
 {
     public class LoginAuth
     {
+        public string Nrc { get; set; }
         public string PhoneNumber { get; set; }
         public int ResendOTPCount { get; set; }
         public string ReResendCodeTime { get; set; }

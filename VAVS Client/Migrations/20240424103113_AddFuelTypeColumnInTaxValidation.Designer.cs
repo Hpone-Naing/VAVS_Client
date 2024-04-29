@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAVS_Client.Data;
 
@@ -11,9 +12,10 @@ using VAVS_Client.Data;
 namespace VAVS_Client.Migrations
 {
     [DbContext(typeof(VAVSClientDBContext))]
-    partial class VAVSClientDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240424103113_AddFuelTypeColumnInTaxValidation")]
+    partial class AddFuelTypeColumnInTaxValidation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +89,7 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -94,6 +97,7 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HousingNumber")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -101,42 +105,52 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NRCBackImagePath")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("NRCFrontImagePath")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("NRCNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NRCTownshipInitial")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NRCTownshipNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NRCType")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PersonTINNumber")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Quarter")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -149,13 +163,14 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("TownshipPkid")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("TransactionID")
+                    b.Property<DateTime>("TransactionID")
                         .HasColumnType("datetime2");
 
                     b.HasKey("PersonalPkid");
@@ -320,11 +335,16 @@ namespace VAVS_Client.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<int>("VehiclePkid")
+                        .HasColumnType("int");
+
                     b.HasKey("TaxValidationPkid");
 
                     b.HasIndex("PersonTownshipPkid");
 
                     b.HasIndex("PersonalPkid");
+
+                    b.HasIndex("VehiclePkid");
 
                     b.ToTable("TB_TaxValidation");
                 });
@@ -422,18 +442,22 @@ namespace VAVS_Client.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleStandardValuePkid"), 1L, 1);
 
                     b.Property<string>("AttachFileName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("BuildType")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("CountryOfMade")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -441,6 +465,7 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EnginePower")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -454,22 +479,27 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ModelYear")
+                        .IsRequired()
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("OfficeLetterNo")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Remarks")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("StandardValue")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -477,10 +507,12 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("VehicleBrand")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("VehicleNumber")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -526,9 +558,17 @@ namespace VAVS_Client.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VAVS_Client.Models.VehicleStandardValue", "VehicleStandardValue")
+                        .WithMany()
+                        .HasForeignKey("VehiclePkid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("PersonalDetail");
 
                     b.Navigation("Township");
+
+                    b.Navigation("VehicleStandardValue");
                 });
 
             modelBuilder.Entity("VAVS_Client.Models.Township", b =>

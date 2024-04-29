@@ -42,7 +42,7 @@ namespace VAVS_Client.Services.Impl
             try
             {
                 _logger.LogInformation($">>>>>>>>>> Success. Get VehicleStandardValue eger load list. <<<<<<<<<<");
-                return _context.VehicleStandardValues.Where(vehicle => vehicle.IsDeleted == false).ToList();
+                return _context.VehicleStandardValues.Where(vehicle => vehicle.IsDeleted == false).Include(fuel => fuel.Fuel).ToList();
             }
             catch (Exception e)
             {
@@ -159,7 +159,7 @@ namespace VAVS_Client.Services.Impl
                 _logger.LogError(">>>>>>>>>> Error occur when finding VehicleStandardValue by pkId with YBSTable eger load. <<<<<<<<<<" + e);
                 throw;
             }
-        }
+        }        
 
         public VehicleStandardValue FindVehicleByVehicleNumber(string vehicleNumer)
         {
@@ -168,6 +168,21 @@ namespace VAVS_Client.Services.Impl
             {
                 _logger.LogInformation(">>>>>>>>>> Success. Find VehicleStandardValue by vehicleNumber. <<<<<<<<<<");
                 return FindByString("VehicleNumber", vehicleNumer);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding VehicleStandardValue by vehicleNumber. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
+        public VehicleStandardValue FindVehicleByVehicleNumberEgerLoad(string vehicleNumer)
+        {
+            _logger.LogInformation(">>>>>>>>>> [VehicleStandardValueServiceImpl][FindVehicleByVehicleNumber] Find VehicleStandardValue by vehicleNumber. <<<<<<<<<<");
+            try
+            {
+                _logger.LogInformation(">>>>>>>>>> Success. Find VehicleStandardValue by vehicleNumber. <<<<<<<<<<");
+                return _context.VehicleStandardValues.Where(vehicle => vehicle.VehicleNumber == vehicleNumer).Include(fuel => fuel.Fuel).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -189,6 +204,23 @@ namespace VAVS_Client.Services.Impl
             }
         }
 
+        public async Task<VehicleStandardValue> GetVehicleValueByVehicleNumberInDBAndAPI(string carNumber)
+        {
+            try
+            {
+                VehicleStandardValue vehicleStandardValue = FindVehicleByVehicleNumberEgerLoad(carNumber);
+                if(vehicleStandardValue == null)
+                {
+                    vehicleStandardValue = await _vehicleStandardValueAPIService.GetVehicleValueByVehicleNumber(carNumber);
+                }
+                return vehicleStandardValue;
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
+
         public async Task<VehicleStandardValue> GetVehicleValue(string manufacturer, string buildType, string fuelType, string vehicleBrand, string modelYear, string enginePower)
         {
             try
@@ -199,6 +231,25 @@ namespace VAVS_Client.Services.Impl
             catch(HttpRequestException e)
             {
                 throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
+
+        public bool CreateVehicleStandardValue(VehicleStandardValue vehicleStandardValue)
+        {
+            _logger.LogInformation(">>>>>>>>>> [VehicleStandardValueServiceImpl][CreateVehicleStandardValue] Create VehicleStandardValue. <<<<<<<<<<");
+            try
+            {
+
+                vehicleStandardValue.IsDeleted = false;
+                vehicleStandardValue.CreatedBy = "admin";
+                vehicleStandardValue.CreatedDate = DateTime.Now;
+                _logger.LogInformation($">>>>>>>>>> Success. Create VehicleStandardValue. <<<<<<<<<<");
+                return Create(vehicleStandardValue);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when creating VehicleStandardValue. <<<<<<<<<<" + e);
+                throw;
             }
         }
     }

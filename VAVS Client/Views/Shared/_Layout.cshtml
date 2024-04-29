@@ -103,8 +103,7 @@
                     <div class="btn-group">
                         <button class="">
                             @{
-                                var loginUserInfo = SessionUtil.GetLoginUserInfo(HttpContextAccessor.HttpContext);//(ViewBag.UserName ?? "Guess").ToString();
-                                var initialName = loginUserInfo.Name;
+                                var initialName = HttpContextAccessor.HttpContext.Session.GetString("LoginUserName");
                             }
                             <span style="background-color: #47b047;border-radius: 50px;width: 10px;display: inline-block;height: 10px;"></span>
                             @*<img src="~/Content/images/Alphabet/@(initialName[0].ToString().ToLower()).png" alt="User Image" style="width: 20px;" class="rounded-pill">*@
@@ -388,6 +387,7 @@
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/common.js" asp-append-version="true"></script>
+    <script src="~/js/township.js" asp-append-version="true"></script>
     <script src="~/js/taxCalculation.js" asp-append-version="true"></script>
     <script src="~/js/spinner.js" asp-append-version="true"></script>
 

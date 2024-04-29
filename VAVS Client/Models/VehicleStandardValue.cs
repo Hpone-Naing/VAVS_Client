@@ -9,37 +9,37 @@ namespace VAVS_Client.Models
         public int VehicleStandardValuePkid { get; set; }
 
         [StringLength(200)]
-        public string Manufacturer { get; set; }
+        public string? Manufacturer { get; set; }
 
         [StringLength(50)]
-        public string CountryOfMade { get; set; }
+        public string? CountryOfMade { get; set; }
 
         [StringLength(200)]
-        public string VehicleBrand { get; set; }
+        public string? VehicleBrand { get; set; }
 
         [StringLength(200)]
-        public string BuildType { get; set; }
+        public string? BuildType { get; set; }
 
         [StringLength(4)]
-        public string ModelYear { get; set; }
+        public string? ModelYear { get; set; }
 
         [StringLength(30)]
-        public string EnginePower { get; set; }
+        public string? EnginePower { get; set; }
 
         [StringLength(10)]
-        public string StandardValue { get; set; }
+        public string? StandardValue { get; set; }
 
         [StringLength(10)]
-        public string VehicleNumber { get; set; }
+        public string? VehicleNumber { get; set; }
 
         [StringLength(50)]
-        public string OfficeLetterNo { get; set; }
+        public string? OfficeLetterNo { get; set; }
 
         [StringLength(50)]
-        public string AttachFileName { get; set; }
+        public string? AttachFileName { get; set; }
 
         [StringLength(200)]
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
 
         public DateTime? EntryDate { get; set; }
 
@@ -48,7 +48,7 @@ namespace VAVS_Client.Models
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(10)]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         [ForeignKey("StateDivision")]
         [DisplayName("State Division")]

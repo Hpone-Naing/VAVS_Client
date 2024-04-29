@@ -34,7 +34,7 @@ namespace VAVS_Client.Services.Impl
             _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][CreatePersonDetail] Create PersonDetail. <<<<<<<<<<");
             try
             {
-               
+
                 personalDetail.IsDeleted = false;
                 personalDetail.RegistrationStatus = "Pending";
                 personalDetail.PhoneNumber = personalDetail.MakePhoneNumberWithCountryCode();
@@ -52,6 +52,7 @@ namespace VAVS_Client.Services.Impl
 
         public PersonalDetail FindPersonalDetailByNrc(string nrc)
         {
+            Console.WriteLine("here FindPersonalDetailByNrc...................");
             _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][FindPersonDetailByNrc] Find person by Nrc. <<<<<<<<<<");
             Console.WriteLine("service nrc: " + nrc);
             try
@@ -68,6 +69,7 @@ namespace VAVS_Client.Services.Impl
                         personalDetil.NRCType == NRCType &&
                         personalDetil.NRCNumber == NRCNumber);
                 _logger.LogInformation($">>>>>>>>>> Success. Find person by Nrc. <<<<<<<<<<");
+                Console.WriteLine("personal Detail == null? " + (personalDetail == null));
                 return personalDetail;
             }
             catch (Exception e)
@@ -97,19 +99,42 @@ namespace VAVS_Client.Services.Impl
             }
         }
 
-        public async Task<PersonalInformation> GetPersonalInformationByNRC(string nrc)
+        public async Task<PersonalDetail> GetPersonalInformationByNRC(string nrc)
         {
             _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][GetPersonalInformationByNRC] Get personal information by nrc. <<<<<<<<<<");
             try
             {
-                PersonalInformation personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(nrc);
+                //PersonalInformation personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(nrc);
+                PersonalDetail personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(nrc);
                 return personalInfo;
             }
             catch (HttpRequestException e)
             {
                 _logger.LogError(">>>>>>>>>> Error occur when finding person by phone number. <<<<<<<<<<" + e);
-                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}"); 
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
             }
         }
+
+        public async Task<PersonalDetail> GetPersonalInformationByNRCInDBAndAPI(string nrc)
+        {
+            try
+            {
+                string nrcConcatWithSemiComa = Utility.ConcatNRCSemiComa(nrc);
+                Console.WriteLine("Nrc concat seicoma" + nrcConcatWithSemiComa);
+                PersonalDetail personalDetail = FindPersonalDetailByNrc(nrcConcatWithSemiComa);
+                Console.WriteLine("personal Detail == null? " + (personalDetail == null));
+                if (personalDetail == null)
+                {
+                    personalDetail = await GetPersonalInformationByNRC(nrc);
+                }
+                return personalDetail;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
     }
 }

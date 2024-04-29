@@ -3,6 +3,8 @@ using VAVS_Client.Factories;
 using VAVS_Client.Util;
 using Microsoft.AspNetCore.Mvc;
 using VAVS_Client.ViewModels;
+using System.Net;
+using VAVS_Client.Models;
 
 namespace VAVS_Client.Controllers.Auth
 {
@@ -29,7 +31,7 @@ namespace VAVS_Client.Controllers.Auth
         {
             ViewBag.IsRememberMe = SessionUtil.IsRememberMe(HttpContext);
             ViewBag.StateDivisions = factoryBuilder.CreateStateDivisionService().GetSelectListStateDivisions();
-            ViewBag.Townships = factoryBuilder.CreateTownshipService().GetSelectListTownships();
+            ViewBag.Townships = factoryBuilder.CreateTownshipService().GetSelectListTownshipsByStateDivision();//factoryBuilder.CreateTownshipService().GetSelectListTownships();
         }
 
         public IActionResult Index()
@@ -61,20 +63,6 @@ namespace VAVS_Client.Controllers.Auth
                 if (loginUser != null)
                 {
                     return RedirectToAction("CheckLoginAuthentication", "Login");
-                    /*string hashedEnteredPassword = HashUtil.ComputeSHA256Hash(user.Password);
-                    if (loginUser.IsAuthenticateUser(hashedEnteredPassword))
-                    {
-                        bool isRememberMe = Request.Form["RememberMe"] == "true";
-                        LoginUserInfo userInfo = new LoginUserInfo
-                        {
-                            UserID = loginUser.UserID,
-                            LoggedInTime = DateTime.Now,
-                            RememberMe = isRememberMe,
-                            UserType = loginUser.UserType.UserTypeName
-                        };
-                        SessionUtil.SetLoginUserInfo(HttpContext, userInfo);
-                        return RedirectToAction("SearchVehicle", "VehicleData");
-                    }*/
                 }
                 MakeLoginView();
                 MakeViewBag();
@@ -88,10 +76,11 @@ namespace VAVS_Client.Controllers.Auth
             }
         }
 
-        private LoginAuth InitializeLoginAuth(string phoneNumber, string hashedOtp)
+        private LoginAuth InitializeLoginAuth(string nrc, string phoneNumber, string hashedOtp)
         {
             return new LoginAuth()
             {
+                Nrc = nrc,
                 PhoneNumber = phoneNumber,
                 ResendOTPCount = 0,
                 OTP = hashedOtp
@@ -117,7 +106,7 @@ namespace VAVS_Client.Controllers.Auth
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckLoginAuthentication(string phoneNumber, bool resend)
+        public async Task<IActionResult> CheckLoginAuthentication()
         {
             try
             {
@@ -125,18 +114,30 @@ namespace VAVS_Client.Controllers.Auth
                 string nrcTownshipInitial = Request.Form["NRCTownshipInitial"];
                 string nrcType = Request.Form["NRCType"];
                 string nrcNumber = Request.Form["NRCNumber"];
-                Console.WriteLine("Nrc: " + Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
-                PersonalInformation personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
+                //Console.WriteLine("Nrc: " + Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
+                //PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
+                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
                 if (personalInformation != null)
                 {
-                    LoginUserInfo userInfo = new LoginUserInfo
+                    /*LoginUserInfo loginUserInfo = new LoginUserInfo
                     {
-                        Name = personalInformation.Name,
                         NRC = Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber),
                         LoggedInTime = DateTime.Now,
+                    };*/
+                    LoginUserInfo loginUserInfo = new LoginUserInfo
+                    {
+                        TaxpayerInfo = new TaxpayerInfo
+                        {
+                            Name = personalInformation.Name,
+                            NRC = Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber),
+                            PhoneNumber = personalInformation.PhoneNumber,
+                        },
+                        LoggedInTime = DateTime.Now,
                     };
-                    SessionUtil.SetLoginUserInfo(HttpContext, userInfo);
-                    return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
+                    //SessionUtil.SetLoginUserInfo(HttpContext, loginUserInfo);
+                    HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash(Utility.TOKEN), HashUtil.ComputeSHA256Hash(string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber)));
+                    factoryBuilder.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);
+                    return RedirectToAction("CheckLoginOTPCode", "Login");
                 }
                 MakeViewBag();
                 Utility.AlertMessage(this, "You haven't registered yet!. Please register", "alert-danger", "true");
@@ -150,6 +151,141 @@ namespace VAVS_Client.Controllers.Auth
                 return RedirectToAction("Index", "Login");
             }
         }
+
+        public async Task<IActionResult> CheckLoginOTPCode(bool resend)
+        {
+            try
+            {
+                /*
+                 * Check vpn turn on or off
+                 */
+                bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
+                if (isUseVpn)
+                {
+                    MakeViewBag();
+                    Utility.AlertMessage(this, "Please turn off vpn.", "alert-danger", "true");
+                    return RedirectToAction("Index", "Login");
+                }
+
+                LoginUserInfo loginUserInfo = factoryBuilder.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.TaxpayerInfo.NRC);//await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(loginUserInfo.NRC);
+                if (loginUserInfo.IsTaxpayerInfoNull())
+                {
+                    MakeViewBag();
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }
+
+                DateTime currentTime = DateTime.Now;
+                Console.WriteLine("cur time: " + currentTime);
+
+                DateTime expireTime = currentTime.AddSeconds(Utility.OTP_EXPIRE_SECOND);
+                Console.WriteLine("Expire time: " + expireTime);
+                string storedExpireTime = HttpContext.Session.GetString("ExpireTime");
+                Console.WriteLine("stored Expire time: " + storedExpireTime);
+
+                /*
+                 * Check Login User's  null or not
+                 */
+                LoginAuth existingUser = factoryBuilder.CreateLoginAuthService().GetLoginAuthByNrc(loginUserInfo.TaxpayerInfo.NRC);
+                if (existingUser == null)
+                {
+                    string otp = Utility.GenerateOtp();
+                    Console.WriteLine("Otp 1 is: " + otp);
+                    /*
+                     * Send otp code via sms
+                     */
+                    await factoryBuilder.CreateSMSVerificationService().SendSMSOTP(personalInformation.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+
+                    factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.TaxpayerInfo.NRC, personalInformation.PhoneNumber, HashUtil.ComputeSHA256Hash(otp)));
+                    HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+                    ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    return View("LoginAuthCode");
+                }
+                /*
+                 * Check user can request re resend code or not
+                 */
+                if (existingUser.ReResendCodeTime != null)
+                {
+                    if (existingUser.IsExceedMaximunResendCode() || !existingUser.AllowNextTimeResendOTP())
+                    {
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC);
+                        Utility.AlertMessage(this, "Try resend code after " + DateTime.Parse(existingUser.ReResendCodeTime).ToString(), "alert-danger", "true");
+                        return RedirectToAction("Index", "Login");
+                    }
+                    if (existingUser.AllowNextTimeResendOTP())
+                    {
+                        string otp = Utility.GenerateOtp();
+                        Console.WriteLine("Otp 2 is: " + otp);
+                        /*
+                         * Send otp code via sms
+                         */
+                        await factoryBuilder.CreateSMSVerificationService().SendSMSOTP(personalInformation.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                        HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+                        ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                        return View("LoginAuthCode");
+                    }
+                }
+                /*
+                 * OTP code expire and user can request re resend code
+                 */
+                if ((string.IsNullOrEmpty(storedExpireTime) || (!string.IsNullOrEmpty(storedExpireTime) && currentTime > DateTime.Parse(storedExpireTime))))
+                {
+                    string otp = Utility.GenerateOtp();
+                    Console.WriteLine("Otp 3 is: " + otp);
+                    /*
+                     * Send otp code via sms
+                     */
+                    await factoryBuilder.CreateSMSVerificationService().SendSMSOTP(personalInformation.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+
+                    if (resend)
+                    {
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                    }
+                    else
+                    {
+                        factoryBuilder.CreateLoginAuthService().UpdateOtp(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                    }
+                    HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+                    ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    return View("LoginAuthCode");
+                }
+                /*
+                 * OTP code not expire and check valid OTP or not. If valid save PersonalDetail
+                 */
+                if (currentTime < DateTime.Parse(storedExpireTime))
+                {
+                    if (MakeOtp(HttpContext).IsValidOtp(existingUser.OTP))
+                    {
+                        /*
+                         * Valid OTP and set session for loginUser and redirect vehicle search page
+                         */
+                        //await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your Username", "mgmg", " Your Password", "mgmg123++", "for Login"));
+                        factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.TaxpayerInfo.NRC, personalInformation.PhoneNumber, ""));
+                        HttpContext.Session.Remove("ExpireTime");
+                        HttpContext.Session.SetString("LoginUserName", personalInformation.Name);
+                        return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
+                    }
+                    ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    Utility.AlertMessage(this, "Incorrect OTP code.", "alert-danger");
+                    return View("LoginAuthCode");
+                }
+
+                ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                Utility.AlertMessage(this, "OTP code expire.", "alert-danger");
+                return View("LoginAuthCode");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MakeViewBag();
+                Utility.AlertMessage(this, "Internal Server error.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
+        }
+    
 
         public IActionResult RemoveOneTapLogin()
         {
@@ -166,6 +302,7 @@ namespace VAVS_Client.Controllers.Auth
 
                 if (loginUserInfo.RememberMe)
                 {
+                    HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash("token"), string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber));
                     SessionUtil.SetLoginUserInfo(HttpContext, loginUserInfo);
                     return RedirectToAction("Index", "Login");
                 }
@@ -179,5 +316,9 @@ namespace VAVS_Client.Controllers.Auth
             }
         }
 
+        public JsonResult GetTownshipByStateDivision(int stateDivisionPkId)
+        {
+            return Json(factoryBuilder.CreateTownshipService().GetSelectListTownshipsByStateDivision(stateDivisionPkId));
+        }
     }
 }
