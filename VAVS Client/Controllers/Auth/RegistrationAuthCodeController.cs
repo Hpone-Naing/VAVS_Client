@@ -199,14 +199,12 @@ namespace VAVS_Client.Controllers.Auth
                         /*
                          * Valid OTP and send Username and Password for login via sms
                          */
-                        //await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your Username", "mgmg", " Your Password", "mgmg123++", "for Login"));
-
                         if (_serviceFactory.CreatePersonalDetailService().CreatePersonalDetail(personalDetail))
                         {
                             _serviceFactory.CreateDeviceInfoService().UpdateRegistrationTime(ipAddress);
                             HttpContext.Session.Remove("ExpireTime");
-                            Utility.AlertMessage(this, "Registration Success. Please Enter phone number to login.", "alert-success", "true");
-                            return RedirectToAction("Index", "Login");
+                            Utility.AlertMessage(this, "Registration Success. Please Enter NRC number to login.", "alert-success");
+                            return RedirectToAction("LoginUser", "Login");
                         }
                         MakeViewBag();
                         Utility.AlertMessage(this, "Registration Fail. Internal Server error", "alert-danger");

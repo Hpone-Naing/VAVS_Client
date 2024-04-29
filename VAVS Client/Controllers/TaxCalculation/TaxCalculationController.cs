@@ -35,12 +35,10 @@ namespace VAVS_Client.Controllers.TaxCalculation
             LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
             if (loginTaxPayerInfo.IsTaxpayerInfoNull())
             {
-                MakeViewBag();
                 Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                 return RedirectToAction("Index", "Login");
             }
-            string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;//SessionUtil.GetLoginUserInfo(HttpContext).TaxpayerInfo.NRC;
-            //PersonalInformation personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
+            string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;
             PersonalDetail personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);//await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
             string contractPriceString = Request.Form["ContractPrice"];
             long ContractPrice = Utility.MakeDigit(contractPriceString);
@@ -85,15 +83,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
                     Utility.AlertMessage(this, "You haven't search your vehicle.", "alert-danger");
                     return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
                 }
-                string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;//SessionUtil.GetLoginUserInfo(HttpContext).TaxpayerInfo.NRC;
-                string StandardValue = loginTaxPayerInfo.TaxVehicleInfo.StandardValue;// SessionUtil.GetLoginUserInfo(HttpContext).TaxVehicleInfo.StandardValue;
-                string ContractValue = loginTaxPayerInfo.TaxVehicleInfo.ContractValue;//SessionUtil.GetLoginUserInfo(HttpContext).TaxVehicleInfo.ContractValue;
-                string TotalTax = loginTaxPayerInfo.TaxVehicleInfo.TaxAmount;//SessionUtil.GetLoginUserInfo(HttpContext).TaxVehicleInfo.TaxAmount;
-                string vehicleNumber = loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber;//SessionUtil.GetLoginUserInfo(HttpContext).TaxVehicleInfo.VehicleNumber;
-                taxInfo.StandardValue = StandardValue;
-                taxInfo.ContractValue = ContractValue;
-                taxInfo.TaxAmount = TotalTax;
-                await _serviceFactory.CreateTaxCalculationService().SaveTaxValidation(nrc, vehicleNumber, taxInfo);
+                await _serviceFactory.CreateTaxCalculationService().SaveTaxValidation(HttpContext, taxInfo);
                 Utility.AlertMessage(this, "Success. Please wait for admin response", "alert-success");
                 return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
             }
