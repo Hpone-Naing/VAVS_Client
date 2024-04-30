@@ -187,6 +187,7 @@ namespace VAVS_Client.Controllers.Auth
                     factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.TaxpayerInfo.NRC, personalInformation.PhoneNumber, HashUtil.ComputeSHA256Hash(otp)));
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                     return View("LoginAuthCode");
                 }
                 /*
@@ -211,6 +212,7 @@ namespace VAVS_Client.Controllers.Auth
 
                         factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
                         HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+                        ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                         ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
                         return View("LoginAuthCode");
                     }
@@ -237,6 +239,7 @@ namespace VAVS_Client.Controllers.Auth
                     }
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                     return View("LoginAuthCode");
                 }
                 /*
@@ -257,10 +260,12 @@ namespace VAVS_Client.Controllers.Auth
                     }
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
                     Utility.AlertMessage(this, "Incorrect OTP code.", "alert-danger");
+                    ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                     return View("LoginAuthCode");
                 }
 
                 ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                 Utility.AlertMessage(this, "OTP code expire.", "alert-danger");
                 return View("LoginAuthCode");
             }

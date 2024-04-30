@@ -87,7 +87,7 @@ namespace VAVS_Client.Services.Impl
                 PersonalDetail personalDetail = _context.PersonalDetails
                     .FirstOrDefault(personalDetil =>
                         personalDetil.IsDeleted == false &&
-                        personalDetil.PhoneNumber == phoneNumber
+                        personalDetil.PhoneNumber == Utility.MakePhoneNumberWithCountryCode(phoneNumber)
                         );
                 _logger.LogInformation($">>>>>>>>>> Success. Find person by phone number. <<<<<<<<<<");
                 return personalDetail;

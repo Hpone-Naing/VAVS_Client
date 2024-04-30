@@ -74,13 +74,21 @@ namespace VAVS_Client.Controllers.Auth
                 /* 
                  * Check user already register or not by nrc 
                  */
-                if (_serviceFactory.CreatePersonalDetailService().FindPersonalDetailByNrc(personalDetail.MakeNrc()) != null)
+                if (await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(personalDetail.NRCTownshipNumber, personalDetail.NRCTownshipInitial, personalDetail.NRCType, personalDetail.NRCNumber)) != null)
                 {
                     MakeViewBag();
-                    Utility.AlertMessage(this, "This User is already registered.", "alert-primary", "true");
-                    return RedirectToAction("Index", "Login");
+                    Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");
+                    return RedirectToAction("LoginUser", "Login");
                 }
-
+                /* 
+                 * Check user already register or not by phone number 
+                 */
+                if (_serviceFactory.CreatePersonalDetailService().FindPersonalDetailByPhoneNumber(personalDetail.PhoneNumber) != null)
+                {
+                    MakeViewBag();
+                    Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");
+                    return RedirectToAction("LoginUser", "Login");
+                }
                 var ipAddress = Utility.GetIPAddress();
                 string publicIpAddress = await _serviceFactory.CreateDeviceInfoService().GetPublicIPAddress();
                 DateTime currentTime = DateTime.Now;
@@ -129,7 +137,7 @@ namespace VAVS_Client.Controllers.Auth
                     {
                         _serviceFactory.CreateDeviceInfoService().UpdateRegistrationTime(ipAddress);
                         Utility.AlertMessage(this, "Try re register after" + DateTime.Parse(existingDeviceInfo.ReRegistrationTime).ToString(), "alert-danger", "true");
-                        return RedirectToAction("Index", "Login");
+                        return RedirectToAction("LoginUser", "Login");
                     }
                     if (existingDeviceInfo.AllowNextTimeRegister())
                     {
@@ -149,7 +157,7 @@ namespace VAVS_Client.Controllers.Auth
                         _serviceFactory.CreateDeviceInfoService().UpdateResendCodeTime(ipAddress);
                         _serviceFactory.CreateFileService().DeleteDirectory(personalDetail.MakeNrc());
                         Utility.AlertMessage(this, "Try resend code after " + DateTime.Parse(existingDeviceInfo.ReResendCodeTime).ToString(), "alert-danger", "true");
-                        return RedirectToAction("Index", "Login");
+                        return RedirectToAction("LoginUser", "Login");
                     }
                     if (existingDeviceInfo.AllowNextTimeResendOTP())
                     {
@@ -203,7 +211,7 @@ namespace VAVS_Client.Controllers.Auth
                         {
                             _serviceFactory.CreateDeviceInfoService().UpdateRegistrationTime(ipAddress);
                             HttpContext.Session.Remove("ExpireTime");
-                            Utility.AlertMessage(this, "Registration Success. Please Enter NRC number to login.", "alert-success");
+                            Utility.AlertMessage(this, "Registration Success. Please Enter NRC number to login.", "alert-success", "true");
                             return RedirectToAction("LoginUser", "Login");
                         }
                         MakeViewBag();
@@ -224,8 +232,8 @@ namespace VAVS_Client.Controllers.Auth
                 Console.WriteLine(e);
                 _serviceFactory.CreateFileService().DeleteDirectory(personalDetail.MakeNrc());
                 MakeViewBag();
-                Utility.AlertMessage(this, "Internal Server error.", "alert-danger");
-                return RedirectToAction("Index", "Login");
+                Utility.AlertMessage(this, "Internal Server error.", "alert-danger", "true");
+                return RedirectToAction("LoginUser", "Login");
             }
         }
     }

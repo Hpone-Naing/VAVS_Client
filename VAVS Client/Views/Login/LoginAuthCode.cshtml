@@ -45,7 +45,7 @@
             </a>
         </div>
         <!-- /Logo -->
-        <p class="mb-4">We have sent OTP code to Phone number: {@ViewBag.PhoneNumber}</p>
+        <p class="mb-4">We have sent OTP code to Phone number: {@ViewData["phoneNumber"]}</p>
         <form class="mb-3" method="post" action="@Url.Action("CheckLoginOTPCode", "Login")">
             <div class="mb-3">
                 <div id="otpContainer" class="container mb-4">
