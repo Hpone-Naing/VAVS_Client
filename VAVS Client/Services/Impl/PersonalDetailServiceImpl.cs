@@ -136,5 +136,41 @@ namespace VAVS_Client.Services.Impl
             }
         }
 
+        public async Task<PersonalDetail> GetPersonalInformationByPhoneNumber(string phoneNumber)
+        {
+            _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][GetPersonalInformationByPhoneNumber] Get personal information by phoneNumber. <<<<<<<<<<");
+            try
+            {
+                //PersonalInformation personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(nrc);
+                PersonalDetail personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(phoneNumber);
+                return personalInfo;
+            }
+            catch (HttpRequestException e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by phone number. <<<<<<<<<<" + e);
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
+
+        public async Task<PersonalDetail> GetPersonalInformationByPhoneNumberInDBAndAPI(string phoneNumber)
+        {
+            try
+            {
+                string phoneNumberWithCountryCode = Utility.MakePhoneNumberWithCountryCode(phoneNumber);
+                Console.WriteLine("Nrc concat seicoma" + phoneNumberWithCountryCode);
+                PersonalDetail personalDetail = FindPersonalDetailByPhoneNumber(phoneNumberWithCountryCode);
+                Console.WriteLine("personal Detail == null? " + (personalDetail == null));
+                if (personalDetail == null)
+                {
+                    personalDetail = await GetPersonalInformationByPhoneNumber(phoneNumber);
+                }
+                return personalDetail;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
     }
 }

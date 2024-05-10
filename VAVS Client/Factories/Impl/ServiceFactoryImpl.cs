@@ -91,5 +91,10 @@ namespace VAVS_Client.Factories.Impl
             ILogger<TaxCalculationServiceImpl> taxCalculationServiceLogger = new Logger<TaxCalculationServiceImpl>(_loggerFactory);
             return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger, CreatePersonalDetailService(), CreateTownshipService(), CreateStateDivisionService(), CreateVehicleStandardValueService(), CreateFuelTypeService(), CreateTaxPayerInfoService());
         }
+        public TaxValidationService CreateTaxValidationService()
+        {
+            ILogger<TaxValidationServiceImpl> taxValidationLogger = new Logger<TaxValidationServiceImpl>(_loggerFactory);
+            return new TaxValidationServiceImpl(_context, taxValidationLogger);
+        }
     }
 }

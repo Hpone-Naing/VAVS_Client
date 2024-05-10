@@ -40,7 +40,7 @@ namespace VAVS_Client.Services.Impl
         {
             try
             {
-                LoginUserInfo loginTaxPayerInfo = _taxPayerInfoService.GetLoginUserByHashedToken(SessionUtil.GetToken(httpContext));                
+                LoginUserInfo loginTaxPayerInfo = _taxPayerInfoService.GetLoginUserByHashedToken(SessionUtil.GetToken(httpContext));
                 /*
                  * Find PersonalDetail from Database and api
                  */
@@ -53,7 +53,12 @@ namespace VAVS_Client.Services.Impl
                 {
                     _personalDetailService.CreatePersonalDetail(personalDetail);
                 }
-                VehicleStandardValue vehicleStandardValue = await _vehicleStandardValueService.GetVehicleValueByVehicleNumberInDBAndAPI(loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber);
+                VehicleStandardValue vehicleStandardValue = null;
+                if (loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber != null)
+                {
+                    vehicleStandardValue = await _vehicleStandardValueService.GetVehicleValueByVehicleNumberInDBAndAPI(loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber);
+                }
+                vehicleStandardValue = await _vehicleStandardValueService.GetVehicleValue(loginTaxPayerInfo.TaxVehicleInfo.Manufacturer, loginTaxPayerInfo.TaxVehicleInfo.BuildType, loginTaxPayerInfo.TaxVehicleInfo.FuelType, loginTaxPayerInfo.TaxVehicleInfo.VehicleBrand, loginTaxPayerInfo.TaxVehicleInfo.ModelYear, loginTaxPayerInfo.TaxVehicleInfo.EnginePower);
                 TaxValidation taxValidation = new TaxValidation
                 {
                     PersonTINNumber = personalDetail?.PersonTINNumber,

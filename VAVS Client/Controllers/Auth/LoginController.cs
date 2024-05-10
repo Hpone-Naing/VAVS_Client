@@ -143,7 +143,7 @@ namespace VAVS_Client.Controllers.Auth
                 return RedirectToAction("Index", "Login");
             }
         }
-
+        
         public async Task<IActionResult> CheckLoginOTPCode(bool resend)
         {
             try
@@ -285,6 +285,10 @@ namespace VAVS_Client.Controllers.Auth
             return RedirectToAction("Index", "Login");
         }
 
+        public IActionResult ResetPhonenumber()
+        {
+            return View();
+        }
         public IActionResult Logout()
         {
             try

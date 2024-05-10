@@ -57,5 +57,46 @@ namespace VAVS_Client.APIService.Impl
                 throw;
             }
         }
+
+        public async Task<PersonalDetail> GetPersonalInformationByPhoneNumber(string phoneNumber)
+        {
+            _logger.LogInformation(">>>>>>>>>> [PersonalDetailAPIServiceImpl][GetPersonalInformationByNRC] Get personal information by nrc. <<<<<<<<<<");
+            try
+            {
+
+                string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+                string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/PersonalInformation/GetPersonalInformationByNRC";
+                string url = $"{baseUrl}?phonenumber={phoneNumber}&apiKey={apiKey}";
+
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+                Console.WriteLine("success state code: " + response.StatusCode);
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    //PersonalInformation personalInfo = JsonConvert.DeserializeObject<PersonalInformation>(json);
+                    PersonalDetail personalInfo = JsonConvert.DeserializeObject<PersonalDetail>(json);
+                    string[] splitedNrc = Utility.SplitNrc(phoneNumber);
+                    personalInfo.NRCTownshipNumber = splitedNrc[0];
+                    personalInfo.NRCTownshipInitial = splitedNrc[1];
+                    personalInfo.NRCType = splitedNrc[2];
+                    personalInfo.NRCNumber = splitedNrc[3];
+                    return personalInfo;
+                }
+
+                Console.WriteLine("fail state code: " + response.StatusCode);
+                Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+                throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
     }
 }
