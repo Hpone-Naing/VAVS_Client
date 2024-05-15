@@ -5,6 +5,7 @@ using VAVS_Client.Classes;
 using VAVS_Client.Data;
 using VAVS_Client.Util;
 using VAVS_Client.Models;
+using Newtonsoft.Json.Linq;
 
 namespace VAVS_Client.APIService.Impl
 {
@@ -86,11 +87,38 @@ namespace VAVS_Client.APIService.Impl
                     personalInfo.NRCNumber = splitedNrc[3];
                     return personalInfo;
                 }
-
-                Console.WriteLine("fail state code: " + response.StatusCode);
                 Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
                 throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
 
+        public async Task<bool> ResetPhoneNumber(string nrc, string oldPhoneNumber, string newPhoneNumber)
+        {
+            _logger.LogInformation(">>>>>>>>>> [PersonalDetailAPIServiceImpl][GetPersonalInformationByNRC] Get personal information by nrc. <<<<<<<<<<");
+            try
+            {
+                string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+                string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/PersonalInformation/ResetPhoneNumberByNRC";
+                string url = $"{baseUrl}?NRC={nrc}&apiKey={apiKey}&old_phonenumber={oldPhoneNumber}&new_phonenumber={newPhoneNumber}";
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+                Console.WriteLine("success state code: " + response.StatusCode);
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return false;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    bool result = Convert.ToBoolean(responseBody);
+                    return result;
+                }
+                Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+                throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
             }
             catch (Exception e)
             {

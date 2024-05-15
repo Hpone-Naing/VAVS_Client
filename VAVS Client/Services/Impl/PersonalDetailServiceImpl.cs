@@ -1,16 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.VisualBasic.FileIO;
-using System.Net.Http;
-using System.Net;
-using Tesseract;
-using VAVS_Client.Classes;
-using VAVS_Client.Data;
-using VAVS_Client.Models;
+﻿using VAVS_Client.Data;
 using VAVS_Client.Util;
-using Newtonsoft.Json;
 using VAVS_Client.APIService;
-using IPinfo.Models;
+using VAVS_Client.Classes;
 
 namespace VAVS_Client.Services.Impl
 {
@@ -20,13 +11,15 @@ namespace VAVS_Client.Services.Impl
         private readonly FileService _fileService;
         private readonly HttpClient _httpClient;
         private readonly PersonalDetailAPIService _personalDetailAPIService;
+        private readonly TaxValidationService _taxValidationService;
 
-        public PersonalDetailServiceImpl(VAVSClientDBContext context, HttpClient httpClient, FileService fileService, ILogger<PersonalDetailServiceImpl> logger, PersonalDetailAPIService personalDetailAPIService) : base(context, logger)
+        public PersonalDetailServiceImpl(VAVSClientDBContext context, HttpClient httpClient, FileService fileService, ILogger<PersonalDetailServiceImpl> logger, PersonalDetailAPIService personalDetailAPIService, TaxValidationService taxValidationService) : base(context, logger)
         {
             _httpClient = httpClient;
             _fileService = fileService;
             _logger = logger;
             _personalDetailAPIService = personalDetailAPIService;
+            _taxValidationService = taxValidationService;
         }
 
         public bool CreatePersonalDetail(PersonalDetail personalDetail)
@@ -52,9 +45,9 @@ namespace VAVS_Client.Services.Impl
 
         public PersonalDetail FindPersonalDetailByNrc(string nrc)
         {
+            Console.WriteLine("service nrc: " + nrc);
             Console.WriteLine("here FindPersonalDetailByNrc...................");
             _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][FindPersonDetailByNrc] Find person by Nrc. <<<<<<<<<<");
-            Console.WriteLine("service nrc: " + nrc);
             try
             {
                 string NRCTownshipNumber = nrc.Split(";")[0];
@@ -156,10 +149,9 @@ namespace VAVS_Client.Services.Impl
         {
             try
             {
+                _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][GetPersonalInformationByPhoneNumberInDBAndAPI] Get personal information by phoneNumber in database and api. <<<<<<<<<<");
                 string phoneNumberWithCountryCode = Utility.MakePhoneNumberWithCountryCode(phoneNumber);
-                Console.WriteLine("Nrc concat seicoma" + phoneNumberWithCountryCode);
                 PersonalDetail personalDetail = FindPersonalDetailByPhoneNumber(phoneNumberWithCountryCode);
-                Console.WriteLine("personal Detail == null? " + (personalDetail == null));
                 if (personalDetail == null)
                 {
                     personalDetail = await GetPersonalInformationByPhoneNumber(phoneNumber);
@@ -168,7 +160,92 @@ namespace VAVS_Client.Services.Impl
             }
             catch (Exception e)
             {
-                _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by phonenumber in database and api. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
+        public bool UpdatePhoneNumberByNrc(string nrc, string oldPhoneNumber, string newPhoneNumber)
+        {
+            try
+            {
+                _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][UpdatePhoneNumberByNrc]Update phoneNumber by nrc in database. <<<<<<<<<<");
+                Console.WriteLine("updated ph no nrc: " + nrc);
+                PersonalDetail personalDetail = FindPersonalDetailByNrc(nrc);
+                if (personalDetail == null)
+                    return false;
+                if (personalDetail.PhoneNumber != oldPhoneNumber)
+                    return false;
+                personalDetail.PhoneNumber = newPhoneNumber;
+                Update(personalDetail);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding person by phonenumber in database and api. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
+        public async Task<bool> AllowResetPhonenumber(ResetPhonenumber resetPhonenumber)
+        {
+            try
+            {
+                _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][AllowResetPhonenumber] Check allow Reset phonenumber. <<<<<<<<<<");
+
+                PersonalDetail personalDetail = await GetPersonalInformationByNRCInDBAndAPI(resetPhonenumber.Nrc);
+                if (personalDetail == null)
+                    return false;
+
+                TaxValidation taxValidation = _taxValidationService.FindTaxValidationByNrc(resetPhonenumber.Nrc);
+                if (taxValidation == null)
+                    return false;
+                
+                if (taxValidation.VehicleNumber == resetPhonenumber.TaxedVehicleNumber)
+                {
+                    if (personalDetail.PersonalPkid != null)
+                    {
+                        string concatNrcSemiComa = Utility.ConcatNRCSemiComa(resetPhonenumber.Nrc);
+                        return UpdatePhoneNumberByNrc(concatNrcSemiComa, resetPhonenumber.OldPhonenumber, resetPhonenumber.NewPhonenumber);
+                    }
+                    bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, resetPhonenumber.OldPhonenumber, resetPhonenumber.NewPhonenumber);
+                    return result;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur allow reset phonenumber. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+        public async Task<bool> ResetPhoneNumber(ResetPhonenumber resetPhonenumber)
+        {
+            try
+            {
+                _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][ResetPhoneNumber] Reset phonenumber. <<<<<<<<<<");
+                PersonalDetail personalDetail = await GetPersonalInformationByNRCInDBAndAPI(resetPhonenumber.Nrc);
+                if (personalDetail == null)
+                    return false;
+
+                TaxValidation taxValidation = _taxValidationService.FindTaxValidationByNrc(resetPhonenumber.Nrc);
+                if (taxValidation == null)
+                    return false;
+
+                if (taxValidation.VehicleNumber == resetPhonenumber.TaxedVehicleNumber)
+                {
+                    if (personalDetail.PersonalPkid != null)
+                    {
+                        return UpdatePhoneNumberByNrc(Utility.ConcatNRCSemiComa(resetPhonenumber.Nrc), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
+                    }
+                    bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
+                    return result;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when reset phonenumber. <<<<<<<<<<" + e);
                 throw;
             }
         }

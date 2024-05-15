@@ -50,5 +50,9 @@ namespace VAVS_Client.Util
         {
             return httpContext.Session.GetString(HashUtil.ComputeSHA256Hash(Utility.TOKEN));
         }
+        public static string GetResetPhoneNumberToken(HttpContext httpContext)
+        {
+            return httpContext.Session.GetString(HashUtil.ComputeSHA256Hash(Utility.RESET_PHONE_TOKEN));
+        }
     }
 }

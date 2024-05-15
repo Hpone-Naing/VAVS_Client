@@ -86,6 +86,7 @@ namespace VAVS_Client.Controllers.Auth
                 OTP = hashedOtp
             };
         }
+
         private Otp MakeOtp(HttpContext httpContext)
         {
             string digit1 = httpContext.Request.Form["digit1"];
@@ -277,7 +278,6 @@ namespace VAVS_Client.Controllers.Auth
                 return RedirectToAction("Index", "Login");
             }
         }
-    
 
         public IActionResult RemoveOneTapLogin()
         {
@@ -287,7 +287,31 @@ namespace VAVS_Client.Controllers.Auth
 
         public IActionResult ResetPhonenumber()
         {
-            return View();
+            return View(new ResetPhonenumber());
+        }
+
+        public async Task<IActionResult> CheckTaxedUser(ResetPhonenumber resetPhonenumber)
+        {
+            try
+            {
+                bool result = await factoryBuilder.CreatePersonalDetailService().ResetPhoneNumber(resetPhonenumber);
+                if (result)
+                {
+                    MakeViewBag();
+                    Utility.AlertMessage(this, "Your phonenumber has been updated", "alert-success", "true");
+                    return RedirectToAction("LoginUser", "Login");
+                }
+                MakeViewBag();
+                Utility.AlertMessage(this, "Sorry you cannot update phonenumber due to incorrect nrc or old_phonenumber or you haven't taxed vehicle yet. Please register again.", "alert-danger", "true");
+                return RedirectToAction("LoginUser", "Login");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                MakeViewBag();
+                Utility.AlertMessage(this, "Internal Server error.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
         }
         public IActionResult Logout()
         {

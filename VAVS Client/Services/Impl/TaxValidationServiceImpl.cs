@@ -28,7 +28,26 @@ namespace VAVS_Client.Services.Impl
                 _logger.LogError(">>>>>>>>>> Error occur when finding Taxed Vehicle by VehicleNumber. <<<<<<<<<<" + e);
                 throw;
             }
-            
+
+        }
+
+        public TaxValidation FindTaxValidationByNrc(string nrc)
+        {
+            _logger.LogInformation(">>>>>>>>>> [TaxValidationServiceImpl][FindTaxValidationByNrc] Find Taxed Vehicle by nrc. <<<<<<<<<<");
+
+            try
+            {
+                TaxValidation taxValidation = FindByString("PersonNRC", nrc);
+                _logger.LogInformation(">>>>>>>>>> Success. Find Taxed Vehicle by nrc. <<<<<<<<<<");
+                return taxValidation;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when finding Taxed Vehicle by nrc. <<<<<<<<<<" + e);
+                throw;
+            }
+
         }
     }
 }

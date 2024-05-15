@@ -16,6 +16,7 @@ namespace VAVS_Client.Factories
         SMSVerificationService CreateSMSVerificationService();
         TaxCalculationService CreateTaxCalculationService();
         TaxValidationService CreateTaxValidationService();
+        ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService();
 
     }
 }
