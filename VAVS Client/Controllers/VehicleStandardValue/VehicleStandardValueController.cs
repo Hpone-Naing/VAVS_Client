@@ -33,6 +33,7 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
                 if (vehicleStandardValue == null)
                 {
                     ViewBag.SearchString = "Not Found";
+                    ViewBag.CurrentPage = "SearchVehicleStandardValue";
                     return View("SearchVehicleStandardValue");
                 }
                 return View("Details", vehicleStandardValue);

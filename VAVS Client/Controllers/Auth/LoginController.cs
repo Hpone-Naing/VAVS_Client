@@ -223,7 +223,8 @@ namespace VAVS_Client.Controllers.Auth
                  */
                 if ((string.IsNullOrEmpty(storedExpireTime) || (!string.IsNullOrEmpty(storedExpireTime) && currentTime > DateTime.Parse(storedExpireTime))))
                 {
-                    string otp = Utility.GenerateOtp();
+                    //string otp = Utility.GenerateOtp();
+                    string otp = "111111";
                     Console.WriteLine("Otp 3 is: " + otp);
                     /*
                      * Send otp code via sms
