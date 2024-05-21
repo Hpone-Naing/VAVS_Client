@@ -15,6 +15,8 @@ namespace VAVS_Client.Factories
         TownshipService CreateTownshipService();
         SMSVerificationService CreateSMSVerificationService();
         TaxCalculationService CreateTaxCalculationService();
+        TaxValidationService CreateTaxValidationService();
+        ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService();
 
     }
 }

@@ -1,0 +1,92 @@
+﻿@model VAVS_Client.Classes.ResetPhonenumber
+
+@{
+    Layout = "_AuthLayout";
+}
+<link rel="stylesheet" href="~/css/authcode.css" asp-append-version="true" />
+
+<!--Register -->
+<div class="authentication-inner" style="max-width:600px;">
+<div class="card">
+    <div class="card-body">
+        @if (TempData.ContainsKey("Message") && TempData.ContainsKey("CssColor"))
+        {
+            @if (TempData.ContainsKey("Option"))
+            {
+                @if (TempData["Option"] != null && TempData["Option"].Equals("true"))
+                {
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var myModal = new bootstrap.Modal(document.getElementById('alertModel'));
+                            myModal.show();
+                        });
+                    </script>
+                }
+                else
+                {
+                    <div class="alert @TempData["CssColor"] text-center alert-msg" role="alert">
+                        @TempData["Message"]
+                    </div>
+                }
+            }
+        }
+
+        <div class="d-flex justify-content-center align-item-center">
+            <h4>Welcome To</h4>
+        </div>
+        <!-- Logo -->
+        <div class="d-flex align-item-center justify-content-center">
+            <a asp-controller="Login" asp-action="Index" class="app-brand-link gap-2">
+                <span class="app-brand-text demo text-body fw-bolder">VAVS Client</span>
+            </a>
+        </div>
+        <div class="app-brand justify-content-center">
+            <a asp-controller="Login" asp-action="Index" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                    <img src="~/Content/images/MADBIMG.jpg" width="90px;" />
+                </span>
+            </a>
+        </div>
+        <!-- /Logo -->
+        <p class="mb-2 ms-4 text-primary">Please Fill Information:</p>
+        <form class="mb-3" method="post" action="@Url.Action("CheckTaxedUser", "Login")">
+            <div class="mb-3">
+                <div id="otpContainer" class="container mb-4">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mt-2">
+                                <label class="control-label">မှတ်ပုံတင်နံပါတ်</label>
+                                <input class="form-control" asp-for="Nrc"  required />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mt-2">
+                                <label class="control-label">ဖုန်းနံပါတ်အဟောင်း</label>
+                                <input class="form-control phone" asp-for="OldPhonenumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mt-2">
+                                <label class="control-label">အခွန်ဆောင်ခဲ့သောကားနံပါတ်</label>
+                                <input class="form-control" asp-for="TaxedVehicleNumber" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mt-2">
+                                <label class="control-label">ဖုန်ံးနံပါတ်အသစ်</label>
+                                <input class="form-control phone" asp-for="NewPhonenumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="signinBtnDiv" class="mb-3">
+                <button class="btn btn-primary d-grid w-100" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<!-- /Register -->

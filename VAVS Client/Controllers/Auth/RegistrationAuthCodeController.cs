@@ -83,7 +83,7 @@ namespace VAVS_Client.Controllers.Auth
                 /* 
                  * Check user already register or not by phone number 
                  */
-                if (_serviceFactory.CreatePersonalDetailService().FindPersonalDetailByPhoneNumber(personalDetail.PhoneNumber) != null)
+                if (_serviceFactory.CreatePersonalDetailService().GetPersonalInformationByPhoneNumberInDBAndAPI(personalDetail.PhoneNumber) != null)
                 {
                     MakeViewBag();
                     Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");

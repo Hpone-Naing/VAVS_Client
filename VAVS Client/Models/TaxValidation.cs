@@ -9,41 +9,41 @@ namespace VAVS_Client.Models
         public int TaxValidationPkid { get; set; }
 
         [StringLength(50)]
-        public string PersonTINNumber { get; set; }
+        public string? PersonTINNumber { get; set; }
 
         [StringLength(50)]
-        public string PersonNRC { get; set; }
+        public string? PersonNRC { get; set; }
 
 
         [StringLength(10)]
-        public string VehicleNumber { get; set; }
+        public string? VehicleNumber { get; set; }
 
         [StringLength(200)]
-        public string Manufacturer { get; set; }
+        public string? Manufacturer { get; set; }
 
         [StringLength(50)]
-        public string CountryOfMade { get; set; }
+        public string? CountryOfMade { get; set; }
 
         [StringLength(200)]
-        public string VehicleBrand { get; set; }
+        public string? VehicleBrand { get; set; }
 
         [StringLength(200)]
-        public string BuildType { get; set; }
+        public string? BuildType { get; set; }
 
         [StringLength(4)]
-        public string ModelYear { get; set; }
+        public string? ModelYear { get; set; }
 
         [StringLength(30)]
-        public string EnginePower { get; set; }
+        public string? EnginePower { get; set; }
 
         [StringLength(50)]
-        public string FuelType { get; set; }
+        public string? FuelType { get; set; }
 
         [StringLength(50)]
-        public string OfficeLetterNo { get; set; }
+        public string? OfficeLetterNo { get; set; }
 
         [StringLength(50)]
-        public string AttachFileName { get; set; }
+        public string? AttachFileName { get; set; }
 
         public DateTime? EntryDate { get; set; }
 
@@ -57,16 +57,16 @@ namespace VAVS_Client.Models
         public decimal? TaxAmount { get; set; }
 
         [StringLength(50)]
-        public string PaymentRefID { get; set; }
+        public string? PaymentRefID { get; set; }
 
         [StringLength(50)]
-        public string QRCodeNumber { get; set; }
+        public string? QRCodeNumber { get; set; }
 
         [StringLength(50)]
-        public string DemandNumber { get; set; }
+        public string? DemandNumber { get; set; }
 
         [StringLength(50)]
-        public string FormNumber { get; set; }
+        public string? FormNumber { get; set; }
 
         public bool? IsDeleted { get; set; }
 

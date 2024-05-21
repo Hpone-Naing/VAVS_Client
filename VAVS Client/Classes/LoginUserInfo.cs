@@ -13,11 +13,11 @@
         }
         public bool IsTaxpayerInfoNull()
         {
-            return this == null && TaxpayerInfo == null;
+            return this == null || TaxpayerInfo == null;
         }
         public bool IsTaxVehicleInfoNull()
         {
-            return this == null && TaxVehicleInfo == null;
+            return this == null || TaxVehicleInfo == null;
         }
     }
 }

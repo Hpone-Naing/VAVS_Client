@@ -17,9 +17,15 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         {
             try
             {
+                LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                if (loginTaxPayerInfo.IsTaxpayerInfoNull())
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }
                 string searchString = Request.Query["SearchString"];
-
                 ViewBag.SearchString = searchString;
+
                 if (string.IsNullOrEmpty(searchString))
                     return View();
 
@@ -45,6 +51,13 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         {
             try
             {
+                LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                if (loginTaxPayerInfo.IsTaxpayerInfoNull())
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }
+
                 string manufacturer = Request.Form["manufacturer"];
                 string buildType = Request.Form["buildType"];
                 string fuelType = Request.Form["fuelType"];

@@ -20,6 +20,15 @@ namespace VAVS_Client.Controllers.TaxCalculation
         [HttpPost]
         public IActionResult ShowCalculateTaxForm(VehicleStandardValue vehicleStandardValue)
         {
+            if(vehicleStandardValue.VehicleNumber != null)
+            {
+                bool IsTaxed = _serviceFactory.CreateTaxValidationService().IsTaxedVehicle(vehicleStandardValue.VehicleNumber);
+                if(IsTaxed)
+                {
+                    Utility.AlertMessage(this, "This vehicle has already taxed.", "alert-info");
+                    return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
+                }
+            }
             return View("TaxCalculation", vehicleStandardValue);
         }
 
@@ -38,6 +47,15 @@ namespace VAVS_Client.Controllers.TaxCalculation
                 Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                 return RedirectToAction("Index", "Login");
             }
+            if (vehicleStandardValue.VehicleNumber != null)
+            {
+                bool IsTaxed = _serviceFactory.CreateTaxValidationService().IsTaxedVehicle(vehicleStandardValue.VehicleNumber);
+                if (IsTaxed)
+                {
+                    Utility.AlertMessage(this, "This vehicle has already taxed.", "alert-info");
+                    return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
+                }
+            }
             string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;
             PersonalDetail personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);//await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
             string contractPriceString = Request.Form["ContractPrice"];
@@ -53,6 +71,12 @@ namespace VAVS_Client.Controllers.TaxCalculation
             };
             loginTaxPayerInfo.TaxVehicleInfo = new TaxVehicleInfo {
                 VehicleNumber = vehicleStandardValue.VehicleNumber,
+                Manufacturer = vehicleStandardValue.Manufacturer,
+                BuildType = vehicleStandardValue.BuildType,
+                FuelType = vehicleStandardValue.Fuel.FuelType,
+                ModelYear = vehicleStandardValue.ModelYear,
+                EnginePower = vehicleStandardValue.EnginePower,
+                VehicleBrand = vehicleStandardValue.VehicleBrand,
                 StandardValue = vehicleStandardValue.StandardValue,
                 TaxAmount = totalTax.ToString(),
                 ContractValue = ContractPrice.ToString(),

@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.Json;
 using VAVS_Client.Data;
 using VAVS_Client.Util;
+using Newtonsoft.Json.Linq;
 
 namespace VAVS_Client.APIService.Impl
 {
@@ -69,7 +70,9 @@ namespace VAVS_Client.APIService.Impl
 
             if (response.IsSuccessStatusCode)
             {
-                string standardValue = await response.Content.ReadAsStringAsync();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                JObject jsonObject = JObject.Parse(responseJson);
+                string standardValue = (string)jsonObject["standardValue"];
                 return new VehicleStandardValue()
                 {
                     Manufacturer = manufacturer,

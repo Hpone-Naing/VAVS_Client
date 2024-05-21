@@ -63,7 +63,7 @@ namespace VAVS_Client.Factories.Impl
         public PersonalDetailService CreatePersonalDetailService()
         {
             ILogger<PersonalDetailServiceImpl> personalDetailLogger = new Logger<PersonalDetailServiceImpl>(_loggerFactory);
-            return new PersonalDetailServiceImpl(_context, _httpClient, _fileService, personalDetailLogger, _apiServiceFactory.CreatePersonalDetailAPIService());
+            return new PersonalDetailServiceImpl(_context, _httpClient, _fileService, personalDetailLogger, _apiServiceFactory.CreatePersonalDetailAPIService(), CreateTaxValidationService());
         }
         public StateDivisionService CreateStateDivisionService()
         {
@@ -90,6 +90,16 @@ namespace VAVS_Client.Factories.Impl
         {
             ILogger<TaxCalculationServiceImpl> taxCalculationServiceLogger = new Logger<TaxCalculationServiceImpl>(_loggerFactory);
             return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger, CreatePersonalDetailService(), CreateTownshipService(), CreateStateDivisionService(), CreateVehicleStandardValueService(), CreateFuelTypeService(), CreateTaxPayerInfoService());
+        }
+        public TaxValidationService CreateTaxValidationService()
+        {
+            ILogger<TaxValidationServiceImpl> taxValidationLogger = new Logger<TaxValidationServiceImpl>(_loggerFactory);
+            return new TaxValidationServiceImpl(_context, taxValidationLogger);
+        }
+
+        public ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService()
+        {
+            return new ResetPhoneNumberAuthServiceImpl(_firebaseConfig);
         }
     }
 }
