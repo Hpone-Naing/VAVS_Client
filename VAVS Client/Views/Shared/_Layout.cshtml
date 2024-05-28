@@ -116,8 +116,8 @@
                             <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-32px, 40px);" data-popper-placement="bottom-end">
-                            
-                            <li><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Logout</a></li>
+
+                            @* <li><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Logout</a></li>*@
                         </ul>
                     </div>
 
@@ -272,6 +272,24 @@
                                     <a class="link active" href="@Url.Action("SearchVehicleStandardValue", "VehicleStandardValue")" style="font-size: 14px;"><i class=""></i><span class="fas fa-search"><label class="ms-2">မော်တော်ယာဥ်ရှာရန်</label></span></a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="active menu-open">
+                            <a href="#" class="active text-decoration-none">
+                                <i class="fa fa-list"></i>
+                                <span style=" font-size: 16px;">Tax Validation</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a class="link active" href="@Url.Action("PendingList", "TaxValidation")" style="font-size: 14px;"><i class=""></i><span class="fa-solid fa-book"><label class="ms-2">Pending List</label></span></a>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a class="link active" href="@Url.Action("ApproveList", "TaxValidation")" style="font-size: 14px;"><i class=""></i><span class="fa-solid fa-book"><label class="ms-2">Approve List</label></span></a>
+                                </li>
+                            </ul>
+
                         </li>
         }
 

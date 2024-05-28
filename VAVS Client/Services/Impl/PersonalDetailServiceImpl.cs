@@ -2,6 +2,8 @@
 using VAVS_Client.Util;
 using VAVS_Client.APIService;
 using VAVS_Client.Classes;
+using System.Web;
+using VAVS_Client.Factories;
 
 namespace VAVS_Client.Services.Impl
 {
@@ -30,6 +32,14 @@ namespace VAVS_Client.Services.Impl
 
                 personalDetail.IsDeleted = false;
                 personalDetail.RegistrationStatus = "Pending";
+                if(personalDetail.NRCBackImagePath == null)
+                {
+                    personalDetail.NRCBackImagePath = "default.jpg";
+                }
+                if (personalDetail.NRCFrontImagePath == null)
+                {
+                    personalDetail.NRCFrontImagePath = "default.jpg";
+                }
                 personalDetail.PhoneNumber = personalDetail.MakePhoneNumberWithCountryCode();
                 personalDetail.CreatedBy = 1;
                 personalDetail.CreatedDate = DateTime.Now;
@@ -115,11 +125,16 @@ namespace VAVS_Client.Services.Impl
                 string nrcConcatWithSemiComa = Utility.ConcatNRCSemiComa(nrc);
                 Console.WriteLine("Nrc concat seicoma" + nrcConcatWithSemiComa);
                 PersonalDetail personalDetail = FindPersonalDetailByNrc(nrcConcatWithSemiComa);
-                Console.WriteLine("personal Detail == null? " + (personalDetail == null));
+                Console.WriteLine("personal Detail == null in db? " + (personalDetail == null));
                 if (personalDetail == null)
                 {
+                    Console.WriteLine("Here personal detail null in db.............");
                     personalDetail = await GetPersonalInformationByNRC(nrc);
+                    Console.WriteLine(" personal detail api call null............." + (personalDetail == null));
+
                 }
+                Console.WriteLine("personal detail api and nrc null" + (personalDetail == null));
+
                 return personalDetail;
             }
             catch(Exception e)
@@ -135,7 +150,7 @@ namespace VAVS_Client.Services.Impl
             try
             {
                 //PersonalInformation personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(nrc);
-                PersonalDetail personalInfo = await _personalDetailAPIService.GetPersonalInformationByNRC(phoneNumber);
+                PersonalDetail personalInfo = await _personalDetailAPIService.GetPersonalInformationByPhoneNumber(phoneNumber);
                 return personalInfo;
             }
             catch (HttpRequestException e)
@@ -152,10 +167,14 @@ namespace VAVS_Client.Services.Impl
                 _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][GetPersonalInformationByPhoneNumberInDBAndAPI] Get personal information by phoneNumber in database and api. <<<<<<<<<<");
                 string phoneNumberWithCountryCode = Utility.MakePhoneNumberWithCountryCode(phoneNumber);
                 PersonalDetail personalDetail = FindPersonalDetailByPhoneNumber(phoneNumberWithCountryCode);
+                Console.WriteLine("Here phone numer null in db: " + (personalDetail == null));
                 if (personalDetail == null)
                 {
-                    personalDetail = await GetPersonalInformationByPhoneNumber(phoneNumber);
+                    Console.WriteLine("Here personal phone nulll");
+                    personalDetail = await GetPersonalInformationByPhoneNumber(HttpUtility.UrlEncode(phoneNumberWithCountryCode));
+                    Console.WriteLine("api call phone null? " + (personalDetail == null));
                 }
+                Console.WriteLine("personal detail api and phone null" + (personalDetail == null));
                 return personalDetail;
             }
             catch (Exception e)
@@ -224,10 +243,16 @@ namespace VAVS_Client.Services.Impl
             try
             {
                 _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][ResetPhoneNumber] Reset phonenumber. <<<<<<<<<<");
+
+                if (await GetPersonalInformationByPhoneNumberInDBAndAPI(resetPhonenumber.NewPhonenumber) != null)
+                {
+                    return false;
+                }
+
                 PersonalDetail personalDetail = await GetPersonalInformationByNRCInDBAndAPI(resetPhonenumber.Nrc);
                 if (personalDetail == null)
                     return false;
-
+                
                 TaxValidation taxValidation = _taxValidationService.FindTaxValidationByNrc(resetPhonenumber.Nrc);
                 if (taxValidation == null)
                     return false;
@@ -238,7 +263,7 @@ namespace VAVS_Client.Services.Impl
                     {
                         return UpdatePhoneNumberByNrc(Utility.ConcatNRCSemiComa(resetPhonenumber.Nrc), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
                     }
-                    bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
+                    bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber)), HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber)));
                     return result;
                 }
                 return false;

@@ -19,7 +19,7 @@
 <div class="search-container mb-3">
     <form class="input-group" method="get" action="@Url.Action("SearchVehicleStandardValue", "VehicleStandardValue")">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter Vehicle Number to Search" style="border-top-left-radius: 25px; border-bottom-left-radius: 25px">
+            <input type="text" name="SearchString" class="form-control" placeholder="Enter Vehicle Number to Search" style="border-top-left-radius: 25px; border-bottom-left-radius: 25px">
             <button class="btn btn-outline-secondary" type="submit" >Search</button>
         </div>
     </form>
@@ -127,7 +127,7 @@ else
                                 <label class="control-label"> Manufacturer: </label>
                                 <select class="form-control" name="manufacturer" onmousedown="if(this.options.length>4){this.size=4;}" onchange='this.size=0;' onblur="this.size=0;" required>
                                     <option value="">?</option>
-                                    <option value="MITSUBISHI">MITSUBISHI</option>
+                                    <option value="MISUBISHI">MISUBISHI</option>
                                     <option value="ZAR THA PYIN L/T(1)TON">ZAR THA PYIN L/T(1)TON</option>
                                     <option value="CIMC">CIMC</option>
                                     <option value="FORLAND">FORLAND</option>
@@ -135,7 +135,7 @@ else
                                     <option value="ISUZU">ISUZU</option>
                                     <option value="TOYOTA">TOYOTA</option>
                                     <option value="Honda">Honda</option>
-                                    <option value="Honda">NISSAN</option>
+                                    <option value="NISSAN">NISSAN</option>
                                 </select>
                             </div>
                             <div class="form-group mt-2">
@@ -161,6 +161,7 @@ else
                                     <option value="PETROL">PETROL</option>
                                     <option value="92">92</option>
                                     <option value="95">95</option>
+                                    <option value="Octane">Octane</option>
                                     <option value="12/">-</option>
 
                                 </select>

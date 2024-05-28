@@ -173,6 +173,7 @@
                                         <select class="form-control" asp-for="PersonalDetail.NRCTownshipInitial" required>
                                             <option value="">?</option>
                                             <option value="ဥကတ">ဥကတ</option>
+                                            <option value="လသယ">လသယ</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -192,7 +193,7 @@
                             </div>
                             <div class="form-group mt-2">
                                 <label class="control-label" asp-for="PersonalDetail.EntryDate"></label>
-                                <input class="form-control" asp-for="PersonalDetail.EntryDate" placeholder="Entry Date" required />
+                                <input class="form-control" type="date" asp-for="PersonalDetail.EntryDate" placeholder="Entry Date" />
                                 <span class="text-danger" asp-validation-for="PersonalDetail.EntryDate"></span>
                             </div>
                             <div class="form-group mt-2">

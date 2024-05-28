@@ -101,6 +101,7 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NRCBackImagePath")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -137,6 +138,7 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Quarter")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -155,8 +157,10 @@ namespace VAVS_Client.Migrations
                     b.Property<int>("TownshipPkid")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("TransactionID")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("TransactionID")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("PersonalPkid");
 
@@ -176,17 +180,14 @@ namespace VAVS_Client.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StateDivisionPkid"), 1L, 1);
 
                     b.Property<string>("CityOfRegion")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("EngShortCode")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("MynShortCode")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -196,7 +197,6 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("nvarchar(2)");
 
                     b.Property<string>("StateDivisionName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -214,12 +214,10 @@ namespace VAVS_Client.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxValidationPkid"), 1L, 1);
 
                     b.Property<string>("AttachFileName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("BuildType")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -227,7 +225,6 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CountryOfMade")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -238,12 +235,10 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DemandNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EnginePower")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -251,12 +246,10 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FormNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FuelType")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -264,32 +257,26 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ModelYear")
-                        .IsRequired()
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("OfficeLetterNo")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PaymentRefID")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PersonNRC")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PersonTINNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -300,7 +287,6 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("QRCodeNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -311,12 +297,10 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("VehicleBrand")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("VehicleNumber")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -338,7 +322,6 @@ namespace VAVS_Client.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TownshipPkid"), 1L, 1);
 
                     b.Property<string>("DistrictCode")
-                        .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
@@ -351,7 +334,6 @@ namespace VAVS_Client.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("TownshipName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

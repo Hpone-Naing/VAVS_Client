@@ -76,6 +76,7 @@ namespace VAVS_Client.Controllers.Auth
                  */
                 if (await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(personalDetail.NRCTownshipNumber, personalDetail.NRCTownshipInitial, personalDetail.NRCType, personalDetail.NRCNumber)) != null)
                 {
+                    Console.WriteLine("here nrc in db and api not null");
                     MakeViewBag();
                     Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");
                     return RedirectToAction("LoginUser", "Login");
@@ -83,8 +84,10 @@ namespace VAVS_Client.Controllers.Auth
                 /* 
                  * Check user already register or not by phone number 
                  */
-                if (_serviceFactory.CreatePersonalDetailService().GetPersonalInformationByPhoneNumberInDBAndAPI(personalDetail.PhoneNumber) != null)
+                if (await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByPhoneNumberInDBAndAPI(personalDetail.PhoneNumber) != null)
                 {
+                    Console.WriteLine("here phone in db and api not null");
+
                     MakeViewBag();
                     Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");
                     return RedirectToAction("LoginUser", "Login");
@@ -117,11 +120,11 @@ namespace VAVS_Client.Controllers.Auth
                 if (existingDeviceInfo == null)
                 {
                     string otp = Utility.GenerateOtp();
-                    Console.WriteLine("Otp is: " + otp);
+                    Console.WriteLine("Otp is.............: " + otp);
                     /*
                      * Send otp code via sms
                      */
-                    await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+                    await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(Utility.MakePhoneNumberWithCountryCode(personalDetail.PhoneNumber), Utility.MakeMessage("Your OTP code is: ", otp));
                     
                     _serviceFactory.CreateDeviceInfoService().CreateDeviceInfo(InitializeDeviceInfo(ipAddress, publicIpAddress, HashUtil.ComputeSHA256Hash(otp)));
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
@@ -162,11 +165,11 @@ namespace VAVS_Client.Controllers.Auth
                     if (existingDeviceInfo.AllowNextTimeResendOTP())
                     {
                         string otp = Utility.GenerateOtp();
-                        Console.WriteLine("Otp is: " + otp);
+                        Console.WriteLine("Otp is..................: " + otp);
                         /*
                          * Send otp code via sms
                          */
-                        await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+                        await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(Utility.MakePhoneNumberWithCountryCode(personalDetail.PhoneNumber), Utility.MakeMessage("Your OTP code is: ", otp));
 
                         _serviceFactory.CreateDeviceInfoService().UpdateResendCodeTime(ipAddress, HashUtil.ComputeSHA256Hash(otp));
                         HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
@@ -180,11 +183,11 @@ namespace VAVS_Client.Controllers.Auth
                 if ((string.IsNullOrEmpty(storedExpireTime) || (!string.IsNullOrEmpty(storedExpireTime) && currentTime > DateTime.Parse(storedExpireTime))))
                 {
                     string otp = Utility.GenerateOtp();
-                    Console.WriteLine("Otp is: " + otp);
+                    Console.WriteLine("Otp is.................................: " + otp);
                     /*
                      * Send otp code via sms
                      */
-                    await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
+                    await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(Utility.MakePhoneNumberWithCountryCode(personalDetail.PhoneNumber), Utility.MakeMessage("Your OTP code is: ", otp));
 
                     if (resend)
                     {

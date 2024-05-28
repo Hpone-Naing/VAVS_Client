@@ -12,6 +12,7 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using VAVS_Client.APIFactory;
 using VAVS_Client.APIFactory.Impl;
+using Microsoft.AspNetCore.DataProtection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +44,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

@@ -7,8 +7,9 @@ namespace VAVS_Client.Models
     {
         [Key]
         public int PersonalPkid { get; set; }
-        
-        public DateTime? TransactionID { get; set; }
+
+        [StringLength(50)]
+        public string? TransactionID { get; set; }
 
         public DateTime? EntryDate { get; set; }
 
@@ -38,11 +39,11 @@ namespace VAVS_Client.Models
         public IFormFile? NrcFrontImageFile { get; set; }
 
         [MaxLength(200)]
-        public string? NRCBackImagePath { get; set; }
+        public string NRCBackImagePath { get; set; }
 
         [NotMapped]
         [DisplayName("မှတ်ပုံတင်‌နောက်ပိုင်းပုံထည့်ရန်")]
-        public IFormFile? NrcBackImageFile { get; set; }
+        public IFormFile NrcBackImageFile { get; set; }
 
         [StringLength(100)]
         public string? Quarter { get; set; }

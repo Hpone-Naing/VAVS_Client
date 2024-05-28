@@ -9,7 +9,7 @@
 }
 <div>
     <form method="post" action="@Url.Action("ShowCalculatedTaxForm", "TaxCalculation")" enctype="multipart/form-data">
-        <div class="row mt-1 border border-dark">
+        <div class="row mt-1 border border-dark" style="border-radius: 20px;background-color: #bbc9ef78;">
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group mt-2">
@@ -41,7 +41,7 @@
                             <span class="input-group-text">သိန်း</span>
                         </div>-->
                         <input id="price" type="text" class="form-control mb-1" name="ContractPrice" pattern="[0-9]*" title="Please enter digits only" onkeyup="myanmarNumToWord.convertToBurmeseWords(this)" required>
-                        <span id="currencyToBurmeseWord" style="border-radius: 50px; color: rgb(34, 151, 208); display: none; font-weight: bold; background-color: #98ac9b47"></span>
+                        <span id="currencyToBurmeseWord" style="border-radius: 50px; color: royalblue; display: none; font-weight: bold; background-color: #98ac9b47"></span>
                         <!--<div class="input-group-append">
                             <select id="select-unit" name="unit" disabled>
                                 <option value="">-</option>

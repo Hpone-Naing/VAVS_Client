@@ -75,6 +75,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
                 BuildType = vehicleStandardValue.BuildType,
                 FuelType = vehicleStandardValue.Fuel.FuelType,
                 ModelYear = vehicleStandardValue.ModelYear,
+                CountryOfMade = vehicleStandardValue.CountryOfMade,
                 EnginePower = vehicleStandardValue.EnginePower,
                 VehicleBrand = vehicleStandardValue.VehicleBrand,
                 StandardValue = vehicleStandardValue.StandardValue,

@@ -223,8 +223,8 @@ namespace VAVS_Client.Controllers.Auth
                  */
                 if ((string.IsNullOrEmpty(storedExpireTime) || (!string.IsNullOrEmpty(storedExpireTime) && currentTime > DateTime.Parse(storedExpireTime))))
                 {
-                    //string otp = Utility.GenerateOtp();
-                    string otp = "111111";
+                    string otp = Utility.GenerateOtp();
+                    //string otp = "111111";
                     Console.WriteLine("Otp 3 is: " + otp);
                     /*
                      * Send otp code via sms
@@ -303,7 +303,7 @@ namespace VAVS_Client.Controllers.Auth
                     return RedirectToAction("LoginUser", "Login");
                 }
                 MakeViewBag();
-                Utility.AlertMessage(this, "Sorry you cannot update phonenumber due to incorrect nrc or old_phonenumber or you haven't taxed vehicle yet. Please register again.", "alert-danger", "true");
+                Utility.AlertMessage(this, "Sorry you cannot update phonenumber due to new_phonenumber already exit, incorrect nrc or old_phonenumber, you haven't taxed vehicle yet. Please register again.", "alert-danger", "true");
                 return RedirectToAction("LoginUser", "Login");
             }
             catch(Exception e)

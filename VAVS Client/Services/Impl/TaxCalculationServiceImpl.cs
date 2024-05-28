@@ -49,34 +49,28 @@ namespace VAVS_Client.Services.Impl
                 StateDivision stateDivision = _staetDivisionService.FindStateDivisionByPkId(taxInfo.StateDivisionPkid);
                 personalDetail.Township = township;
                 personalDetail.StateDivision = stateDivision;
-                if (personalDetail.PersonalPkid == null)
+                if (personalDetail.PersonalPkid == 0)
                 {
+                    Console.WriteLine("here personalpkid null..............");
                     _personalDetailService.CreatePersonalDetail(personalDetail);
                 }
-                VehicleStandardValue vehicleStandardValue = null;
-                if (loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber != null)
-                {
-                    vehicleStandardValue = await _vehicleStandardValueService.GetVehicleValueByVehicleNumberInDBAndAPI(loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber);
-                }
-                vehicleStandardValue = await _vehicleStandardValueService.GetVehicleValue(loginTaxPayerInfo.TaxVehicleInfo.Manufacturer, loginTaxPayerInfo.TaxVehicleInfo.BuildType, loginTaxPayerInfo.TaxVehicleInfo.FuelType, loginTaxPayerInfo.TaxVehicleInfo.VehicleBrand, loginTaxPayerInfo.TaxVehicleInfo.ModelYear, loginTaxPayerInfo.TaxVehicleInfo.EnginePower);
+                Console.WriteLine("here personalpkid not null.............." + personalDetail.PersonalPkid);
+                
                 TaxValidation taxValidation = new TaxValidation
                 {
                     PersonTINNumber = personalDetail?.PersonTINNumber,
                     PersonNRC = loginTaxPayerInfo.TaxpayerInfo.NRC,
                     VehicleNumber = loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber,
-                    Manufacturer = vehicleStandardValue?.Manufacturer,
-                    CountryOfMade = vehicleStandardValue?.CountryOfMade,
-                    VehicleBrand = vehicleStandardValue?.VehicleBrand,
-                    BuildType = vehicleStandardValue?.BuildType,
-                    ModelYear = vehicleStandardValue?.ModelYear,
-                    EnginePower = vehicleStandardValue?.EnginePower,
-                    FuelType = vehicleStandardValue?.Fuel?.FuelType,
+                    Manufacturer = loginTaxPayerInfo.TaxVehicleInfo.Manufacturer,
+                    CountryOfMade = loginTaxPayerInfo.TaxVehicleInfo.CountryOfMade,
+                    VehicleBrand = loginTaxPayerInfo.TaxVehicleInfo.VehicleBrand,
+                    BuildType = loginTaxPayerInfo.TaxVehicleInfo.BuildType,
+                    ModelYear = loginTaxPayerInfo.TaxVehicleInfo.ModelYear,
+                    EnginePower = loginTaxPayerInfo.TaxVehicleInfo.EnginePower,
+                    FuelType = loginTaxPayerInfo.TaxVehicleInfo.FuelType,
                     StandardValue = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.StandardValue),
                     ContractValue = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.ContractValue),
                     TaxAmount = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.TaxAmount),
-                    OfficeLetterNo = vehicleStandardValue?.OfficeLetterNo,
-                    AttachFileName = vehicleStandardValue?.AttachFileName,
-                    EntryDate = vehicleStandardValue?.EntryDate,
                     PersonalDetail = personalDetail,
                     Township = township,
                     //VehicleStandardValue = vehicleStandardValue

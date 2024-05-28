@@ -94,7 +94,7 @@ namespace VAVS_Client.Factories.Impl
         public TaxValidationService CreateTaxValidationService()
         {
             ILogger<TaxValidationServiceImpl> taxValidationLogger = new Logger<TaxValidationServiceImpl>(_loggerFactory);
-            return new TaxValidationServiceImpl(_context, taxValidationLogger);
+            return new TaxValidationServiceImpl(_context, taxValidationLogger, CreateTaxPayerInfoService());
         }
 
         public ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService()

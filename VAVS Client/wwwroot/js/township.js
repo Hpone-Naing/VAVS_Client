@@ -6,7 +6,7 @@
     var selectedStateDivision = lstStateDivisionCtrl.options[lstStateDivisionCtrl.selectedIndex].value;
 
     if (selectedStateDivision != null && selectedStateDivision != '') {
-        $.getJSON("/IRD_VAVS_Client/Login/GetTownshipByStateDivision", { stateDivisionPkId: selectedStateDivision }, function (townships) {
+        $.getJSON("/Login/GetTownshipByStateDivision", { stateDivisionPkId: selectedStateDivision }, function (townships) {
             if (townships != null && !jQuery.isEmptyObject(townships)) {
                 $.each(townships, function (index, township) {
                     lstTownships.append($('<option/>',
