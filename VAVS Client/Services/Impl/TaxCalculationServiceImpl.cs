@@ -73,6 +73,10 @@ namespace VAVS_Client.Services.Impl
                     TaxAmount = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.TaxAmount),
                     PersonalDetail = personalDetail,
                     Township = township,
+                    EntryDate = DateTime.Now,
+                    IsDeleted = false,
+                    CreatedBy = personalDetail.PersonalPkid,
+                    CreatedDate = DateTime.Now,
                     //VehicleStandardValue = vehicleStandardValue
                 };
                 return Create(taxValidation);
