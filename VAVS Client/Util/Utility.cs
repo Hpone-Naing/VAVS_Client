@@ -15,7 +15,7 @@ namespace VAVS_Client.Util
         public static int MAXIMUM_REGISTRATION_TIME = 5;
         public static int MAXIMUM_RESEND_CODE_TIME = 3;
         public static int OTP_EXPIRE_MINUTE = 0;
-        public static int OTP_EXPIRE_SECOND = 60;
+        public static int OTP_EXPIRE_SECOND = 120;
         public static int NEXT_RESENDCODE_TIME_IN_MINUTE = 3; 
         public static int NEXT_RESENDCODE_TIME_IN_SECOND = 0;
         public static int NEXT_REGISTER_TIME_IN_MINUTE = 5;
