@@ -62,7 +62,8 @@ namespace VAVS_Client.Services.Impl
 
             try
             {
-                TaxValidation taxValidation = _context.TaxValidations.Where(taxValidation => taxValidation.TaxValidationPkid == id && taxValidation.IsDeleted != false)
+                Console.WriteLine("here taxvalidation service impl id: " + id);
+                TaxValidation taxValidation = _context.TaxValidations.Where(taxValidation => taxValidation.TaxValidationPkid == id && taxValidation.IsDeleted == false)
                     .Include(taxValidation => taxValidation.PersonalDetail)
                     .Include(taxValidation => taxValidation.Township)
                     .Include(taxValidation => taxValidation.Township.StateDivision)

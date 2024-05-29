@@ -45,10 +45,12 @@ namespace VAVS_Client.Controllers.TaxValidationController
 
         }
 
-        public IActionResult Details(int Id)
+        public IActionResult Details(int id)
         {
-            
-            TaxValidation taxValidation = _serviceFactory.CreateTaxValidationService().FindTaxValidationByIdEgerLoad(Id);
+
+            Console.WriteLine("id: ..................." + id);
+            TaxValidation taxValidation = _serviceFactory.CreateTaxValidationService().FindTaxValidationByIdEgerLoad(id);
+            Console.WriteLine("tax validation null? " + (taxValidation == null));
             return View(taxValidation);
         }
     }
