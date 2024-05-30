@@ -8,45 +8,44 @@
     ViewData["Title"] = "CalculatedTax";
 }
 
-<div style="background-color: #0f3cbd;;" class="row mt-2 border border-dark">
-    <div class="d-flex justify-content-center align-item-center p-1">
-        <label class="text-white"> အခွန်ထမ်းမည့်သူအချက်အလက် </label>
-    </div>
-</div>
-
 <div class="row mt-1 border border-dark">
     <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="row p-2" style="background-color: #c0c0c052;">
+        <div class="row p-2 border-end border-dark" style="background-color: #0f3cbd;">
+            <div class="d-flex align-item-center justify-content-center">
+                <label class="text-white"> အခွန်ထမ်းမည့်သူအချက်အလက် </label>
+            </div>
+        </div>
+        <div class="row p-2 border-end border-dark" style="background-color: #c0c0c052;">
             <label asp-for="PersonalDetail.Name" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.Name" value="@Model.PersonalDetail.Name" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2">
+        <div class="row p-2 border-end border-dark">
             <label asp-for="PersonalDetail.PhoneNumber" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.PhoneNumber" value="@Model.PersonalDetail.PhoneNumber" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2" style="background-color: #c0c0c052;">
+        <div class="row p-2 border-end border-dark" style="background-color: #c0c0c052;">
             <label asp-for="PersonalDetail.HousingNumber" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.HousingNumber" value="@Model.PersonalDetail.HousingNumber" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2">
+        <div class="row p-2 border-end border-dark">
             <label asp-for="PersonalDetail.NRCNumber" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.NRCNumber" value="@Model.PersonalDetail.NRCTownshipNumber@Model.PersonalDetail.NRCTownshipInitial@Model.PersonalDetail.NRCType@Model.PersonalDetail.NRCNumber" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2" style="background-color: #c0c0c052;">
+        <div class="row p-2 border-end border-dark" style="background-color: #c0c0c052;">
             <label asp-for="PersonalDetail.Street" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.Street" value="@Model.PersonalDetail.Street" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2">
+        <div class="row p-2 border-end border-dark">
             <label asp-for="PersonalDetail.Quarter" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="PersonalDetail.Quarter" value="@Model.PersonalDetail.Quarter" readonly="" style="background-color: inherit;border: none;">
@@ -54,37 +53,42 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="row p-2" style="background-color: #c0c0c052;">
-            <label asp-for="VehicleStandardValue.BuildType" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
+        <div class="row p-2" style="background-color: #0f3cbd;">
+            <div class="d-flex align-item-center justify-content-center">
+                <label class="text-white"> မော်တော်ယာဥ်အချက်အလက် </label>
+            </div>
+        </div>
+        <div class="row p-2 border-start border-dark" style="background-color: #c0c0c052;">
+            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကားနံပါတ်</label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="VehicleStandardValue.BuildType" value="@(Model.VehicleStandardValue.VehicleNumber != null ? Model.VehicleStandardValue.VehicleNumber : "")" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2" >
+        <div class="row p-2 border-start border-dark">
             <label asp-for="VehicleStandardValue.BuildType" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="VehicleStandardValue.BuildType" value="@Model.VehicleStandardValue.BuildType" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2" style="background-color: #c0c0c052;">
+        <div class="row p-2 border-start border-dark" style="background-color: #c0c0c052;">
             <label asp-for="VehicleStandardValue.ModelYear" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="VehicleStandardValue.ModelYear" value="@Model.VehicleStandardValue.ModelYear" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2">
+        <div class="row p-2 border-start border-dark">
             <label asp-for="VehicleStandardValue.Fuel" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="FuelType" value="@Model.VehicleStandardValue.Fuel.FuelType" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2" style="background-color: #c0c0c052;">
+        <div class="row p-2 border-start border-dark" style="background-color: #c0c0c052;">
             <label asp-for="VehicleStandardValue.VehicleBrand" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="VehicleStandardValue.VehicleBrand" value="@Model.VehicleStandardValue.VehicleBrand" readonly="" style="background-color: inherit;border: none;">
             </div>
         </div>
-        <div class="row p-2">
+        <div class="row p-2 border-start border-dark">
             <label asp-for="VehicleStandardValue.EnginePower" class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label"></label>
             <div class="col-lg-6 col-md-6 col-sm-8">
                 <input type="text" asp-for="VehicleStandardValue.EnginePower" value="@Model.VehicleStandardValue.EnginePower" readonly="" style="background-color: inherit;border: none;">
@@ -93,11 +97,6 @@
     </div>
 </div>
 
-<div style="background-color: #0f3cbd;" class="row mt-2 border border-dark">
-    <div class="d-flex justify-content-center align-item-center p-1">
-        <label class="text-white"> မော်တော်ယာဥ်အချက်အလက် </label>
-    </div>
-</div>
 
 <div class="row mt-1 border border-dark">
     <div class="col-lg-6 col-md-6 col-sm-12">
@@ -109,9 +108,9 @@
 </div>
 
 <div class="row p-2 mt-2" style="background-color: #49b8da52;">
-    <label class="fw-bold col-lg-3 col-md-6 col-sm-4 control-label">စာချုပ်ပါကားတန်ဖိုး</label>
+    <label class="fw-bold col-lg-3 col-md-6 col-sm-4 control-label">အခွန်တွက်ချက်ခဲ့သောတန်ဖိုး</label>
     <div class="col-lg-6 col-md-6 col-sm-8">
-            <input type="text" asp-for="ContractValue" value="@Model.ContractValue" readonly="" style="background-color: inherit;border: none;">
+        <input type="text" asp-for="ContractValue" value="@ViewBag.BaseValue" readonly="" style="background-color: inherit;border: none;">
     </div>
 </div>
 

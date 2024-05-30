@@ -89,7 +89,6 @@ namespace VAVS_Client.Services.Impl
                     loginAuth.ResendOTPCount++;
                 }
                 CreateLoginAuth(loginAuth);
-                Console.WriteLine("After UpdateResendTime " + JsonConvert.SerializeObject(GetLoginAuthByNrc(nrc)));
             }
         }
      }

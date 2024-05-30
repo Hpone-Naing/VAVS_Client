@@ -1,6 +1,7 @@
 ﻿@using VAVS_Client.Classes;
 @using VAVS_Client.Util;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
 
 <!DOCTYPE html>
 <html>
@@ -87,7 +88,7 @@
                 <!-- logo for regular state and mobile devices -->
                 @*<span class="logo-lg"> M O C </span>*@
                 <img class="rounded-circle" src="~/Content/images/MADBIMG.jpg" width="40px;" />
-                <label class="animate-charcter">VAVS</label>
+                <label class="animate-charcter">ပြည်တွင်းအခွန်များဦးစီးငှာန</label>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="" style="height: 50px;background-color: #0f3cbd;">
@@ -98,17 +99,27 @@
                             <span b-zogy9lo6il="" class="sr-only">Toggle navigation</span>
                         </a>
                     </div>
-
+                    <div><span class="text-white" style="font-size: 25px;">VAVS</span></div>
                     <!-- Example split danger button -->
                     <div class="btn-group">
                         <button class="btn">
                             @{
-                                var initialName = HttpContextAccessor.HttpContext.Session.GetString("LoginUserName");
+                                var name = "";
+                                var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
+                                if (!string.IsNullOrEmpty(loginUserInfoJson))
+                                {
+                                    var loginUserInfo = JsonConvert.DeserializeObject<TaxpayerInfo>(loginUserInfoJson);
+                                    if (loginUserInfo != null)
+                                    {
+                                        name = loginUserInfo.Name;
+                                    }
+                                }
                             }
+                            
                             <span style="background-color: #47b047;border-radius: 50px;width: 10px;display: inline-block;height: 10px;"></span>
                             @*<img src="~/Content/images/Alphabet/@(initialName[0].ToString().ToLower()).png" alt="User Image" style="width: 20px;" class="rounded-pill">*@
                             <span class="hidden-xs text-white">
-                                @initialName
+                                @name
                             </span>
                             
                         </button>

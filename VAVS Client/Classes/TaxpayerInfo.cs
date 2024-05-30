@@ -20,7 +20,7 @@ namespace VAVS_Client.Classes
         public long TotalTax { get; set; }*/
         public string Name { get; set; }
         public string NRC { get; set; }
-        public string PhoneNumber { get; set; }
+        //public string PhoneNumber { get; set; }
 
     }
 }

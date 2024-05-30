@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using VAVS_Client.ViewModels;
 using System.Net;
 using VAVS_Client.Models;
+using System.Text.Json;
 
 namespace VAVS_Client.Controllers.Auth
 {
@@ -115,21 +116,28 @@ namespace VAVS_Client.Controllers.Auth
                 string nrcTownshipInitial = Request.Form["NRCTownshipInitial"];
                 string nrcType = Request.Form["NRCType"];
                 string nrcNumber = Request.Form["NRCNumber"];
-                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber));
+                string nrc = Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber);
+                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);
                 if (personalInformation != null)
                 {
-                    LoginUserInfo loginUserInfo = new LoginUserInfo
+                    /*LoginUserInfo loginUserInfo = new LoginUserInfo
                     {
                         TaxpayerInfo = new TaxpayerInfo
                         {
                             Name = personalInformation.Name,
                             NRC = Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber),
-                            PhoneNumber = personalInformation.PhoneNumber,
+                           // PhoneNumber = personalInformation.PhoneNumber,
                         },
                         LoggedInTime = DateTime.Now,
                     };
-                    HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash(Utility.TOKEN), HashUtil.ComputeSHA256Hash(string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber)));
-                    factoryBuilder.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);
+                    factoryBuilder.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);*/
+                    HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash(Utility.TOKEN), HashUtil.ComputeSHA256Hash(string.Concat(nrc, personalInformation.PhoneNumber)));
+                    factoryBuilder.CreateSessionServiceService().SetLoginUserInfo(HttpContext, new TaxpayerInfo()
+                    {
+                        Name = personalInformation.Name,
+                        NRC = nrc
+                    }
+                    );
                     return RedirectToAction("CheckLoginOTPCode", "Login");
                 }
                 MakeViewBag();
@@ -160,9 +168,12 @@ namespace VAVS_Client.Controllers.Auth
                     return RedirectToAction("Index", "Login");
                 }*/
 
-                LoginUserInfo loginUserInfo = factoryBuilder.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
-                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.TaxpayerInfo.NRC);//await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(loginUserInfo.NRC);
-                if (loginUserInfo.IsTaxpayerInfoNull())
+                //LoginUserInfo loginUserInfo = factoryBuilder.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                SessionService sessionService = factoryBuilder.CreateSessionServiceService();
+                TaxpayerInfo loginUserInfo = sessionService.GetLoginUserInfo(HttpContext);
+
+                PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.NRC);//await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(loginUserInfo.NRC);
+                if (!sessionService.IsActiveSession(HttpContext))
                 {
                     MakeViewBag();
                     Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
@@ -176,7 +187,7 @@ namespace VAVS_Client.Controllers.Auth
                 /*
                  * Check Login User's  null or not
                  */
-                LoginAuth existingUser = factoryBuilder.CreateLoginAuthService().GetLoginAuthByNrc(loginUserInfo.TaxpayerInfo.NRC);
+                LoginAuth existingUser = factoryBuilder.CreateLoginAuthService().GetLoginAuthByNrc(loginUserInfo.NRC);
                 if (existingUser == null)
                 {
                     string otp = Utility.GenerateOtp();
@@ -185,7 +196,7 @@ namespace VAVS_Client.Controllers.Auth
                      * Send otp code via sms
                      */
                     await factoryBuilder.CreateSMSVerificationService().SendSMSOTP(personalInformation.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
-                    factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.TaxpayerInfo.NRC, personalInformation.PhoneNumber, HashUtil.ComputeSHA256Hash(otp)));
+                    factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.NRC, personalInformation.PhoneNumber, HashUtil.ComputeSHA256Hash(otp)));
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
                     ViewData["phoneNumber"] = personalInformation.PhoneNumber;
@@ -198,7 +209,7 @@ namespace VAVS_Client.Controllers.Auth
                 {
                     if (existingUser.IsExceedMaximunResendCode() || !existingUser.AllowNextTimeResendOTP())
                     {
-                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC);
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.NRC);
                         Utility.AlertMessage(this, "Try resend code after " + DateTime.Parse(existingUser.ReResendCodeTime).ToString(), "alert-danger", "true");
                         return RedirectToAction("Index", "Login");
                     }
@@ -211,7 +222,7 @@ namespace VAVS_Client.Controllers.Auth
                          */
                         await factoryBuilder.CreateSMSVerificationService().SendSMSOTP(personalInformation.PhoneNumber, Utility.MakeMessage("Your OTP code is: ", otp));
 
-                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
                         HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                         ViewData["phoneNumber"] = personalInformation.PhoneNumber;
                         ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
@@ -233,11 +244,11 @@ namespace VAVS_Client.Controllers.Auth
 
                     if (resend)
                     {
-                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                        factoryBuilder.CreateLoginAuthService().UpdateResendCodeTime(loginUserInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
                     }
                     else
                     {
-                        factoryBuilder.CreateLoginAuthService().UpdateOtp(loginUserInfo.TaxpayerInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
+                        factoryBuilder.CreateLoginAuthService().UpdateOtp(loginUserInfo.NRC, HashUtil.ComputeSHA256Hash(otp));
                     }
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
@@ -255,9 +266,8 @@ namespace VAVS_Client.Controllers.Auth
                          * Valid OTP and set session for loginUser and redirect vehicle search page
                          */
                         //await _serviceFactory.CreateSMSVerificationService().SendSMSOTP(personalDetail.PhoneNumber, Utility.MakeMessage("Your Username", "mgmg", " Your Password", "mgmg123++", "for Login"));
-                        factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.TaxpayerInfo.NRC, personalInformation.PhoneNumber, ""));
+                        factoryBuilder.CreateLoginAuthService().CreateLoginAuth(InitializeLoginAuth(loginUserInfo.NRC, personalInformation.PhoneNumber, ""));
                         HttpContext.Session.Remove("ExpireTime");
-                        HttpContext.Session.SetString("LoginUserName", personalInformation.Name);
                         return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
                     }
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
@@ -323,7 +333,7 @@ namespace VAVS_Client.Controllers.Auth
 
                 if (loginUserInfo.RememberMe)
                 {
-                    HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash("token"), string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber));
+                    //HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash("token"), string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber));
                     SessionUtil.SetLoginUserInfo(HttpContext, loginUserInfo);
                     return RedirectToAction("Index", "Login");
                 }

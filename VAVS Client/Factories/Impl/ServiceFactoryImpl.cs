@@ -16,8 +16,9 @@ namespace VAVS_Client.Factories.Impl
 
         private readonly FileService _fileService;
         private readonly APIServiceFactory _apiServiceFactory;
+        private readonly SessionService _sessionService;
 
-        public ServiceFactoryImpl(VAVSClientDBContext context, IFirebaseConfig firebaseConfig, HttpClient httpClient, ILoggerFactory loggerFactory, FileService fileService, IWebHostEnvironment hostEnvironment, APIServiceFactory apiServiceFactory)
+        public ServiceFactoryImpl(VAVSClientDBContext context, IFirebaseConfig firebaseConfig, HttpClient httpClient, ILoggerFactory loggerFactory, FileService fileService, IWebHostEnvironment hostEnvironment, APIServiceFactory apiServiceFactory, SessionService sessionService)
         {
             _context = context;
             _firebaseConfig = firebaseConfig;
@@ -26,6 +27,7 @@ namespace VAVS_Client.Factories.Impl
             _hostEnvironment = hostEnvironment;
             _fileService = fileService;
             _apiServiceFactory = apiServiceFactory;
+            _sessionService = sessionService;
         }
 
         public UserService CreateUserService()
@@ -94,12 +96,17 @@ namespace VAVS_Client.Factories.Impl
         public TaxValidationService CreateTaxValidationService()
         {
             ILogger<TaxValidationServiceImpl> taxValidationLogger = new Logger<TaxValidationServiceImpl>(_loggerFactory);
-            return new TaxValidationServiceImpl(_context, taxValidationLogger, CreateTaxPayerInfoService());
+            return new TaxValidationServiceImpl(_context, taxValidationLogger, CreateTaxPayerInfoService(), _sessionService);
         }
 
         public ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService()
         {
             return new ResetPhoneNumberAuthServiceImpl(_firebaseConfig);
+        }
+
+        public SessionService CreateSessionServiceService()
+        {
+            return _sessionService;
         }
     }
 }

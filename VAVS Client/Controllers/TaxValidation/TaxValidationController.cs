@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VAVS_Client.Classes;
 using VAVS_Client.Factories;
 using VAVS_Client.Paging;
 using VAVS_Client.Util;
@@ -14,6 +15,12 @@ namespace VAVS_Client.Controllers.TaxValidationController
         }
         public IActionResult PendingList(int? pageNo)
         {
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            if (!sessionService.IsActiveSession(HttpContext))
+            {
+                Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
             int pageSize = Utility.DEFAULT_PAGINATION_NUMBER;
             try
             {
@@ -31,6 +38,12 @@ namespace VAVS_Client.Controllers.TaxValidationController
 
         public IActionResult ApproveList(int? pageNo)
         {
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            if (!sessionService.IsActiveSession(HttpContext))
+            {
+                Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
             int pageSize = Utility.DEFAULT_PAGINATION_NUMBER;
             try
             {
@@ -47,10 +60,14 @@ namespace VAVS_Client.Controllers.TaxValidationController
 
         public IActionResult Details(int id)
         {
-
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            if (!sessionService.IsActiveSession(HttpContext))
+            {
+                Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
             Console.WriteLine("id: ..................." + id);
             TaxValidation taxValidation = _serviceFactory.CreateTaxValidationService().FindTaxValidationByIdEgerLoad(id);
-            Console.WriteLine("tax validation null? " + (taxValidation == null));
             return View(taxValidation);
         }
     }

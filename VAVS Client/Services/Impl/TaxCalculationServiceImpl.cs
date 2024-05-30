@@ -41,17 +41,20 @@ namespace VAVS_Client.Services.Impl
             try
             {
                 LoginUserInfo loginTaxPayerInfo = _taxPayerInfoService.GetLoginUserByHashedToken(SessionUtil.GetToken(httpContext));
+                SessionService sessionService = new SessionServiceImpl();
+                TaxpayerInfo loginUserInfo = sessionService.GetLoginUserInfo(httpContext);
+                if (loginUserInfo == null)
+                    return false;
                 /*
                  * Find PersonalDetail from Database and api
                  */
-                PersonalDetail personalDetail = await _personalDetailService.GetPersonalInformationByNRCInDBAndAPI(loginTaxPayerInfo.TaxpayerInfo.NRC);
+                PersonalDetail personalDetail = await _personalDetailService.GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.NRC);
                 Township township = _townshipService.FindTownshipByPkId(taxInfo.TownshipPkid);
                 StateDivision stateDivision = _staetDivisionService.FindStateDivisionByPkId(taxInfo.StateDivisionPkid);
                 personalDetail.Township = township;
                 personalDetail.StateDivision = stateDivision;
                 if (personalDetail.PersonalPkid == 0)
                 {
-                    Console.WriteLine("here personalpkid null..............");
                     _personalDetailService.CreatePersonalDetail(personalDetail);
                 }
                 Console.WriteLine("here personalpkid not null.............." + personalDetail.PersonalPkid);
@@ -59,7 +62,7 @@ namespace VAVS_Client.Services.Impl
                 TaxValidation taxValidation = new TaxValidation
                 {
                     PersonTINNumber = personalDetail?.PersonTINNumber,
-                    PersonNRC = loginTaxPayerInfo.TaxpayerInfo.NRC,
+                    PersonNRC = loginUserInfo.NRC,
                     VehicleNumber = loginTaxPayerInfo.TaxVehicleInfo.VehicleNumber,
                     Manufacturer = loginTaxPayerInfo.TaxVehicleInfo.Manufacturer,
                     CountryOfMade = loginTaxPayerInfo.TaxVehicleInfo.CountryOfMade,

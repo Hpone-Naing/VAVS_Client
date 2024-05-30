@@ -10,11 +10,13 @@ namespace VAVS_Client.Services.Impl
 
         private readonly ILogger<TaxValidationServiceImpl> _logger;
         private readonly TaxPayerInfoService _taxPayerInfoService;
-        public TaxValidationServiceImpl(VAVSClientDBContext context, ILogger<TaxValidationServiceImpl> logger, TaxPayerInfoService taxPayerInfoService) : base(context, logger)
+        private readonly SessionService _sessionService;
+        public TaxValidationServiceImpl(VAVSClientDBContext context, ILogger<TaxValidationServiceImpl> logger, TaxPayerInfoService taxPayerInfoService, SessionService sessionService) : base(context, logger)
         {
 
             _logger = logger;
             _taxPayerInfoService = taxPayerInfoService;
+            _sessionService = sessionService;
         }
         public bool IsTaxedVehicle(string vehicleNumber)
         {
@@ -84,8 +86,9 @@ namespace VAVS_Client.Services.Impl
             {
                 try
                 {
-                    LoginUserInfo loginTaxPayerInfo = _taxPayerInfoService.GetLoginUserByHashedToken(SessionUtil.GetToken(httpContext));
-                    List<TaxValidation> taxValidationPendingList =  _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.TaxpayerInfo.NRC && taxValidation.QRCodeNumber == null && taxValidation.DemandNumber == null).ToList();
+                    TaxpayerInfo loginTaxPayerInfo = _sessionService.GetLoginUserInfo(httpContext);
+
+                    List<TaxValidation> taxValidationPendingList =  _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.NRC && (taxValidation.QRCodeNumber == null && taxValidation.DemandNumber == null)).ToList();
                     return GetAllWithPagin(taxValidationPendingList, pageNo, PageSize);
                 }
                 catch (Exception e)
@@ -107,8 +110,8 @@ namespace VAVS_Client.Services.Impl
             {
                 try
                 {
-                    LoginUserInfo loginTaxPayerInfo = _taxPayerInfoService.GetLoginUserByHashedToken(SessionUtil.GetToken(httpContext));
-                    List<TaxValidation> taxValidationPendingList = _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.TaxpayerInfo.NRC && taxValidation.QRCodeNumber != null && taxValidation.DemandNumber != null).ToList();
+                    TaxpayerInfo loginTaxPayerInfo = _sessionService.GetLoginUserInfo(httpContext);
+                    List<TaxValidation> taxValidationPendingList = _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.NRC && (taxValidation.QRCodeNumber != null || taxValidation.DemandNumber != null)).ToList();
                     return GetAllWithPagin(taxValidationPendingList, pageNo, PageSize);
                 }
                 catch (Exception e)

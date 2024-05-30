@@ -1,6 +1,8 @@
 ﻿@inject IConfiguration Configuration
 @model VAVS_Client.Paging.PagingList<VAVS_Client.Models.TaxValidation>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using VAVS_Client.Classes
 
 @{
     ViewData["Title"] = "List";
@@ -15,7 +17,7 @@
 </div>
 @if (TempData.ContainsKey("Message") && TempData.ContainsKey("CssColor"))
 {
-    <div class="alert @TempData["CssColor"]"> @TempData["Message"] </div>
+    <div class="alert @TempData["CssColor"] alert-msg"> @TempData["Message"] </div>
 }
 
 
@@ -126,11 +128,16 @@
                     <td>
                         @{
                             var name = "";
-                            if (HttpContextAccessor.HttpContext.Session.GetString("LoginUserName")!= null)
+                            var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
+                            if (!string.IsNullOrEmpty(loginUserInfoJson))
                             {
-                                name = HttpContextAccessor.HttpContext.Session.GetString("LoginUserName");
-                            }
-                        }
+                                var loginUserInfo = JsonConvert.DeserializeObject<TaxpayerInfo>(loginUserInfoJson);
+                                if (loginUserInfo != null)
+                                {
+                                    name = loginUserInfo.Name;
+                                }
+                            }                        
+                         }
                         @name
                     </td>
                     <td>
@@ -140,13 +147,13 @@
                         @Html.DisplayFor(modelItem => item.VehicleNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StandardValue)
+                        @Html.DisplayFor(modelItem =>   item.StandardValue)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TaxAmount)
                     </td>
                     <td>
-                        <a class="btn btn-outline link" data-toggle="tooltip" data-placement="top" title="Detail" asp-action="Details" asp-route-id="@item.TaxValidationPkid"><i class="fa fa-info-circle fa-lg text-primary"></i></a>
+                        <a class="" data-toggle="tooltip" data-placement="top" title="Detail" asp-action="Details" asp-route-id="@item.TaxValidationPkid" style="color:blue">Details</a>
                         @*<button class="btn btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-toggle="modal" data-bs-target=" @("#deleteModel" + @item.TaxValidationPkid)"><i class="fas fa-regular fa-trash fa-lg text-danger"></i></button>*@
                     </td>
                 </tr>

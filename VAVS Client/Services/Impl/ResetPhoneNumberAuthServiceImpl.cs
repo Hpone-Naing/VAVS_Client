@@ -81,7 +81,6 @@ namespace VAVS_Client.Services.Impl
                     resetPhonenumberAuth.ResendOTPCount++;
                 }
                 CreateResetPhoneNumberAuthInfo(token, resetPhonenumberAuth);
-                Console.WriteLine("After UpdateResendTime " + JsonConvert.SerializeObject(GetResetPhoneNumberAuthByHashedToken(token)));
             }
         }
     }

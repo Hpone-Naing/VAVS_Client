@@ -21,7 +21,13 @@ namespace VAVS_Client.Controllers.TaxCalculation
         [HttpPost]
         public IActionResult ShowCalculateTaxForm(VehicleStandardValue vehicleStandardValue)
         {
-            if(vehicleStandardValue.VehicleNumber != null)
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            if (!sessionService.IsActiveSession(HttpContext))
+            {
+                Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
+            if (vehicleStandardValue.VehicleNumber != null)
             {
                 bool IsTaxed = _serviceFactory.CreateTaxValidationService().IsTaxedVehicle(vehicleStandardValue.VehicleNumber);
                 if(IsTaxed)
@@ -42,12 +48,15 @@ namespace VAVS_Client.Controllers.TaxCalculation
         [HttpPost]
         public async Task<IActionResult> ShowCalculatedTaxForm(VehicleStandardValue vehicleStandardValue)
         {
-            LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
-            if (loginTaxPayerInfo.IsTaxpayerInfoNull())
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            TaxpayerInfo loginTaxPayerInfo = sessionService.GetLoginUserInfo(HttpContext);
+            
+            if (!sessionService.IsActiveSession(HttpContext))
             {
                 Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                 return RedirectToAction("Index", "Login");
             }
+            
             if (vehicleStandardValue.VehicleNumber != null)
             {
                 bool IsTaxed = _serviceFactory.CreateTaxValidationService().IsTaxedVehicle(vehicleStandardValue.VehicleNumber);
@@ -75,10 +84,10 @@ namespace VAVS_Client.Controllers.TaxCalculation
                          (WheelTabFileName, vehicleStandardValue.WheelTagImageFile),
                          (VehicleFileName, vehicleStandardValue.VehicleImageFile),
                     };
-                string savePath = loginTaxPayerInfo.TaxpayerInfo.NRC;
+                string savePath = loginTaxPayerInfo.NRC;
                 fileService.SaveFile(Utility.ConcatNRCSemiComa(savePath), files);
             }
-            string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;
+            string nrc = loginTaxPayerInfo.NRC;
             PersonalDetail personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);//await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
             string contractPriceString = Request.Form["ContractPrice"];
             long ContractPrice = Utility.MakeDigit(contractPriceString);
@@ -91,20 +100,26 @@ namespace VAVS_Client.Controllers.TaxCalculation
                 TaxAmount = totalTax,
                 ContractValue = ContractPrice,
             };
-            loginTaxPayerInfo.TaxVehicleInfo = new TaxVehicleInfo {
-                VehicleNumber = vehicleStandardValue.VehicleNumber,
-                Manufacturer = vehicleStandardValue.Manufacturer,
-                BuildType = vehicleStandardValue.BuildType,
-                FuelType = vehicleStandardValue.Fuel.FuelType,
-                ModelYear = vehicleStandardValue.ModelYear,
-                CountryOfMade = vehicleStandardValue.CountryOfMade,
-                EnginePower = vehicleStandardValue.EnginePower,
-                VehicleBrand = vehicleStandardValue.VehicleBrand,
-                StandardValue = vehicleStandardValue.StandardValue,
-                TaxAmount = totalTax.ToString(),
-                ContractValue = ContractPrice.ToString(),
+            LoginUserInfo loginUserInfo = new LoginUserInfo()
+            {
+                TaxVehicleInfo = new TaxVehicleInfo
+                {
+                    VehicleNumber = vehicleStandardValue.VehicleNumber,
+                    Manufacturer = vehicleStandardValue.Manufacturer,
+                    BuildType = vehicleStandardValue.BuildType,
+                    FuelType = vehicleStandardValue.Fuel.FuelType,
+                    ModelYear = vehicleStandardValue.ModelYear,
+                    CountryOfMade = vehicleStandardValue.CountryOfMade,
+                    EnginePower = vehicleStandardValue.EnginePower,
+                    VehicleBrand = vehicleStandardValue.VehicleBrand,
+                    StandardValue = vehicleStandardValue.StandardValue,
+                    TaxAmount = totalTax.ToString(),
+                    ContractValue = ContractPrice.ToString(),
+                },
             };
-            _serviceFactory.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext),loginTaxPayerInfo);
+                
+            _serviceFactory.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);
+            ViewBag.BaseValue = AssetValue > ContractPrice ? AssetValue.ToString() : ContractPrice.ToString();
             return View("CalculatedTax", taxValidation);
         }
 
@@ -119,17 +134,12 @@ namespace VAVS_Client.Controllers.TaxCalculation
         {
             try
             {
-                LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
-                if (loginTaxPayerInfo.IsTaxpayerInfoNull())
+                if (!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
                 {
                     Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                     return RedirectToAction("Index", "Login");
                 }
-                if (loginTaxPayerInfo.IsTaxVehicleInfoNull())
-                {
-                    Utility.AlertMessage(this, "You haven't search your vehicle.", "alert-danger");
-                    return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
-                }
+                
                 await _serviceFactory.CreateTaxCalculationService().SaveTaxValidation(HttpContext, taxInfo);
                 Utility.AlertMessage(this, "Success. Please wait for admin response", "alert-success");
                 return RedirectToAction("PendingList", "TaxValidation");

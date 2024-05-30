@@ -79,7 +79,6 @@ namespace VAVS_Client.Services.Impl
                     deviceInfo.ResendCodeTime = 0;
                 }
                 CreateDeviceInfo(deviceInfo);
-                Console.WriteLine("After UpdateRegistrationTime " + JsonConvert.SerializeObject(GetDeviceInfoByIPAddress(ipAddress)));
             }
         }
 
@@ -120,7 +119,6 @@ namespace VAVS_Client.Services.Impl
                     deviceInfo.ResendCodeTime++;
                 }
                 CreateDeviceInfo(deviceInfo);
-                Console.WriteLine("After UpdateResendTime " + JsonConvert.SerializeObject(GetDeviceInfoByIPAddress(ipAddress)));
             } 
         }
 

@@ -17,12 +17,18 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         {
             try
             {
-                LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                /*LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
                 if (loginTaxPayerInfo.IsTaxpayerInfoNull())
                 {
                     Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                     return RedirectToAction("Index", "Login");
+                }*/
+                if(!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
                 }
+
                 string searchString = Request.Query["SearchString"];
                 ViewBag.SearchString = searchString;
 
@@ -52,8 +58,13 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         {
             try
             {
-                LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+                /*LoginUserInfo loginTaxPayerInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
                 if (loginTaxPayerInfo.IsTaxpayerInfoNull())
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }*/
+                if (!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
                 {
                     Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                     return RedirectToAction("Index", "Login");
@@ -86,6 +97,12 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
             
             try
             {
+                if (!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }
+
                 VehicleStandardValue vehicleStandardValue = _serviceFactory.CreateVehicleStandardValueService().FindVehicleStandardValueByIdEgerLoad(Id);
                 if (vehicleStandardValue != null)
                 {
