@@ -42,13 +42,13 @@ namespace VAVS_Client.Controllers.Auth
         public async Task<IActionResult> LoginUser()
         {
             
-            bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
+            /*bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
             if (isUseVpn)
             {
                 MakeViewBag();
                 Utility.AlertMessage(this, "Please turn off vpn.", "alert-danger", "true");
                 return View("Login", MakeLoginView());
-            }
+            }*/
 
             MakeViewBag();
             return View("Login", MakeLoginView());
@@ -152,13 +152,13 @@ namespace VAVS_Client.Controllers.Auth
                 /*
                  * Check vpn turn on or off
                  */
-                bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
+                /*bool isUseVpn = await factoryBuilder.CreateDeviceInfoService().VpnTurnOn();
                 if (isUseVpn)
                 {
                     MakeViewBag();
                     Utility.AlertMessage(this, "Please turn off vpn.", "alert-danger", "true");
                     return RedirectToAction("Index", "Login");
-                }
+                }*/
 
                 LoginUserInfo loginUserInfo = factoryBuilder.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
                 PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.TaxpayerInfo.NRC);//await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRC(loginUserInfo.NRC);

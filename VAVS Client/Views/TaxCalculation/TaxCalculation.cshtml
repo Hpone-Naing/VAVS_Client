@@ -54,6 +54,24 @@
                         </div>-->
                     </div>
                 </div>
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">သန်းခေါင်စာရင်းပုံ</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        <input type="file" asp-for="CensusImageFile" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကား Owner book ပုံ</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        <input type="file" asp-for="OwnerBookImageFile" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကားမော်တော်ယာဥ်ပုံ</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        <input type="file" asp-for="VehicleImageFile" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="form-group mt-2">
@@ -89,7 +107,18 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">အရောင်းအဝယ်စာချုပ်ပုံ</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        <input type="file" asp-for="TransactionContractImageFile" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ယာဥ်သက်သေခံလက်မှတ် / Wheel tag ပုံ</label>
+                    <div class="col-lg-6 col-md-6 col-sm-8">
+                        <input type="file" asp-for="WheelTagImageFile" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
             </div>
 
             <div class="d-flex justify-content-center align-item-center mt-3 mb-2">

@@ -1,5 +1,7 @@
 ﻿@inject IConfiguration Configuration
 @model VAVS_Client.Paging.PagingList<VAVS_Client.Models.TaxValidation>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
     ViewData["Title"] = "List";
 }
@@ -78,17 +80,26 @@
                     စဥ်
                 </th>
                 <th class="text-white">
-                    မှတ်ပုံတင်
+                    Register/Entry Date
                 </th>
                 <th class="text-white">
-                    ယာဥ်အမှတ်
+                    IDS စကလက
                 </th>
 
                 <th class="text-white">
-                    Contract Price
+                    အမည်
                 </th>
                 <th class="text-white">
-                    ကျသင့်ခွန်ငွေ
+                    မှတ်ပုံတင်
+                </th>
+                <th class="text-white">
+                    ယာဉ်အမှတ် နှင့် ကားအချက်အလက်
+                </th>
+                <th class="text-white">
+                    စည်းကြပ်တန်ဖိုး
+                </th>
+                <th class="text-white">
+                    ကျသင့်အခွန်
                 </th>
                 <th class="text-white">လုပ်ဆောက်ချက်များ</th>
             </tr>
@@ -107,16 +118,30 @@
                         @i
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.EntryDate)
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        @{
+                            var name = "";
+                            if (HttpContextAccessor.HttpContext.Session.GetString("LoginUserName")!= null)
+                            {
+                                name = HttpContextAccessor.HttpContext.Session.GetString("LoginUserName");
+                            }
+                        }
+                        @name
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.PersonNRC)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.VehicleNumber)
                     </td>
-
                     <td>
-                        @Html.DisplayFor(modelItem => item.ContractValue)
+                        @Html.DisplayFor(modelItem => item.StandardValue)
                     </td>
-
                     <td>
                         @Html.DisplayFor(modelItem => item.TaxAmount)
                     </td>

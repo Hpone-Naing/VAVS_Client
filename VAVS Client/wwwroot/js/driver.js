@@ -5,7 +5,7 @@
     var selectedDriverId = lstDriverName.options[lstDriverName.selectedIndex].value;
 
     if (selectedDriverId != null && selectedDriverId != '') {
-        $.getJSON("/YBORecord/GetDriverLicenseByDriverId", { driverPkId: selectedDriverId }, function (driverLicense) {
+        $.getJSON("/IRD_VAVS_Client/YBORecord/GetDriverLicenseByDriverId", { driverPkId: selectedDriverId }, function (driverLicense) {
             driverLicenseTestBox.val(driverLicense);
         });
     }

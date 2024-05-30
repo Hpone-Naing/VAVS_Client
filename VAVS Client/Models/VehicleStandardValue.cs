@@ -59,5 +59,25 @@ namespace VAVS_Client.Models
         [DisplayName("Fuel Type")]
         public int FuelTypePkid { get; set; }
         public virtual Fuel Fuel { get; set; }
+
+        [NotMapped]
+        public IFormFile? CensusImageFile { get; set; }
+
+        [NotMapped]
+        public IFormFile? TransactionContractImageFile { get; set; }
+
+        [NotMapped]
+        public IFormFile? OwnerBookImageFile { get; set; }
+
+        [NotMapped]
+        public IFormFile? WheelTagImageFile { get; set; }
+
+        [NotMapped]
+        public IFormFile? VehicleImageFile { get; set; }
+
+        public bool IsImageFilesNotNull()
+        {
+            return CensusImageFile != null && TransactionContractImageFile != null && OwnerBookImageFile != null && WheelTagImageFile != null && VehicleImageFile != null;
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using VAVS_Client.Classes;
 using VAVS_Client.Classes.TaxCalculation;
 using VAVS_Client.Factories;
+using VAVS_Client.Models;
 using VAVS_Client.Util;
 
 namespace VAVS_Client.Controllers.TaxCalculation
@@ -55,6 +56,27 @@ namespace VAVS_Client.Controllers.TaxCalculation
                     Utility.AlertMessage(this, "This vehicle has already taxed.", "alert-info");
                     return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
                 }
+            }
+            /*
+             * Save Image Files
+             */
+            if (vehicleStandardValue.IsImageFilesNotNull())
+            {
+                FileService fileService = _serviceFactory.CreateFileService();
+                string CensusFileName = fileService.GetFileName(vehicleStandardValue.CensusImageFile);
+                string TransactionContractFileName = fileService.GetFileName(vehicleStandardValue.TransactionContractImageFile);
+                string OwnerBookFileName = fileService.GetFileName(vehicleStandardValue.OwnerBookImageFile);
+                string WheelTabFileName = fileService.GetFileName(vehicleStandardValue.WheelTagImageFile);
+                string VehicleFileName = fileService.GetFileName(vehicleStandardValue.VehicleImageFile);
+                List<(string fileName, IFormFile file)> files = new List<(string fileName, IFormFile file)> {
+                         (CensusFileName, vehicleStandardValue.CensusImageFile),
+                         (TransactionContractFileName, vehicleStandardValue.TransactionContractImageFile),
+                         (OwnerBookFileName, vehicleStandardValue.OwnerBookImageFile),
+                         (WheelTabFileName, vehicleStandardValue.WheelTagImageFile),
+                         (VehicleFileName, vehicleStandardValue.VehicleImageFile),
+                    };
+                string savePath = loginTaxPayerInfo.TaxpayerInfo.NRC;
+                fileService.SaveFile(Utility.ConcatNRCSemiComa(savePath), files);
             }
             string nrc = loginTaxPayerInfo.TaxpayerInfo.NRC;
             PersonalDetail personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);//await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
@@ -110,7 +132,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
                 }
                 await _serviceFactory.CreateTaxCalculationService().SaveTaxValidation(HttpContext, taxInfo);
                 Utility.AlertMessage(this, "Success. Please wait for admin response", "alert-success");
-                return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
+                return RedirectToAction("PendingList", "TaxValidation");
             }
             catch (Exception e)
             {

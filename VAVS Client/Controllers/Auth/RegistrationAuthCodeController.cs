@@ -64,13 +64,13 @@ namespace VAVS_Client.Controllers.Auth
                 /*
                  * Check vpn turn on or off
                  */
-                bool isUseVpn = await _serviceFactory.CreateDeviceInfoService().VpnTurnOn();                
+                /*bool isUseVpn = await _serviceFactory.CreateDeviceInfoService().VpnTurnOn();                
                 if(isUseVpn)
                 {
                     MakeViewBag();
                     Utility.AlertMessage(this, "Please turn off vpn.", "alert-danger", "true");
                     return RedirectToAction("Index", "Login");
-                }
+                }*/
                 /* 
                  * Check user already register or not by nrc 
                  */
