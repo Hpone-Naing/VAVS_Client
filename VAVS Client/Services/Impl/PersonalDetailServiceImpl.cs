@@ -246,27 +246,32 @@ namespace VAVS_Client.Services.Impl
 
                 if (await GetPersonalInformationByPhoneNumberInDBAndAPI(resetPhonenumber.NewPhonenumber) != null)
                 {
+                    Console.WriteLine("here new phone not null........");
                     return false;
                 }
 
                 PersonalDetail personalDetail = await GetPersonalInformationByNRCInDBAndAPI(resetPhonenumber.Nrc);
                 if (personalDetail == null)
+                {
+                    Console.WriteLine("here nrc  null........");
+
                     return false;
+                }
                 
                 TaxValidation taxValidation = _taxValidationService.FindTaxValidationByNrc(resetPhonenumber.Nrc);
                 if (taxValidation == null)
-                    return false;
-
-                if (taxValidation.VehicleNumber == resetPhonenumber.TaxedVehicleNumber)
                 {
-                    if (personalDetail.PersonalPkid != null)
-                    {
-                        return UpdatePhoneNumberByNrc(Utility.ConcatNRCSemiComa(resetPhonenumber.Nrc), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
-                    }
-                    bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber)), HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber)));
-                    return result;
+                    Console.WriteLine("here taxvalidation  null........");
+
+                    return false;
                 }
-                return false;
+
+                if (personalDetail.PersonalPkid != 0)
+                {
+                    return UpdatePhoneNumberByNrc(Utility.ConcatNRCSemiComa(resetPhonenumber.Nrc), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber), Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber));
+                }
+                bool result = await _personalDetailAPIService.ResetPhoneNumber(resetPhonenumber.Nrc, HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.OldPhonenumber)), HttpUtility.UrlEncode(Utility.MakePhoneNumberWithCountryCode(resetPhonenumber.NewPhonenumber)));
+                return result;                
             }
             catch(Exception e)
             {
