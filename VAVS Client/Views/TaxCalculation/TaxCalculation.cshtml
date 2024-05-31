@@ -13,29 +13,29 @@
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> REG.NO: </label>
+                    <label class="control-label fw-bold"> REG.NO: </label>
                     <div class="col">
                         <input class="form-control" asp-for="VehicleNumber" value="@Model.VehicleNumber" readonly />
                     </div>
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> Type: </label>
+                    <label class="control-label fw-bold"> Type: </label>
                     <input class="form-control" asp-for="BuildType" value="@Model.BuildType" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> EP: </label>
+                    <label class="control-label fw-bold"> EP: </label>
                     <input class="form-control" asp-for="EnginePower" value="@Model.EnginePower" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> M_Year: </label>
+                    <label class="control-label fw-bold"> M_Year: </label>
                     <input class="form-control" asp-for="ModelYear" value="@Model.ModelYear" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> Contract Price: </label>
+                    <label class="control-label fw-bold"> Contract Price: </label>
                     <div class="">
                         <!--<div class="input-group-append">
                             <span class="input-group-text">သိန်း</span>
@@ -54,49 +54,31 @@
                         </div>-->
                     </div>
                 </div>
-                <div class="row p-2">
-                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">သန်းခေါင်စာရင်းပုံ</label>
-                    <div class="col-lg-6 col-md-6 col-sm-8">
-                        <input type="file" asp-for="CensusImageFile" accept=".jpg, .jpeg, .png" required>
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကား Owner book ပုံ</label>
-                    <div class="col-lg-6 col-md-6 col-sm-8">
-                        <input type="file" asp-for="OwnerBookImageFile" accept=".jpg, .jpeg, .png" required>
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကားမော်တော်ယာဥ်ပုံ</label>
-                    <div class="col-lg-6 col-md-6 col-sm-8">
-                        <input type="file" asp-for="VehicleImageFile" accept=".jpg, .jpeg, .png" required>
-                    </div>
-                </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="form-group mt-2">
-                    <label class="control-label"> ManufacturerL: </label>
+                    <label class="control-label fw-bold"> Manufacturer: </label>
                     <input class="form-control" asp-for="Manufacturer" value="@Model.Manufacturer" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> MAKE_MODEL: </label>
+                    <label class="control-label fw-bold"> MAKE_MODEL: </label>
                     <input class="form-control" asp-for="VehicleBrand" value="@Model.VehicleBrand" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> ENGINE_NO: </label>
+                    <label class="control-label fw-bold"> ENGINE_NO: </label>
                     <input class="form-control" value="-" readonly />
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="control-label"> FUEL: </label>
+                    <label class="control-label fw-bold"> FUEL: </label>
                     <input class="form-control" asp-for="Fuel.FuelType" value="@Model.Fuel.FuelType" readonly />
                     <span class="text-danger"></span>
                 </div>
                 
                 <div class="form-group mt-2">
-                    <label class="control-label"> Asset Tax: </label>
+                    <label class="control-label fw-bold"> Asset Tax: </label>
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text">သိန်း</span>
@@ -107,20 +89,66 @@
                         </div>
                     </div>
                 </div>
-                <div class="row p-2">
-                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">အရောင်းအဝယ်စာချုပ်ပုံ</label>
-                    <div class="col-lg-6 col-md-6 col-sm-8">
-                        <input type="file" asp-for="TransactionContractImageFile" accept=".jpg, .jpeg, .png" required>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label fw-bold">သန်းခေါင်စာရင်းပုံ</label>
+                        <label class="file-input mt-2" style="width:100px; height:100px">
+                            <span class="file-input-label">Choose Image</span>
+                            <input asp-for="CensusImageFile" onchange="hi(event, 'CensusImageFilePreview');" accept=".jpg, .jpeg, .png" required />
+                            <div class="preview" id="CensusImageFilePreview" style="width:100px; height:100px">
+                                <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                            </div>
+                        </label>
+                        <span asp-validation-for="CensusImageFile" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="row p-2">
-                    <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ယာဥ်သက်သေခံလက်မှတ် / Wheel tag ပုံ</label>
-                    <div class="col-lg-6 col-md-6 col-sm-8">
-                        <input type="file" asp-for="WheelTagImageFile" accept=".jpg, .jpeg, .png" required>
+                    <div class="col">
+                        <label class="control-label fw-bold">ကား Owner book ပုံ</label>
+                        <label class="file-input mt-2" style="width:100px; height:100px">
+                            <span class="file-input-label">Choose Image</span>
+                            <input asp-for="OwnerBookImageFile" onchange="hi(event, 'OwnerBookImageFilePreview');" accept=".jpg, .jpeg, .png" required />
+                            <div class="preview" id="OwnerBookImageFilePreview" style="width:100px; height:100px">
+                                <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                            </div>
+                        </label>
+                        <span asp-validation-for="OwnerBookImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label class="control-label fw-bold">မော်တော်ယာဥ်ပုံ</label>
+                        <label class="file-input mt-2" style="width:100px; height:100px">
+                            <span class="file-input-label">Choose Image</span>
+                            <input asp-for="VehicleImageFile" onchange="hi(event, 'VehicleImageFilePreview');" accept=".jpg, .jpeg, .png" required />
+                            <div class="preview" id="VehicleImageFilePreview" style="width:100px; height:100px">
+                                <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                            </div>
+                        </label>
+                        <span asp-validation-for="VehicleImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label class="control-label fw-bold">အရောင်းအဝယ်စာချုပ်ပုံ</label>
+                        <label class="file-input mt-2" style="width:100px; height:100px">
+                            <span class="file-input-label">Choose Image</span>
+                            <input asp-for="TransactionContractImageFile" onchange="hi(event, 'TransactionContractImageFilePreview');" accept=".jpg, .jpeg, .png" required />
+                            <div class="preview" id="TransactionContractImageFilePreview" style="width:100px; height:100px">
+                                <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                            </div>
+                        </label>
+                        <span asp-validation-for="TransactionContractImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label class="control-label fw-bold">ယာဥ်သက်သေခံလက်မှတ်</label>
+                        <label class="file-input mt-2" style="width:100px; height:100px">
+                            <span class="file-input-label">Choose Image</span>
+                            <input asp-for="WheelTagImageFile" onchange="hi(event, 'WheelTagImageFilePreview');" accept=".jpg, .jpeg, .png" required />
+                            <div class="preview" id="WheelTagImageFilePreview" style="width:100px; height:100px">
+                                <img class="image-fluid" decoding="async" asp-append-version="true" style="height: 130px;" />
+                            </div>
+                        </label>
+                        <span asp-validation-for="WheelTagImageFile" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-
             <div class="d-flex justify-content-center align-item-center mt-3 mb-2">
                 <input type="submit" value="Next" class="btn btn-primary" />
             </div>

@@ -53,29 +53,58 @@
             <div class="mb-3">
                 <div id="otpContainer" class="container mb-4">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group mt-2">
-                                <label class="control-label">မှတ်ပုံတင်နံပါတ်</label>
-                                <input class="form-control" asp-for="Nrc"  required />
-                            </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group mt-2">
+                                    <label class="control-label fw-bold"> Nrc Number: </label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <select class="form-control" asp-for="NRCTownshipNumber" required>
+                                                <option value="">?</option>
+                                                <option value="၁/">၁/</option>
+                                                <option value="၂/">၂/</option>
+                                                <option value="၃/">၃/</option>
+                                                <option value="၄/">၄/</option>
+                                                <option value="၅/">၅/</option>
+                                                <option value="၆/">၆/</option>
+                                                <option value="၇/">၇/</option>
+                                                <option value="၈/">၈/</option>
+                                                <option value="၉/">၉/</option>
+                                                <option value="၁၀/">၁၀/</option>
+                                                <option value="၁၁/">၁၁/</option>
+                                                <option value="၁၂/">၁၂/</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" asp-for="NRCTownshipInitial" required>
+                                                <option value="">?</option>
+                                                <option value="ဥကတ">ဥကတ</option>
+                                                <option value="လသယ">လသယ</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" asp-for="NRCType" required>
+                                                <option value="">?</option>
+                                                <option value="(နိုင်)">(နိုင်)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" asp-for="NRCNumber" pattern="[0-9]+" title="NRC number must contain only digits (0-9)" maxlength="6" required />
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group mt-2">
-                                <label class="control-label">ဖုန်းနံပါတ်အဟောင်း</label>
-                                <input class="form-control phone" asp-for="OldPhonenumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group mt-2">
-                                <label class="control-label">အခွန်ဆောင်ခဲ့သောကားနံပါတ်</label>
-                                <input class="form-control" asp-for="TaxedVehicleNumber" required />
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group mt-2">
+                                    <label class="control-label fw-bold">ဖုန်းနံပါတ်အဟောင်း</label>
+                                    <input class="form-control phone" asp-for="OldPhonenumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
+                                </div>
                             </div>
-                        </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group mt-2">
-                                <label class="control-label">ဖုန်ံးနံပါတ်အသစ်</label>
+                                    <label class="control-label fw-bold">ဖုန်ံးနံပါတ်အသစ်</label>
                                 <input class="form-control phone" asp-for="NewPhonenumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="15" pattern="^09\d{8,10}$" title="Phone number must be 09 followed by 8 to 10 number." required />
                             </div>
                         </div>
