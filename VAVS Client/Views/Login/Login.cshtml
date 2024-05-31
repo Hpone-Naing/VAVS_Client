@@ -110,7 +110,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <input class="form-control fw-bold" name="NRCNumber" pattern="[0-9]+" title="NRC number must contain only digits (0-9)" maxlength="6" required/>
+                            <input class="form-control fw-bold" name="NRCNumber" pattern="\d{5,6}" title="NRC number must contain only digits (0-9)" maxlength="6" required />
                         </div>
                         <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipNumber"></span>
                         <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
@@ -203,7 +203,7 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" asp-for="PersonalDetail.NRCNumber" pattern="[0-9]+" title="NRC number must contain only digits (0-9)" maxlength="6" required />
+                                        <input class="form-control" asp-for="PersonalDetail.NRCNumber" pattern="\d{5,6}" title="NRC number must contain only digits (0-9)" maxlength="6" required />
                                     </div>
                                     <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipNumber"></span>
                                     <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
