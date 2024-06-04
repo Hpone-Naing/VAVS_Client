@@ -40,6 +40,7 @@ namespace VAVS_Client.Services.Impl
                 {
                     personalDetail.NRCFrontImagePath = "default.jpg";
                 }
+                personalDetail.EntryDate = DateTime.Now;
                 personalDetail.PhoneNumber = personalDetail.MakePhoneNumberWithCountryCode();
                 personalDetail.CreatedBy = 1;
                 personalDetail.CreatedDate = DateTime.Now;
@@ -65,12 +66,12 @@ namespace VAVS_Client.Services.Impl
                 string NRCType = nrc.Split(";")[2];
                 string NRCNumber = nrc.Split(";")[3];
                 PersonalDetail personalDetail = _context.PersonalDetails
-                    .FirstOrDefault(personalDetil =>
+                    .Where(personalDetil =>
                         personalDetil.IsDeleted == false &&
                         personalDetil.NRCTownshipNumber == NRCTownshipNumber &&
                         personalDetil.NRCTownshipInitial == NRCTownshipInitial &&
                         personalDetil.NRCType == NRCType &&
-                        personalDetil.NRCNumber == NRCNumber);
+                        personalDetil.NRCNumber == NRCNumber).Include(personalDetail => personalDetail.Township).Include(personalDetail => personalDetail.Township.StateDivision).FirstOrDefault();
                 _logger.LogInformation($">>>>>>>>>> Success. Find person by Nrc. <<<<<<<<<<");
                 Console.WriteLine("personal Detail == null? " + (personalDetail == null));
                 return personalDetail;

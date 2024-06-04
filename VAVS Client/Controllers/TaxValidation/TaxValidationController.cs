@@ -2,6 +2,7 @@
 using VAVS_Client.Classes;
 using VAVS_Client.Factories;
 using VAVS_Client.Paging;
+using VAVS_Client.Services;
 using VAVS_Client.Util;
 
 namespace VAVS_Client.Controllers.TaxValidationController
@@ -24,7 +25,13 @@ namespace VAVS_Client.Controllers.TaxValidationController
             int pageSize = Utility.DEFAULT_PAGINATION_NUMBER;
             try
             {
-                
+                TaxpayerInfo loginTaxPayerInfo = sessionService.GetLoginUserInfo(HttpContext);
+                if(loginTaxPayerInfo.NRC != null)
+                {
+                    PersonalDetail personalDetail = _serviceFactory.CreatePersonalDetailService().FindPersonalDetailByNrc(Utility.ConcatNRCSemiComa(loginTaxPayerInfo.NRC));
+                    ViewBag.Address = personalDetail.HousingNumber + "၊" + personalDetail.Quarter + "၊" + personalDetail.Street + "၊" + personalDetail.Township.TownshipName;
+                    
+                }
                 return View(_serviceFactory.CreateTaxValidationService().GetTaxValidationPendigListPagin(HttpContext, pageNo, pageSize));
             }
             catch (Exception ne)
@@ -44,9 +51,18 @@ namespace VAVS_Client.Controllers.TaxValidationController
                 Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                 return RedirectToAction("Index", "Login");
             }
+
             int pageSize = Utility.DEFAULT_PAGINATION_NUMBER;
             try
             {
+                TaxpayerInfo loginTaxPayerInfo = sessionService.GetLoginUserInfo(HttpContext);
+                if (loginTaxPayerInfo.NRC != null)
+                {
+                    PersonalDetail personalDetail = _serviceFactory.CreatePersonalDetailService().FindPersonalDetailByNrc(Utility.ConcatNRCSemiComa(loginTaxPayerInfo.NRC));
+                    ViewBag.Address = personalDetail.HousingNumber + "၊" + personalDetail.Quarter + "၊" + personalDetail.Street + "၊" + personalDetail.Township.TownshipName;
+                    ViewBag.StateDivision = personalDetail.Township.StateDivision.StateDivisionName;
+                    ViewBag.Township = personalDetail.Township.TownshipName;
+                }
                 return View(_serviceFactory.CreateTaxValidationService().GetTaxValidationApprevedListPagin(HttpContext, pageNo, pageSize));
             }
             catch (Exception ne)

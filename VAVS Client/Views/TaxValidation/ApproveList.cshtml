@@ -82,39 +82,58 @@
                     စဥ်
                 </th>
                 <th class="text-white">
-                    Entry Date
+                    တောင်းခံမှု<br />အမှတ် 
                 </th>
                 <th class="text-white">
                     GIR
                 </th>
                 <th class="text-white">
-                    အမည်
+                    စည်းကြပ်နှစ်
                 </th>
                 <th class="text-white">
-                    မှတ်ပုံတင်အမှတ်
+                    တိုင်းဒေသကြီး/<br />ပြည့်နယ် 
                 </th>
                 <th class="text-white">
-                    မော်တော်ယာဥ်အချက်အလက်များ
+                    မြို့နယ်
                 </th>
                 <th class="text-white">
-                    စည်းကြပ်တန်ဖိုး
+                    အခွန်ထမ်း<br />အမည်
                 </th>
                 <th class="text-white">
-                    ကျသင့်အခွန်
+                    မှတ်ပုံတင်<br />အမှတ်
                 </th>
                 <th class="text-white">
-                    ပေးသွင်းသည့်အခွန်
+                    လိပ်စာ
                 </th>
                 <th class="text-white">
-                    Payment ID
+                    မော်တော်ယာဥ်<br />အချက်အလက်
                 </th>
                 <th class="text-white">
-                    Payment Date
+                    စည်းကြပ်<br />တန်ဖိုး
                 </th>
                 <th class="text-white">
-                    Approved Date
+                    ကျသင့်<br />အခွန်
                 </th>
-                <th class="text-white">လုပ်ဆောက်ချက်များ</th>
+                <th class="text-white">
+                    ပေးသွင်းသည့်<br />အခွန်
+                </th>
+                <th class="text-white">
+                    Pay Id
+                </th>
+                <th class="text-white">
+                    Pay Date
+                </th>
+                <th class="text-white">
+                    Form No
+                </th>
+                <th class="text-white">
+                    QR No
+                </th>
+                <th class="text-white">
+                </th>
+                <th class="text-white">
+                    Tin No
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -131,12 +150,21 @@
                         @i
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EntryDate)
+                        @i
                     </td>
                     <td>
                         -
                     </td>
                     <td>
+                        -
+                    </td>
+                    <td>
+                        @ViewBag.StateDivision
+                    </td>
+                    <td>
+                        @ViewBag.Township
+                    </td>
+                    <td class="shortCell">
                         @{
                             var name = "";
                             var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
@@ -152,18 +180,52 @@
                         @name
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PersonNRC)
+                        @{
+                            string personNRC = item.PersonNRC;
+                            string formattedPersonNRC = string.IsNullOrEmpty(personNRC) ? personNRC : personNRC.Replace(")", ")<br />");
+                        }
+                        @Html.Raw(formattedPersonNRC)
+                    </td>
+                    <td class ="address">
+                        @ViewBag.Address
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        @Html.Raw((item.VehicleNumber != null ? item.VehicleNumber + ", " : "") + item.VehicleBrand + "<br> " + item.BuildType)
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.StandardValue)
+                        @{
+                            string standardValue = item.StandardValue.ToString();
+                            string formatStandardValue = string.IsNullOrEmpty(standardValue)
+                            ? standardValue
+                            : standardValue.Split('.')[0] + "<br />";
+                        }
+                        သိန်း @Html.Raw(formatStandardValue) ကျပ်
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.TaxAmount)
+                        @{
+                            string taxAmt = item.TaxAmount.ToString();
+                            string formatTaxAmt = string.IsNullOrEmpty(taxAmt)
+                            ? taxAmt
+                            : taxAmt.Split('.')[0] + "<br />";
+                        }
+                        သိန်း @Html.Raw(formatTaxAmt) ကျပ်
+                    </td>
+                    <td>
+                        @{
+                            string paidTaxAmt = item.TaxAmount.ToString();
+                            string formatPaidTaxAmt = string.IsNullOrEmpty(paidTaxAmt)
+                            ? taxAmt
+                            : taxAmt.Split('.')[0] + "<br />";
+                        }
+                        သိန်း @Html.Raw(formatPaidTaxAmt) ကျပ်
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        @String.Format("{0:dd/MM/yyyy}", DateTime.Now)
                     </td>
                     <td>
                         -
@@ -172,14 +234,10 @@
                         -
                     </td>
                     <td>
-                        -
+                        <span class="text-success">Approve</span>
                     </td>
                     <td>
                         -
-                    </td>
-                    <td>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="Detail" asp-action="Details" asp-route-id="@item.TaxValidationPkid" style="color:blue">Details</a> 
-                        @*<button class="btn btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-toggle="modal" data-bs-target=" @("#deleteModel" + @item.TaxValidationPkid)"><i class="fas fa-regular fa-trash fa-lg text-danger"></i></button>*@
                     </td>
                 </tr>
                 <!-- Delete Modal -->

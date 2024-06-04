@@ -14,113 +14,227 @@
 
 <div style="background-color: #0f3cbd;;" class="row mt-3 border border-dark">
     <div class="d-flex justify-content-center align-item-center p-1">
-        <label class="text-white"> အသေးစိတ် </label>
+        <label class="text-white"> အသေးစိတ် အချက်အလက်များ </label>
     </div>
 </div>
 
 <div class="row mt-1 border border-dark" style="border-radius: 20px;background-color: #d7eafe78;">
-    <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">NRC</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.PersonNRC
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
+            <label class="fw-bold control-label">ယာဥ်ပိုင်ရှင် အချက်အလက်</label>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-3">
+                    <label class="fw-bold  control-label">Owner Name</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.PersonNRC
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">NRC</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.PersonNRC
+                </div>
             </div>
         </div>
         <div class="row p-3">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Township</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.Township.TownshipName
-            </div>
-        </div>
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">State Division</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.Township.StateDivision.StateDivisionName
-            </div>
-        </div>
-        <div class="row p-3">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">ကားနံပါတ်</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.VehicleNumber
-            </div>
-        </div>
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Manufacturer</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.Manufacturer
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">State/Division</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.Township.StateDivision.StateDivisionName
+                </div>
             </div>
         </div>
         <div class="row p-3">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Country Made</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.CountryOfMade
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Township</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.Township.TownshipName
+                </div>
             </div>
         </div>
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">VehicleBrand</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.VehicleBrand
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Address</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.PersonalDetail.HousingNumber @Model.PersonalDetail.Quarter @Model.PersonalDetail.Street
+                </div>
             </div>
         </div>
-        <div class="row p-3">
-            <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">BuildType</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.BuildType
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Phone No</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.PersonalDetail.PhoneNumber
+                </div>
             </div>
         </div>
-        
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Model Year</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.ModelYear
-            </div>
-        </div>
-        <div class="row p-3">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Engine Power</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.EnginePower
-            </div>
-        </div>
-        
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Fuel Type</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.FuelType
-            </div>
-        </div>
-        <div class="row p-3">
-            <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Standard Value</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.StandardValue
-            </div>
-        </div>
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Contract Price</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.ContractValue
-            </div>
-        </div>
-        <div class="row p-3">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Tax Amount</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.TaxAmount
-            </div>
-        </div>
-        <div class="row p-3" style="background-color: #c0c0c052;">
-            <label  class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">QR CodeNumber</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.QRCodeNumber
-            </div>
-        </div>
-        <div class="row p-3">
-            <label class="fw-bold col-lg-6 col-md-6 col-sm-4 control-label">Demand Number</label>
-            <div class="col-lg-6 col-md-6 col-sm-8">
-                @Model.DemandNumber
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <label class="fw-bold  control-label">Pemail Address</label>
+                </div>
+                <div class="col  border border-primary">
+                    @Model.PersonalDetail.Email
+                </div>
             </div>
         </div>
     </div>
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
+                <label class="fw-bold  control-label">မော်တော်ယာဥ်အချက်အလက်</label>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Plate No</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.VehicleNumber
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Make Model</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.VehicleBrand
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Build Type</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.BuildType
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Engine Power</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.EnginePower
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Model Year</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.ModelYear
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
+            <label class="fw-bold control-label">အခွန်ဆိုင်ရာ အချက်အလက်များ</label>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Accept Value</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.StandardValue
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Income Tax</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.TaxAmount
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Tax Paid</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.TaxAmount
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Transaction ID</label>
+                </div>
+                <div class="col border border-primary">
+                    -
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Transaction Date</label>
+                </div>
+                <div class="col border border-primary">
+                    @String.Format("{0:dd/MM/yyyy}", DateTime.Now)
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Form No</label>
+                </div>
+                <div class="col border border-primary">
+                    -
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" >
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">QR CodeNumber</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.QRCodeNumber
+                </div>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label">Demand Number</label>
+                </div>
+                <div class="col border border-primary">
+                    @Model.DemandNumber
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @*<div style="background-color: #e1e135ed;" class="row mt-3 border border-dark">

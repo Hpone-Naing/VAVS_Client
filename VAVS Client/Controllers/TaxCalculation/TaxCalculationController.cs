@@ -36,6 +36,22 @@ namespace VAVS_Client.Controllers.TaxCalculation
                     return RedirectToAction("SearchVehicleStandardValue", "VehicleStandardValue");
                 }
             }
+            LoginUserInfo loginUserInfo = new LoginUserInfo()
+            {
+                TaxVehicleInfo = new TaxVehicleInfo
+                {
+                    VehicleNumber = vehicleStandardValue?.VehicleNumber,
+                    Manufacturer = vehicleStandardValue?.Manufacturer,
+                    BuildType = vehicleStandardValue?.BuildType,
+                    FuelType = vehicleStandardValue?.Fuel?.FuelType,
+                    ModelYear = vehicleStandardValue?.ModelYear,
+                    CountryOfMade = vehicleStandardValue?.CountryOfMade,
+                    EnginePower = vehicleStandardValue?.EnginePower,
+                    VehicleBrand = vehicleStandardValue?.VehicleBrand,
+                },
+            };
+
+            _serviceFactory.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);
             return View("TaxCalculation", vehicleStandardValue);
         }
 
@@ -72,12 +88,14 @@ namespace VAVS_Client.Controllers.TaxCalculation
             if (vehicleStandardValue.IsImageFilesNotNull())
             {
                 FileService fileService = _serviceFactory.CreateFileService();
+                string NrcFileName = fileService.GetFileName(vehicleStandardValue.NrcImageFile);
                 string CensusFileName = fileService.GetFileName(vehicleStandardValue.CensusImageFile);
                 string TransactionContractFileName = fileService.GetFileName(vehicleStandardValue.TransactionContractImageFile);
                 string OwnerBookFileName = fileService.GetFileName(vehicleStandardValue.OwnerBookImageFile);
                 string WheelTabFileName = fileService.GetFileName(vehicleStandardValue.WheelTagImageFile);
                 string VehicleFileName = fileService.GetFileName(vehicleStandardValue.VehicleImageFile);
                 List<(string fileName, IFormFile file)> files = new List<(string fileName, IFormFile file)> {
+                         (NrcFileName, vehicleStandardValue.NrcImageFile),
                          (CensusFileName, vehicleStandardValue.CensusImageFile),
                          (TransactionContractFileName, vehicleStandardValue.TransactionContractImageFile),
                          (OwnerBookFileName, vehicleStandardValue.OwnerBookImageFile),
@@ -100,24 +118,10 @@ namespace VAVS_Client.Controllers.TaxCalculation
                 TaxAmount = totalTax,
                 ContractValue = ContractPrice,
             };
-            LoginUserInfo loginUserInfo = new LoginUserInfo()
-            {
-                TaxVehicleInfo = new TaxVehicleInfo
-                {
-                    VehicleNumber = vehicleStandardValue.VehicleNumber,
-                    Manufacturer = vehicleStandardValue.Manufacturer,
-                    BuildType = vehicleStandardValue.BuildType,
-                    FuelType = vehicleStandardValue.Fuel.FuelType,
-                    ModelYear = vehicleStandardValue.ModelYear,
-                    CountryOfMade = vehicleStandardValue.CountryOfMade,
-                    EnginePower = vehicleStandardValue.EnginePower,
-                    VehicleBrand = vehicleStandardValue.VehicleBrand,
-                    StandardValue = vehicleStandardValue.StandardValue,
-                    TaxAmount = totalTax.ToString(),
-                    ContractValue = ContractPrice.ToString(),
-                },
-            };
-                
+            LoginUserInfo loginUserInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
+            loginUserInfo.TaxVehicleInfo.StandardValue = vehicleStandardValue?.StandardValue;
+            loginUserInfo.TaxVehicleInfo.TaxAmount = totalTax.ToString();
+            loginUserInfo.TaxVehicleInfo.ContractValue = ContractPrice.ToString();
             _serviceFactory.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);
             ViewBag.BaseValue = AssetValue > ContractPrice ? AssetValue.ToString() : ContractPrice.ToString();
             return View("CalculatedTax", taxValidation);

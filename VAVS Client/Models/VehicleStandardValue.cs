@@ -61,6 +61,9 @@ namespace VAVS_Client.Models
         public virtual Fuel Fuel { get; set; }
 
         [NotMapped]
+        public IFormFile? NrcImageFile { get; set; }
+
+        [NotMapped]
         public IFormFile? CensusImageFile { get; set; }
 
         [NotMapped]

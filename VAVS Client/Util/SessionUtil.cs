@@ -36,7 +36,7 @@ namespace VAVS_Client.Util
         public static bool IsRememberMe(HttpContext httpContext)
         {
             LoginUserInfo loginUserInfo = GetLoginUserInfo(httpContext);
-            return ( (loginUserInfo != null && loginUserInfo.RememberMe));
+            return ( (loginUserInfo != null && loginUserInfo.RememberMe == true));
 
         }
 

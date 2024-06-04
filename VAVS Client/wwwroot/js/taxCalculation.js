@@ -17,4 +17,33 @@
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("here address class..................")
+    var vehicleNumberCells = document.querySelectorAll(".address");
+    var shortCells = document.querySelectorAll(".shortCell");
+    vehicleNumberCells.forEach(function (cell) {
+        var vehicleNumber = cell.textContent.trim();
+        if (vehicleNumber.length > 15) {
+            var splitLines = [];
+            while (vehicleNumber.length > 15) {
+                splitLines.push(vehicleNumber.substring(0, 15));
+                vehicleNumber = vehicleNumber.substring(15);
+            }
+            splitLines.push(vehicleNumber);
+            cell.innerHTML = splitLines.join("<br>");
+        }
+    });
 
+    shortCells.forEach(function (cell) {
+        var shortCell = cell.textContent.trim();
+        if (shortCell.length > 9) {
+            var splitLines = [];
+            while (shortCell.length > 9) {
+                splitLines.push(shortCell.substring(0, 9));
+                shortCell = shortCell.substring(9);
+            }
+            splitLines.push(shortCell);
+            cell.innerHTML = splitLines.join("<br>");
+        }
+    });
+});

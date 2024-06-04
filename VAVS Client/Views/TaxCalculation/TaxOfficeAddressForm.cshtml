@@ -12,14 +12,26 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group mt-2">
-                        <label class="control-label fw-bold">State/Division</label>
-                        <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required=""></select>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label class="control-label fw-bold">State/Division</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required=""></select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group mt-2">
-                        <label class="control-label fw-bold">Township</label>
-                        <select class="form-control" id="lstTownship" asp-for="TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label class="control-label fw-bold">Township</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="lstTownship" asp-for="TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

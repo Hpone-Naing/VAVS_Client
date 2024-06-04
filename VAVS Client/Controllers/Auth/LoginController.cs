@@ -331,7 +331,7 @@ namespace VAVS_Client.Controllers.Auth
                 LoginUserInfo loginUserInfo = SessionUtil.GetLoginUserInfo(HttpContext);
                 var loginUser = new User();//factoryBuilder.CreateUserService().FindUserByUserName(loginUserInfo.PhoneNumber);
 
-                if (loginUserInfo.RememberMe)
+                if (loginUserInfo.RememberMe == true)
                 {
                     //HttpContext.Session.SetString(HashUtil.ComputeSHA256Hash("token"), string.Concat(loginUserInfo.TaxpayerInfo.NRC, loginUserInfo.TaxpayerInfo.PhoneNumber));
                     SessionUtil.SetLoginUserInfo(HttpContext, loginUserInfo);

@@ -49,7 +49,7 @@ namespace VAVS_Client.Services.Impl
             LoginUserInfo loginUserInfo = GetLoginUserByHashedToken(token);
             if (loginUserInfo != null)
             {
-                loginUserInfo.TaxpayerInfo = taxPayerInfo;
+                //loginUserInfo.TaxpayerInfo = taxPayerInfo;
             }
             CreateLoginUserInfo(token, loginUserInfo);
         }

@@ -10,7 +10,6 @@ namespace VAVS_Client.Models
 
         [StringLength(50)]
         public string? TransactionID { get; set; }
-
         public DateTime? EntryDate { get; set; }
 
         [StringLength(30)]
