@@ -120,5 +120,12 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
                 return RedirectToAction(nameof(SearchVehicleStandardValue));
             }
         }
+
+        public async Task<JsonResult> GetMadeModel(string searchString)
+        {
+            Console.WriteLine("searchString controller........" + searchString);
+            List<string> models = await _serviceFactory.CreateVehicleStandardValueService().GetMadeModel(searchString);
+            return Json(models);
+        }
     }
 }

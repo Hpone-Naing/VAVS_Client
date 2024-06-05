@@ -14,21 +14,21 @@
 
 <div style="background-color: #0f3cbd;;" class="row mt-3 border border-dark">
     <div class="d-flex justify-content-center align-item-center p-1">
-        <label class="text-white"> အသေးစိတ် အချက်အလက်များ </label>
+        <label class="text-white" data-translate="TaxValidationDetail_Title"> အသေးစိတ် အချက်အလက်များ </label>
     </div>
 </div>
 
 <div class="row mt-1 border border-dark" style="border-radius: 20px;background-color: #d7eafe78;">
-    <div class="col-lg-4 col-md-12 col-sm-12">
-        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
-            <label class="fw-bold control-label">ယာဥ်ပိုင်ရှင် အချက်အလက်</label>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="row p-3 text-white" style="background-color: #0f3cbd;;">
+            <label class="fw-bold control-label" data-translate="TaxValidationDetail_TitleForOwner">ယာဥ်ပိုင်ရှင် အချက်အလက်</label>
         </div>
         <div class="row p-3" >
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-3">
-                    <label class="fw-bold  control-label">Owner Name</label>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_Name">Owner Name</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.PersonNRC
                 </div>
             </div>
@@ -36,9 +36,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">NRC</label>
+                    <label class="fw-bold  control-label" data-translate="Global_Nrc">NRC</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
                     @Model.PersonNRC
                 </div>
             </div>
@@ -46,9 +46,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">State/Division</label>
+                    <label class="fw-bold  control-label" data-translate="Reg_StateDivision">State/Division</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
                     @Model.Township.StateDivision.StateDivisionName
                 </div>
             </div>
@@ -56,9 +56,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Township</label>
+                    <label class="fw-bold  control-label" data-translate="Reg_Township">Township</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
                     @Model.Township.TownshipName
                 </div>
             </div>
@@ -66,9 +66,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Address</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_Address">Address</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
                     @Model.PersonalDetail.HousingNumber @Model.PersonalDetail.Quarter @Model.PersonalDetail.Street
                 </div>
             </div>
@@ -76,34 +76,34 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Phone No</label>
+                    <label class="fw-bold  control-label" data-translate="Global_PhoneNo">Phone No</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary p-1" style="font-size: 14px;">
                     @Model.PersonalDetail.PhoneNumber
                 </div>
             </div>
         </div>
         <div class="row p-3" >
             <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-6">
-                    <label class="fw-bold  control-label">Pemail Address</label>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label class="fw-bold  control-label" data-translate="Reg_Email" >Pemail Address</label>
                 </div>
-                <div class="col  border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary p-1" style="font-size: 14px;">
                     @Model.PersonalDetail.Email
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12">
-        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
-                <label class="fw-bold  control-label">မော်တော်ယာဥ်အချက်အလက်</label>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="row p-3 text-white me-2 ms-2" style="background-color: #0f3cbd;;">
+            <label class="fw-bold control-label" data-translate="TaxValidationDetail_TitleForVehicle">မော်တော်ယာဥ်အချက်အလက်</label>
         </div>
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Plate No</label>
+                    <label class="fw-bold  control-label" data-translate="CalculateTax_PlateNo">Plate No</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.VehicleNumber
                 </div>
             </div>
@@ -111,9 +111,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Make Model</label>
+                    <label class="fw-bold  control-label" data-translate="CalculateTax_MakeModel">Make Model</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.VehicleBrand
                 </div>
             </div>
@@ -121,9 +121,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Build Type</label>
+                    <label class="fw-bold  control-label" data-translate="VehicleDetail_BuildType">Build Type</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.BuildType
                 </div>
             </div>
@@ -131,9 +131,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Engine Power</label>
+                    <label class="fw-bold  control-label" data-translate="VehicleDetail_EnginePower">Engine Power</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.EnginePower
                 </div>
             </div>
@@ -141,24 +141,24 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Model Year</label>
+                    <label class="fw-bold  control-label" data-translate="CalculateTax_MakeModel">Model Year</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.ModelYear
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-12 col-sm-12">
-        <div class="row p-3 text-white me-2" style="background-color: #0f3cbd;;">
-            <label class="fw-bold control-label">အခွန်ဆိုင်ရာ အချက်အလက်များ</label>
+        <div class="row p-3 text-white" style="background-color: #0f3cbd;">
+            <label class="fw-bold control-label" data-translate="TaxValidationDetail_Tax">အခွန်ဆိုင်ရာ အချက်အလက်</label>
         </div>
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Accept Value</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_StandardValue">Accept Value</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.StandardValue
                 </div>
             </div>
@@ -166,9 +166,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Income Tax</label>
+                    <label class="fw-bold  control-label" data-translate="CalculateTax_IncomeTax">Income Tax</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.TaxAmount
                 </div>
             </div>
@@ -176,9 +176,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Tax Paid</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_TaxPaid">Tax Paid</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.TaxAmount
                 </div>
             </div>
@@ -186,9 +186,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Transaction ID</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_TranactionID">Transaction ID</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     -
                 </div>
             </div>
@@ -196,9 +196,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Transaction Date</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_TranactionDate">Transaction Date</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @String.Format("{0:dd/MM/yyyy}", DateTime.Now)
                 </div>
             </div>
@@ -206,9 +206,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Form No</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_FormNo">Form No</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     -
                 </div>
             </div>
@@ -216,9 +216,9 @@
         <div class="row p-3" >
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">QR CodeNumber</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_QRNo">QR CodeNumber</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.QRCodeNumber
                 </div>
             </div>
@@ -226,9 +226,9 @@
         <div class="row p-3">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label class="fw-bold  control-label">Demand Number</label>
+                    <label class="fw-bold  control-label" data-translate="TaxValidationDetail_DemandNo">Demand Number</label>
                 </div>
-                <div class="col border border-primary">
+                <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
                     @Model.DemandNumber
                 </div>
             </div>

@@ -15,7 +15,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Plate No </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_PlateNo"> Plate No </label>
                         </div>
                         <div class="col">
                             <input class="form-control" asp-for="VehicleNumber" value="@Model.VehicleNumber" readonly />
@@ -26,7 +26,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Make Model </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_MakeModel"> Make Model </label>
                         </div>
                         <div class="col">
                             <input class="form-control" asp-for="VehicleBrand" value="@Model.VehicleBrand" readonly />
@@ -36,7 +36,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Type: </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_Type"> Type: </label>
                         </div>
                         <div class="col">
                             <input class="form-control" asp-for="BuildType" value="@Model.BuildType" readonly />
@@ -46,7 +46,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Engine Power: </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_EnginePower"> Engine Power: </label>
                         </div>
                         <div class="col">
                             <input class="form-control" asp-for="EnginePower" value="@Model.EnginePower" readonly />
@@ -56,7 +56,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Make Year </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_MakeYear"> Make Year </label>
                         </div>
                         <div class="col">
                             <input class="form-control" asp-for="ModelYear" value="@Model.ModelYear" readonly />
@@ -66,7 +66,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Asset Value </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_AssetValue"> Asset Value </label>
                         </div>
                         <div class="col">
                             <div class="input-group mb-3">
@@ -84,7 +84,7 @@
                 <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <label class="control-label fw-bold"> Income Tax </label>
+                            <label class="control-label fw-bold" data-translate="CalculateTax_IncomeTax"> Income Tax </label>
                         </div>
                         <div class="col">
                             <input id="price" type="text" class="form-control mb-1" name="ContractPrice" pattern="[0-9]*" title="Please enter digits only" onkeyup="myanmarNumToWord.convertToBurmeseWords(this)" required>

@@ -252,5 +252,18 @@ namespace VAVS_Client.Services.Impl
                 throw;
             }
         }
+
+        public async Task<List<string>> GetMadeModel(string searchString)
+        {
+            try
+            {
+                List<string> madeModels = await _vehicleStandardValueAPIService.GetVehicleByMadeModel(searchString);
+                return madeModels;
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
     }
 }

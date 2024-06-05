@@ -1,7 +1,5 @@
-﻿ using System.Net.Http;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
-using VAVS_Client.Data;
 using VAVS_Client.Util;
 using Newtonsoft.Json.Linq;
 
@@ -54,6 +52,31 @@ namespace VAVS_Client.APIService.Impl
             Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
             throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
 
+        }
+
+        public async Task<List<string>> GetVehicleByMadeModel(string searchString)
+        {
+            Console.WriteLine("searchString api........" + searchString);
+            string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+            string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/VehicleStandard/GetVehicleMadeModel";
+            string url = $"{baseUrl}?mademodel={searchString}&apiKey={apiKey}";
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            Console.WriteLine("success state code: " + response.StatusCode);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<string> vehicleModels = JsonSerializer.Deserialize<List<string>>(json);
+                return vehicleModels;
+            }
+
+            Console.WriteLine("fail state code: " + response.StatusCode);
+            Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+            throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
         }
 
         public async Task<VehicleStandardValue> GetVehicleValue(string manufacturer, string buildType, string fuelType, string vehicleBrand, string modelYear, string enginePower)
