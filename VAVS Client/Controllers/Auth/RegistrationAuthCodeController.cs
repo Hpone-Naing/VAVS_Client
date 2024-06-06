@@ -74,7 +74,7 @@ namespace VAVS_Client.Controllers.Auth
                 /* 
                  * Check user already register or not by nrc 
                  */
-                if (await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(personalDetail.NRCTownshipNumber, personalDetail.NRCTownshipInitial, personalDetail.NRCType, personalDetail.NRCNumber)) != null)
+                if (await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(Utility.MakeNRC(personalDetail.NRCTownshipNumber+"/", personalDetail.NRCTownshipInitial, personalDetail.NRCType, personalDetail.NRCNumber)) != null)
                 {
                     Console.WriteLine("here nrc in db and api not null");
                     MakeViewBag();

@@ -124,6 +124,8 @@ namespace VAVS_Client.Services.Impl
         {
             try
             {
+                Console.WriteLine("Nrc /..................../" + nrc);
+
                 string nrcConcatWithSemiComa = Utility.ConcatNRCSemiComa(nrc);
                 Console.WriteLine("Nrc concat seicoma" + nrcConcatWithSemiComa);
                 PersonalDetail personalDetail = FindPersonalDetailByNrc(nrcConcatWithSemiComa);
@@ -213,7 +215,7 @@ namespace VAVS_Client.Services.Impl
             try
             {
                 _logger.LogInformation(">>>>>>>>>> [PersonDetailServiceImpl][ResetPhoneNumber] Reset phonenumber. <<<<<<<<<<");
-                string nrc = Utility.MakeNRC(resetPhonenumber.NRCTownshipNumber, resetPhonenumber.NRCTownshipInitial, resetPhonenumber.NRCType, resetPhonenumber.NRCNumber);
+                string nrc = Utility.MakeNRC(resetPhonenumber.NRCTownshipNumber+"/", resetPhonenumber.NRCTownshipInitial, resetPhonenumber.NRCType, resetPhonenumber.NRCNumber);
                 if (await GetPersonalInformationByPhoneNumberInDBAndAPI(resetPhonenumber.NewPhonenumber) != null)
                 {
                     Console.WriteLine("here new phone not null........");

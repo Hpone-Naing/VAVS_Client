@@ -116,7 +116,7 @@ namespace VAVS_Client.Controllers.Auth
                 string nrcTownshipInitial = Request.Form["NRCTownshipInitial"];
                 string nrcType = Request.Form["NRCType"];
                 string nrcNumber = Request.Form["NRCNumber"];
-                string nrc = Utility.MakeNRC(nrcTownshipNumber+"/", nrcTownshipInitial, nrcType, nrcNumber);
+                string nrc = Utility.MakeNRC(string.Concat(nrcTownshipNumber , "/"), nrcTownshipInitial, nrcType, nrcNumber);
                 PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);
                 if (personalInformation != null)
                 {

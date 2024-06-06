@@ -110,103 +110,106 @@
             </tr>
         </thead>
         <tbody>
-            @{
-                int i = 0;
-            }
-            @foreach (var item in Model)
+            @(Model != null && Model.Count > 0)
             {
-                <tr>
-                    <td>
-                        @{
-                            i++;
-                        }
-                        @i
-                    </td>
-                    <td>
-                        @String.Format("{0:dd/MM/yyyy}", item.EntryDate)
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td class="shortCell">
-                        @{
-                            var name = "";
-                            var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
-                            if (!string.IsNullOrEmpty(loginUserInfoJson))
-                            {
-                                var loginUserInfo = JsonConvert.DeserializeObject<TaxpayerInfo>(loginUserInfoJson);
-                                if (loginUserInfo != null)
+                @{
+                    int i = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                i++;
+                            }
+                            @i
+                        </td>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", item.EntryDate)
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td class="shortCell">
+                            @{
+                                var name = "";
+                                var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
+                                if (!string.IsNullOrEmpty(loginUserInfoJson))
                                 {
-                                    name = loginUserInfo.Name;
-                                }
-                            }                        
-                         }
-                        @name
-                    </td>
-                    <td>
-                        @{
-                            string personNRC = item.PersonNRC;
-                            string formattedPersonNRC = string.IsNullOrEmpty(personNRC) ? personNRC : personNRC.Replace(")", ")<br />");
-                        }
-                        @Html.Raw(formattedPersonNRC)
-                    </td>
-                    <td class="address">
-                        @ViewBag.Address
-                    </td>
-                    <td class="address">
-                        @Html.Raw((item.VehicleNumber != null ? item.VehicleNumber + ", " : "")  + item.VehicleBrand + "<br> " + item.BuildType)
+                                    var loginUserInfo = JsonConvert.DeserializeObject<TaxpayerInfo>(loginUserInfoJson);
+                                    if (loginUserInfo != null)
+                                    {
+                                        name = loginUserInfo.Name;
+                                    }
+                                }                        
+                             }
+                            @name
+                        </td>
+                        <td>
+                            @{
+                                string personNRC = item.PersonNRC;
+                                string formattedPersonNRC = string.IsNullOrEmpty(personNRC) ? personNRC : personNRC.Replace(")", ")<br />");
+                            }
+                            @Html.Raw(formattedPersonNRC)
+                        </td>
+                        <td class="address">
+                            @ViewBag.Address
+                        </td>
+                        <td class="address">
+                            @Html.Raw((item.VehicleNumber != null ? item.VehicleNumber + ", " : "")  + item.VehicleBrand + "<br> " + item.BuildType)
 
-                    </td>
-                    <td>
-                        @{
-                            string standardValue = item.StandardValue.ToString();
-                            string formatStandardValue = string.IsNullOrEmpty(standardValue)
-                            ? standardValue
-                            : standardValue.Split('.')[0] + "<br />";
-                        }
-                        သိန်း @Html.Raw(formatStandardValue) ကျပ်
-                    </td>
-                    <td>
-                        @{
-                            string taxAmt = item.TaxAmount.ToString();
-                            string formatTaxAmt = string.IsNullOrEmpty(taxAmt)
-                            ? taxAmt
-                            : taxAmt.Split('.')[0] + "<br />";
-                        }
-                        သိန်း @Html.Raw(formatTaxAmt) ကျပ်
-                    </td>
-                    <td>
-                        <a class="" data-toggle="tooltip" data-placement="top" title="Detail" asp-action="Details" asp-route-id="@item.TaxValidationPkid" style="color:blue">Details</a>
-                        @*<button class="btn btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-toggle="modal" data-bs-target=" @("#deleteModel" + @item.TaxValidationPkid)"><i class="fas fa-regular fa-trash fa-lg text-danger"></i></button>*@
-                    </td>
-                </tr>
-                <!-- Delete Modal -->
-                @*<div class="modal fade" id="@("deleteModel" + @item.VehicleDataPkid)" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div id="spinner-container">
-                            <img id="spinner" decoding="async" src="~/image/loading/spinner.gif" asp-append-version="true" />
+                        </td>
+                        <td>
+                            @{
+                                string standardValue = item.StandardValue.ToString();
+                                string formatStandardValue = string.IsNullOrEmpty(standardValue)
+                                ? standardValue
+                                : standardValue.Split('.')[0] + "<br />";
+                            }
+                            သိန်း @Html.Raw(formatStandardValue) ကျပ်
+                        </td>
+                        <td>
+                            @{
+                                string taxAmt = item.TaxAmount.ToString();
+                                string formatTaxAmt = string.IsNullOrEmpty(taxAmt)
+                                ? taxAmt
+                                : taxAmt.Split('.')[0] + "<br />";
+                            }
+                            သိန်း @Html.Raw(formatTaxAmt) ကျပ်
+                        </td>
+                        <td>
+                            <a class="" data-toggle="tooltip" data-placement="top" title="Detail" asp-action="Details" asp-route-id="@item.TaxValidationPkid" style="color:blue">Details</a>
+                            @*<button class="btn btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-toggle="modal" data-bs-target=" @("#deleteModel" + @item.TaxValidationPkid)"><i class="fas fa-regular fa-trash fa-lg text-danger"></i></button>*@
+                        </td>
+                    </tr>
+                    <!-- Delete Modal -->
+                    @*<div class="modal fade" id="@("deleteModel" + @item.VehicleDataPkid)" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div id="spinner-container">
+                                <img id="spinner" decoding="async" src="~/image/loading/spinner.gif" asp-append-version="true" />
+                            </div>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure want to delete this Vehicle?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <form id="form" asp-action="Delete">
+                                        <input type="hidden" name="Id" asp-for="@item.VehicleDataPkid" />
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure want to delete this Vehicle?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Close
-                                </button>
-                                <form id="form" asp-action="Delete">
-                                    <input type="hidden" name="Id" asp-for="@item.VehicleDataPkid" />
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-            </div>*@
-                <!--/ Delete Modal -->
-            }
+                </div>*@
+                    <!--/ Delete Modal -->
+                }
+               }            
         </tbody>
     </table>
 
