@@ -20,5 +20,11 @@ namespace VAVS_Client.Controllers.PersonalDetailController
             ViewBag.StateDivisions = _serviceFactory.CreateStateDivisionService().GetSelectListStateDivisions();
             ViewBag.Townships = _serviceFactory.CreateTownshipService().GetSelectListTownships();
         }
+
+        public JsonResult GetTownships(string stateDivisionCode)
+        {
+            List<Township1> townships = _serviceFactory.CreateTownshipService().GetTownshipsByStateDivisionCode(stateDivisionCode);
+            return Json(townships);
+        }
     }
 }

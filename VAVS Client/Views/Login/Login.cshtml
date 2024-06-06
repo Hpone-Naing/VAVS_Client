@@ -90,26 +90,26 @@
                         <div class="col">
                             <div class="row mt-2">
                                 <div class="col">
-                                    <select class="form-control" name="NRCTownshipNumber" required>
+                                    <select class="form-control" id="lstNRCTownshipNumberId" name="NRCTownshipNumber" onchange="FilterNRCTownshipInitial(this, 'lstNRCTownshipInitial')" required>
                                         <option value="">?</option>
-                                        <option value="၁/">၁/</option>
-                                        <option value="၂/">၂/</option>
-                                        <option value="၃/">၃/</option>
-                                        <option value="၄/">၄/</option>
-                                        <option value="၅/">၅/</option>
-                                        <option value="၆/">၆/</option>
-                                        <option value="၇/">၇/</option>
-                                        <option value="၈/">၈/</option>
-                                        <option value="၉/">၉/</option>
-                                        <option value="၁၀/">၁၀/</option>
-                                        <option value="၁၁/">၁၁/</option>
-                                        <option value="၁၂/">၁၂/</option>
-                                        <option value="၁၃/">၁၃/</option>
-                                        <option value="၁၄/">၁၄/</option>
+                                        <option value="၁">၁/</option>
+                                        <option value="၂">၂/</option>
+                                        <option value="၃">၃/</option>
+                                        <option value="၄">၄/</option>
+                                        <option value="၅">၅/</option>
+                                        <option value="၆">၆/</option>
+                                        <option value="၇">၇/</option>
+                                        <option value="၈">၈/</option>
+                                        <option value="၉">၉/</option>
+                                        <option value="၁၀">၁၀/</option>
+                                        <option value="၁၁">၁၁/</option>
+                                        <option value="၁၂">၁၂/</option>
+                                        <option value="၁၃">၁၃/</option>
+                                        <option value="၁၄">၁၄/</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select class="form-control" name="NRCTownshipInitial" required>
+                                    <select class="form-control" id="lstNRCTownshipInitial" name="NRCTownshipInitial" required>
                                         <option value="">?</option>
                                         <option value="လသယ">လသယ</option>
                                         <option value="ဥကတ">ဥကတ</option>
@@ -207,7 +207,7 @@
                                     <div class="col-lg-10 col-md-9 col-sm-9">
                                         <div class="row">
                                             <div class="col">
-                                                <select class="form-control" asp-for="PersonalDetail.NRCTownshipNumber" required>
+                                                <select id="lstNRCTownshipNumberId1" class="form-control" asp-for="PersonalDetail.NRCTownshipNumber" name="NRCTownshipNumber" onchange="FilterNRCTownshipInitial1(this, 'lstNRCTownshipInitial1')" required>
                                                     <option value="">?</option>
                                                     <option value="၁/">၁/</option>
                                                     <option value="၂/">၂/</option>
@@ -226,7 +226,7 @@
                                                 </select>
                                             </div>
                                             <div class="col">
-                                                <select class="form-control" asp-for="PersonalDetail.NRCTownshipInitial" required>
+                                                <select class="form-control" id="lstNRCTownshipInitial1" asp-for="PersonalDetail.NRCTownshipInitial" required>
                                                     <option value="">?</option>
                                                     <option value="ဥကတ">ဥကတ</option>
                                                     <option value="လသယ">လသယ</option>
@@ -269,7 +269,24 @@
                                         <label class="control-label fw-bold" data-translate="Reg_StateDivision">State/Division</label>
                                     </div>
                                     <div class="col-lg-10 col-md-9 col-sm-9">
-                                        <select class="form-control" id="lstStateDivisionId" asp-for="PersonalDetail.StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required></select>
+                                        <select class="form-control" id="lstStateDivisionId" asp-for="PersonalDetail.StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required>
+                                            <option value="">ရွေးချယ်ရန်</option>
+                                            <option value="01">ကချင်</option>
+                                            <option value="02">ကယား</option>
+                                            <option value="03">ကရင်</option>
+                                            <option value="04">ချင်း</option>
+                                            <option value="05">စစ်ကိုင်း</option>
+                                            <option value="06">တနင်္သာရီ</option>
+                                            <option value="07">ပဲခူး</option>
+                                            <option value="08">မကွေး</option>
+                                            <option value="09">မန္တလေး</option>
+                                            <option value="10">မွန်</option>
+                                            <option value="11">ရခိုင်</option>
+                                            <option value="12">ရန်ကုန်</option>
+                                            <option value="13">ရှမ်း</option>
+                                            <option value="14">ဧရာဝတီ</option>
+                                            <option value="15">နေပြည်တော်</option>
+                                        </select>
                                         <span class="text-danger" asp-validation-for="PersonalDetail.StateDivisionPkid"></span>
                                     </div>
                                 </div>
@@ -280,7 +297,9 @@
                                         <label class="control-label fw-bold" data-translate="Reg_Township"></label>
                                     </div>
                                     <div class="col-lg-10 col-md-9 col-sm-9">
-                                        <select class="form-control" id="lstTownship" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                                        <select class="form-control" id="lstTownship" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required>
+
+                                        </select>
                                         <span class="text-danger" asp-validation-for="PersonalDetail.TownshipPkid"></span>
                                     </div>
                                 </div>

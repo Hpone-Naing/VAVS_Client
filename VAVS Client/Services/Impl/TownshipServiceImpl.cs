@@ -87,6 +87,52 @@ namespace VAVS_Client.Services.Impl
                 _logger.LogError(">>>>>>>>>> Error occur when getting all townships by StateDivisionPkId. <<<<<<<<<<" + e);
                 throw;
             }
-        }        
+        }
+
+        public List<Township1> GetTownshipsByStateDivisionCode(string stateDivisionCode)
+        {
+            _logger.LogInformation(">>>>>>>>>> [TownshipServiceImpl][GetTownshipsByStateDivisionPkId]  Get all Townships by StateDivisionPkId. <<<<<<<<<<");
+            try
+            {
+                _logger.LogInformation($">>>>>>>>>> Success. Get all Townships by StateDivisionPkId. <<<<<<<<<<");
+                List< Township1> Townships = _context.Township1s.Where(Township1 => Township1.StateDivisionID == stateDivisionCode).ToList();
+                return Townships;
+                /*List<string> TownshipNames = new List<string>();
+                foreach (Township1 Township in Townships)
+                {
+                    Console.WriteLine("NrcTownshipCodeMyn............." + Township.TownshipName);
+                    TownshipNames.Add(Township.TownshipName);
+                }
+                return TownshipNames;*/
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when getting all townships by StateDivisionPkId. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
+        public Township GetTownshipByName(string townshipName)
+        {
+            _logger.LogInformation(">>>>>>>>>> [TownshipServiceImpl][GetTownshipsByStateDivisionPkId]  Get all Townships by StateDivisionPkId. <<<<<<<<<<");
+            try
+            {
+                _logger.LogInformation($">>>>>>>>>> Success. Get all Townships by StateDivisionPkId. <<<<<<<<<<");
+                Township Township = _context.Townships.FirstOrDefault(Township => Township.TownshipName == townshipName);
+                return Township;
+                /*List<string> TownshipNames = new List<string>();
+                foreach (Township1 Township in Townships)
+                {
+                    Console.WriteLine("NrcTownshipCodeMyn............." + Township.TownshipName);
+                    TownshipNames.Add(Township.TownshipName);
+                }
+                return TownshipNames;*/
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur when getting all townships by StateDivisionPkId. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
     }
 }

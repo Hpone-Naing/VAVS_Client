@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAVS_Client.Data;
 
@@ -11,9 +12,10 @@ using VAVS_Client.Data;
 namespace VAVS_Client.Migrations
 {
     [DbContext(typeof(VAVSClientDBContext))]
-    partial class VAVSClientDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240606052233_addcolStateDivisionID")]
+    partial class addcolStateDivisionID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -17,7 +17,24 @@
                                 <label class="control-label fw-bold" data-translate="Reg_StateDivision">State/Division</label>
                             </div>
                             <div class="col">
-                                <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" asp-items="ViewBag.StateDivisions" onchange="FilterStateDivisionByTownship(this, 'lstTownship')" required=""></select>
+                                <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required="">
+                                        <option value="">ရွေးချယ်ရန်</option>
+                                        <option value="01">ကချင်</option>
+                                        <option value="02">ကယား</option>
+                                        <option value="03">ကရင်</option>
+                                        <option value="04">ချင်း</option>
+                                        <option value="05">စစ်ကိုင်း</option>
+                                        <option value="06">တနင်္သာရီ</option>
+                                        <option value="07">ပဲခူး</option>
+                                        <option value="08">မကွေး</option>
+                                        <option value="09">မန္တလေး</option>
+                                        <option value="10">မွန်</option>
+                                        <option value="11">ရခိုင်</option>
+                                        <option value="12">ရန်ကုန်</option>
+                                        <option value="13">ရှမ်း</option>
+                                        <option value="14">ဧရာဝတီ</option>
+                                        <option value="15">နေပြည်တော်</option>
+                                </select>
                             </div>
                         </div>
                     </div>

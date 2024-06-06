@@ -1,9 +1,7 @@
-﻿using System.ComponentModel;
-
-namespace VAVS_Client.Models
+﻿namespace VAVS_Client.Models
 {
-    [Table("TB_Township")]
-    public class Township
+    [Table("TB_Township1")]
+    public class Township1
     {
         [Key]
         public int TownshipPkid { get; set; }
@@ -17,11 +15,6 @@ namespace VAVS_Client.Models
 
         [StringLength(5)]
         public string? DistrictCode { get; set; }
-
-        [ForeignKey("StateDivision")]
-        [DisplayName("State Division")]
-        public int StateDivisionPkid { get; set; }
-        public virtual StateDivision StateDivision { get; set; }
 
         [StringLength(5)]
         public string? StateDivisionID { get; set; }

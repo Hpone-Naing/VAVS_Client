@@ -45,6 +45,7 @@ namespace VAVS_Client.Services.Impl
                 personalDetail.CreatedBy = 1;
                 personalDetail.CreatedDate = DateTime.Now;
                 _logger.LogInformation($">>>>>>>>>> Success. Create PersonDetail. <<<<<<<<<<");
+                
                 return Create(personalDetail);
             }
             catch (Exception e)
@@ -246,6 +247,29 @@ namespace VAVS_Client.Services.Impl
             {
                 _logger.LogError(">>>>>>>>>> Error occur when reset phonenumber. <<<<<<<<<<" + e);
                 throw;
+            }
+        }
+
+        public List<string> GetNRCTownshipInitials(string nrcTownshipNumber)
+        {
+            try
+            {
+                List<NRC_And_Township> NRC_And_Townships = _context.NRC_And_Townships.Where(Township => Township.NrcInitialCodeMyanmar == nrcTownshipNumber && Township.IsDeleted == false).ToList();
+                Console.WriteLine("NRC_And_Townships length............." + NRC_And_Townships.Count);
+                List<string> nrcTownshipInitials = new List<string>();
+                foreach(NRC_And_Township nrcTownshipInitial in NRC_And_Townships)
+                {
+                    Console.WriteLine("NrcTownshipCodeMyn............." + nrcTownshipInitial.NrcTownshipCodeMyn);
+                    nrcTownshipInitials.Add(nrcTownshipInitial.NrcTownshipCodeMyn);
+                }
+                return nrcTownshipInitials;
+
+/*List<string> nrcTownshipInitials = await _personalDetailAPIService.GetNrcTownshipInitials(nrcTownshipNumber);
+return nrcTownshipInitials;*/
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
             }
         }
     }

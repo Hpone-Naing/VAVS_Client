@@ -68,7 +68,7 @@
                                         <div class="col">
                                             <div class="row">
                                                 <div class="col">
-                                                    <select class="form-control" asp-for="NRCTownshipNumber" required>
+                                                    <select id="lstNRCTownshipNumberId" class="form-control" asp-for="NRCTownshipNumber" onchange="FilterNRCTownshipInitial(this, 'lstNRCTownshipInitial')" required>
                                                         <option value="">?</option>
                                                         <option value="၁/">၁/</option>
                                                         <option value="၂/">၂/</option>
@@ -82,10 +82,12 @@
                                                         <option value="၁၀/">၁၀/</option>
                                                         <option value="၁၁/">၁၁/</option>
                                                         <option value="၁၂/">၁၂/</option>
+                                                        <option value="၁၃/">၁၃/</option>
+                                                        <option value="၁၄/">၁၄/</option>
                                                     </select>
                                                 </div>
                                                 <div class="col">
-                                                    <select class="form-control" asp-for="NRCTownshipInitial" required>
+                                                    <select id="lstNRCTownshipInitial" class="form-control" asp-for="NRCTownshipInitial" required>
                                                         <option value="">?</option>
                                                         <option value="ဥကတ">ဥကတ</option>
                                                         <option value="လသယ">လသယ</option>

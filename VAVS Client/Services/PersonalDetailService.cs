@@ -12,5 +12,7 @@ namespace VAVS_Client.Services
         Task<PersonalDetail> GetPersonalInformationByPhoneNumber(string phoneNumber);
         Task<PersonalDetail> GetPersonalInformationByPhoneNumberInDBAndAPI(string phoneNumber);
         Task<bool> ResetPhoneNumber(ResetPhonenumber resetPhonenumber);
+        List<string> GetNRCTownshipInitials(string nrcTownshipNumber);
+       // Township GetTownshipByName(string townshipName);
     }
 }

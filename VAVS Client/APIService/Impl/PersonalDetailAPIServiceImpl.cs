@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Net.Http;
 using System.Net;
-using VAVS_Client.Classes;
-using VAVS_Client.Data;
+using System.Text.Json;
 using VAVS_Client.Util;
-using VAVS_Client.Models;
-using Newtonsoft.Json.Linq;
 
 namespace VAVS_Client.APIService.Impl
 {
@@ -120,6 +116,30 @@ namespace VAVS_Client.APIService.Impl
                 _logger.LogError(">>>>>>>>>> Error occur when finding person by nrc. <<<<<<<<<<" + e);
                 throw;
             }
+        }
+
+        public async Task<List<string>> GetNrcTownshipInitials(string nrcTownshipNumber)
+        {
+            string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+            string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/VehicleStandard/GetVehicleMadeModel";
+            string url = $"{baseUrl}?mademodel={nrcTownshipNumber}&apiKey={apiKey}";
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            Console.WriteLine("success state code: " + response.StatusCode);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<string> nrcTownshipInitials = System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
+                return nrcTownshipInitials;
+            }
+
+            Console.WriteLine("fail state code: " + response.StatusCode);
+            Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+            throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
         }
     }
 }

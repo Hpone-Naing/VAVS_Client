@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAVS_Client.Data;
 
@@ -11,9 +12,10 @@ using VAVS_Client.Data;
 namespace VAVS_Client.Migrations
 {
     [DbContext(typeof(VAVSClientDBContext))]
-    partial class VAVSClientDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240606034828_CreateTonhip1")]
+    partial class CreateTonhip1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,46 +46,6 @@ namespace VAVS_Client.Migrations
                     b.HasKey("FuelTypePkid");
 
                     b.ToTable("TB_FuelType");
-                });
-
-            modelBuilder.Entity("VAVS_Client.Models.NRC_And_Township", b =>
-                {
-                    b.Property<int>("NRC_And_Township_Pkid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NRC_And_Township_Pkid"), 1L, 1);
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NrcInitialCodeEnglish")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NrcInitialCodeMyanmar")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NrcTownshipCodeEng")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NrcTownshipCodeMyn")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PresentTownship")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TownshipDigitCode")
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
-
-                    b.HasKey("NRC_And_Township_Pkid");
-
-                    b.ToTable("TB_NRC_And_Township");
                 });
 
             modelBuilder.Entity("VAVS_Client.Models.Payment", b =>
@@ -360,10 +322,6 @@ namespace VAVS_Client.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TownshipPkid"), 1L, 1);
 
                     b.Property<string>("DistrictCode")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<string>("StateDivisionID")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 

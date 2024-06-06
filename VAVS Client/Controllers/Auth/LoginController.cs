@@ -116,7 +116,7 @@ namespace VAVS_Client.Controllers.Auth
                 string nrcTownshipInitial = Request.Form["NRCTownshipInitial"];
                 string nrcType = Request.Form["NRCType"];
                 string nrcNumber = Request.Form["NRCNumber"];
-                string nrc = Utility.MakeNRC(nrcTownshipNumber, nrcTownshipInitial, nrcType, nrcNumber);
+                string nrc = Utility.MakeNRC(nrcTownshipNumber+"/", nrcTownshipInitial, nrcType, nrcNumber);
                 PersonalDetail personalInformation = await factoryBuilder.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);
                 if (personalInformation != null)
                 {
@@ -350,6 +350,12 @@ namespace VAVS_Client.Controllers.Auth
         public JsonResult GetTownshipByStateDivision(int stateDivisionPkId)
         {
             return Json(factoryBuilder.CreateTownshipService().GetSelectListTownshipsByStateDivision(stateDivisionPkId));
+        }
+
+        public JsonResult GetNRCTownshipInitials(string nrcTownshipNumber)
+        {
+            List<string> NRCTownshipInitials = factoryBuilder.CreatePersonalDetailService().GetNRCTownshipInitials(nrcTownshipNumber);
+            return Json(NRCTownshipInitials);
         }
     }
 }
