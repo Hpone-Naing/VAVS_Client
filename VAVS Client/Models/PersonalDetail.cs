@@ -62,7 +62,7 @@ namespace VAVS_Client.Models
         
 
         [StringLength(15)]
-        public string RegistrationStatus { get; set; }
+        public string? RegistrationStatus { get; set; }
 
         public bool? IsDeleted { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -77,7 +77,6 @@ namespace VAVS_Client.Models
         [DisplayName("Township")]
         public int TownshipPkid { get; set; }
         public virtual Township Township { get; set; }
-
         public string MakeNrc() => String.Concat(this.NRCTownshipNumber, ";", this.NRCTownshipInitial, ";", this.NRCType, ";", this.NRCNumber);
         
         public string MakePhoneNumberWithCountryCode()

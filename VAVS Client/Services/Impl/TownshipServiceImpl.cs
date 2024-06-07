@@ -89,13 +89,13 @@ namespace VAVS_Client.Services.Impl
             }
         }
 
-        public List<Township1> GetTownshipsByStateDivisionCode(string stateDivisionCode)
+        public List<Township> GetTownshipsByStateDivisionCode(string stateDivisionCode)
         {
             _logger.LogInformation(">>>>>>>>>> [TownshipServiceImpl][GetTownshipsByStateDivisionPkId]  Get all Townships by StateDivisionPkId. <<<<<<<<<<");
             try
             {
                 _logger.LogInformation($">>>>>>>>>> Success. Get all Townships by StateDivisionPkId. <<<<<<<<<<");
-                List< Township1> Townships = _context.Township1s.Where(Township1 => Township1.StateDivisionID == stateDivisionCode).ToList();
+                List< Township> Townships = _context.Townships.Where(Township1 => Township1.StateDivisionID == stateDivisionCode).ToList();
                 return Townships;
                 /*List<string> TownshipNames = new List<string>();
                 foreach (Township1 Township in Townships)

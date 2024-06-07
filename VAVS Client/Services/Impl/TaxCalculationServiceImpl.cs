@@ -50,11 +50,12 @@ namespace VAVS_Client.Services.Impl
                  */
                 PersonalDetail personalDetail = await _personalDetailService.GetPersonalInformationByNRCInDBAndAPI(loginUserInfo.NRC);
                 Township township = _townshipService.FindTownshipByPkId(taxInfo.TownshipPkid);
-                StateDivision stateDivision = _staetDivisionService.FindStateDivisionByPkId(taxInfo.StateDivisionPkid);
-                personalDetail.Township = township;
-                personalDetail.StateDivision = stateDivision;
+                
                 if (personalDetail.PersonalPkid == 0)
                 {
+                     personalDetail.TownshipPkid = taxInfo.TownshipPkid;
+                    Console.WriteLine("tainfo...................tateDiviion." + taxInfo.StateDivisionPkid);
+                    personalDetail.StateDivisionPkid = taxInfo.StateDivisionPkid;
                     _personalDetailService.CreatePersonalDetail(personalDetail);
                 }
                 Console.WriteLine("here personalpkid not null.............." + personalDetail.PersonalPkid);

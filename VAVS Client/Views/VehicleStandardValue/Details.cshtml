@@ -13,7 +13,7 @@
 </div>
 
 <div class="d-flex justify-content-center align-item-center mb-3">
-    <label class="text-primary h4"> မောင်တော်ယာဥ်အချက်အလက်</label>
+    <label class="text-primary h4"> မော်တော်ယာဥ်အချက်အလက်</label>
 </div>
 
 @if (TempData.ContainsKey("Message") && TempData.ContainsKey("CssColor"))
@@ -29,26 +29,6 @@
 <form method="post" action="@Url.Action("ShowCalculateTaxForm", "TaxCalculation")">
     <div class="row mt-1 border border-dark" style="border-radius: 20px;">
         <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="row p-2" style="background-color: #c0c0c052;">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
-                        <label class="fw-bold control-label" data-translate="VehicleDetail_Manufacturer"></label>
-                    </div>
-                    <div class="col">
-                        <input type="text" asp-for="Manufacturer" value="@Model.Manufacturer" readonly="" style="background-color: inherit;border: none;">
-                    </div>
-                </div>
-            </div>
-            <div class="row p-2">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
-                        <label class="fw-bold control-label" data-translate="VehicleDetail_FuelType"></label>
-                    </div>
-                    <div class="col">
-                        <input type="text" asp-for="Fuel.FuelType" value="@Model.Fuel.FuelType" readonly="" style="background-color: inherit;border: none;">
-                    </div>
-                </div>
-            </div>
             <div class="row p-2" style="background-color: #c0c0c052;">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-3">
@@ -69,23 +49,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="row p-1" style="background-color: #c0c0c052;">
+            <div class="row p-2" style="background-color: #c0c0c052;">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-3">
-                        <label class="fw-bold  control-label" data-translate="VehicleDetail_StandardValue"></label>
+                        <label class="fw-bold control-label" data-translate="VehicleDetail_EnginePower"></label>
                     </div>
                     <div class="col">
-                        <div class="input-group">
-                            <div class="input-group-append">
-                                <span class="input-group-text">သိန်း</span>
-                            </div>
-                            <input type="text" class="form-control" asp-for="StandardValue" value="@Model.StandardValue" readonly style="background-color: inherit;border: none;">
-                            <div class="input-group-append">
-                                <span class="input-group-text">Kyat</span>
-                            </div>
-                        </div>
+                        <input type="text" asp-for="EnginePower" value="@Model.EnginePower" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
             </div>
@@ -99,19 +69,36 @@
                     </div>
                 </div>
             </div>
-            <div class="row p-2" style="background-color: #c0c0c052;">
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="row p-1" style="background-color: #c0c0c052;">
+                <div class="row p-2">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-3">
+                            <label class="fw-bold control-label" data-translate="VehicleDetail_FuelType"></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" asp-for="Fuel.FuelType" value="@Model.Fuel.FuelType" readonly="" style="background-color: inherit;border: none;">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-3">
-                        <label class="fw-bold control-label" data-translate="VehicleDetail_EnginePower"></label>
+                        <label class="fw-bold  control-label" data-translate="VehicleDetail_StandardValue"></label>
                     </div>
                     <div class="col">
-                        <input type="text" asp-for="EnginePower" value="@Model.EnginePower" readonly="" style="background-color: inherit;border: none;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="StandardValue" value="@(string.Concat(Model.StandardValue, "00000"))" readonly style="background-color: inherit;border: none;">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Kyat</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             @if (Model.VehicleNumber != null)
             {
-                <div class="row p-2">
+                <div class="row p-2" style="background-color: #c0c0c052;">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-3">
                             <label class="fw-bold control-label" data-translate="VehicleDetail_VehicleNumber"></label>

@@ -17,6 +17,24 @@
     }
 }
 
+function calculateFormula(value) {
+    if (value < 1) return value;
+    if (value <= 300000000) return value * 0.03;
+    if (value <= 600000000) return (300000000 * 0.03) + ((value - 300000000) * 0.05);
+    if (value <= 1000000000) return (300000000 * 0.03) + (300000000 * 0.05) + ((value - 600000000) * 0.1);
+    if (value <= 3000000000) return (300000000 * 0.03) + (300000000 * 0.05) + (400000000 * 0.1) + ((value - 1000000000) * 0.15);
+    return (300000000 * 0.03) + (300000000 * 0.05) + (400000000 * 0.1) + (2000000000 * 0.15) + ((value - 3000000000) * 0.3);
+}
+
+function calcTax(event) {
+    event.preventDefault();
+    const standardValue = parseFloat(document.getElementById("standardValue").value.replace(/,/g, '')) || 0;
+    const price = parseFloat(document.getElementById("price").value.replace(/,/g, '')) || 0;
+    const valueToCalculate = price > standardValue ? price : standardValue;
+    const tax = calculateFormula(valueToCalculate);
+    document.getElementById("totalTax").value = tax.toFixed(2);
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("here address class..................")
     var vehicleNumberCells = document.querySelectorAll(".address");

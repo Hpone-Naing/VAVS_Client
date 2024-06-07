@@ -1,4 +1,9 @@
-﻿@model VAVS_Client.Models.TaxValidation
+﻿@inject IConfiguration Configuration
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using VAVS_Client.Classes
+
+@model VAVS_Client.Models.TaxValidation
 @{
     Layout = "_Layout";
 }
@@ -29,7 +34,19 @@
                     <label class="fw-bold  control-label" data-translate="TaxValidationDetail_Name">Owner Name</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 border border-primary">
-                    @Model.PersonNRC
+                    @{
+                        var name = "";
+                        var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
+                        if (!string.IsNullOrEmpty(loginUserInfoJson))
+                        {
+                            var loginUserInfo = JsonConvert.DeserializeObject<TaxpayerInfo>(loginUserInfoJson);
+                            if (loginUserInfo != null)
+                            {
+                                name = loginUserInfo.Name;
+                            }
+                        }
+                    }
+                    @name
                 </div>
             </div>
         </div>
@@ -49,7 +66,7 @@
                     <label class="fw-bold  control-label" data-translate="Reg_StateDivision">State/Division</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
-                    @Model.Township.StateDivision.StateDivisionName
+                    @Model.PersonalDetail.Township.StateDivision.StateDivisionName
                 </div>
             </div>
         </div>
@@ -59,7 +76,7 @@
                     <label class="fw-bold  control-label" data-translate="Reg_Township">Township</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6  border border-primary">
-                    @Model.Township.TownshipName
+                    @Model.PersonalDetail.Township.TownshipName
                 </div>
             </div>
         </div>

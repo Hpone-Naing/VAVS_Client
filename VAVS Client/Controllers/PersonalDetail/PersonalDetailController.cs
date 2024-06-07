@@ -23,7 +23,7 @@ namespace VAVS_Client.Controllers.PersonalDetailController
 
         public JsonResult GetTownships(string stateDivisionCode)
         {
-            List<Township1> townships = _serviceFactory.CreateTownshipService().GetTownshipsByStateDivisionCode(stateDivisionCode);
+            List<Township> townships = _serviceFactory.CreateTownshipService().GetTownshipsByStateDivisionCode(stateDivisionCode);
             return Json(townships);
         }
     }

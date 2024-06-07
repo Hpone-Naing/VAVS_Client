@@ -1,4 +1,5 @@
-﻿using VAVS_Client.Paging;
+﻿using System.Data;
+using VAVS_Client.Paging;
 
 namespace VAVS_Client.Services
 {
@@ -9,6 +10,6 @@ namespace VAVS_Client.Services
         public TaxValidation FindTaxValidationByIdEgerLoad(int id);
         PagingList<TaxValidation> GetTaxValidationPendigListPagin(HttpContext httpContext, int? pageNo, int PageSize);
         PagingList<TaxValidation> GetTaxValidationApprevedListPagin(HttpContext httpContext, int? pageNo, int PageSize);
-
+        DataTable MakeVehicleDataExcelData(PagingList<TaxValidation> taxValidations, HttpContext httpContext);
     }
 }

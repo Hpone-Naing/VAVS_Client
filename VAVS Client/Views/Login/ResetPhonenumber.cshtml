@@ -10,8 +10,8 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-item-end justify-content-end">
-                <span class="me-2" onclick="setLanguage('en')" style="cursor: pointer;"><img width="20px;" src="/Content/images/united-states.png"></span>
-                <span onclick="setLanguage('my')" style="cursor: pointer;"><img src="/Content/images/myanmar.png" width="20px;"></span>
+                <span class="me-2" onclick="setLanguage('en')" style="cursor: pointer;"><img width="20px;" src="~/Content/images/united-states.png"></span>
+                <span onclick="setLanguage('my')" style="cursor: pointer;"><img src="~/Content/images/myanmar.png" width="20px;"></span>
             </div>
         </div>
         <div class="card-body">
@@ -97,6 +97,9 @@
                                                     <select class="form-control" asp-for="NRCType" required>
                                                         <option value="">?</option>
                                                         <option value="(နိုင်)">(နိုင်)</option>
+                                                        <option value="(ဧည့်)">(ဧည့်)</option>
+                                                        <option value="(ဝတ်)">(ဝတ်)</option>
+                                                        <option value="(ပြု)">(ပြု)</option>
                                                     </select>
                                                 </div>
                                                 <div class="col">

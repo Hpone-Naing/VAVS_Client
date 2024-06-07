@@ -40,6 +40,16 @@ namespace VAVS_Client.Services.Impl
                 {
                     personalDetail.NRCFrontImagePath = "default.jpg";
                 }
+                if (!personalDetail.NRCTownshipNumber.EndsWith("/"))
+                {
+                    personalDetail.NRCTownshipNumber = string.Concat(personalDetail.NRCTownshipNumber, "/");
+                }
+                //personalDetail.NRCTownshipNumber = string.Concat(personalDetail.NRCTownshipNumber, "/");
+                Township township = _context.Townships.FirstOrDefault(township => township.TownshipPkid == personalDetail.TownshipPkid);
+                personalDetail.Township = township;
+                StateDivision stateDivision = _context.StateDivisions.FirstOrDefault(stateDivision => stateDivision.StateDivisionCode == (personalDetail.StateDivisionPkid <=9 ? "0"+personalDetail.StateDivisionPkid : personalDetail.StateDivisionPkid.ToString()));
+                
+                personalDetail.StateDivision = stateDivision;
                 personalDetail.EntryDate = DateTime.Now;
                 personalDetail.PhoneNumber = personalDetail.MakePhoneNumberWithCountryCode();
                 personalDetail.CreatedBy = 1;
@@ -66,11 +76,15 @@ namespace VAVS_Client.Services.Impl
                 string NRCTownshipInitial = nrc.Split(";")[1];
                 string NRCType = nrc.Split(";")[2];
                 string NRCNumber = nrc.Split(";")[3];
+                Console.WriteLine("NRCTownshipNumber..........." + NRCTownshipNumber);
+                Console.WriteLine("NRCTownshipInitial..........." + NRCTownshipInitial);
+                Console.WriteLine("NRCType..........." + NRCType);
+                Console.WriteLine("NRCNumber..........." + NRCNumber);
                 PersonalDetail personalDetail = _context.PersonalDetails
                     .Where(personalDetil =>
                         personalDetil.IsDeleted == false &&
                         personalDetil.NRCTownshipNumber == NRCTownshipNumber &&
-                        personalDetil.NRCTownshipInitial == NRCTownshipInitial &&
+                        personalDetil.NRCTownshipInitial== NRCTownshipInitial &&
                         personalDetil.NRCType == NRCType &&
                         personalDetil.NRCNumber == NRCNumber).Include(personalDetail => personalDetail.Township).Include(personalDetail => personalDetail.Township.StateDivision).FirstOrDefault();
                 _logger.LogInformation($">>>>>>>>>> Success. Find person by Nrc. <<<<<<<<<<");
@@ -124,7 +138,7 @@ namespace VAVS_Client.Services.Impl
         {
             try
             {
-                Console.WriteLine("Nrc /..................../" + nrc);
+                Console.WriteLine("Nrc /...................." + nrc);
 
                 string nrcConcatWithSemiComa = Utility.ConcatNRCSemiComa(nrc);
                 Console.WriteLine("Nrc concat seicoma" + nrcConcatWithSemiComa);

@@ -9,7 +9,7 @@ namespace VAVS_Client.Services
         List<SelectListItem> GetSelectListTownshipsByStateDivision(int stateDivisionPkId = 1);
         List<Township> GetTownshipsByStateDivisionPkId(int stateDivisionPkId);
         Township FindTownshipByPkId(int pkId);
-        List<Township1> GetTownshipsByStateDivisionCode(string stateDivisionCode);
+        List<Township> GetTownshipsByStateDivisionCode(string stateDivisionCode);
 
     }
 }

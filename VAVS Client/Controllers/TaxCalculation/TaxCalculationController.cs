@@ -109,7 +109,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
             PersonalDetail personalInformation = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(nrc);//await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRC(nrc);
             string contractPriceString = Request.Form["ContractPrice"];
             long ContractPrice = Utility.MakeDigit(contractPriceString);
-            long AssetValue = Utility.MakeDigit(vehicleStandardValue.StandardValue, "true");
+            long AssetValue = Utility.MakeDigit(vehicleStandardValue.StandardValue);
             long totalTax = _serviceFactory.CreateTaxCalculationService().CalculateTotalTax(ContractPrice, AssetValue);
             TaxValidation taxValidation = new TaxValidation
             {

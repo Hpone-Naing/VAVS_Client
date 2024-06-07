@@ -92,6 +92,7 @@ namespace VAVS_Client.Controllers.Auth
                     Utility.AlertMessage(this, "Already registered.", "alert-primary", "true");
                     return RedirectToAction("LoginUser", "Login");
                 }
+                Console.WriteLine("nrc tonhip number..............." + personalDetail.NRCTownshipNumber);
                 var ipAddress = Utility.GetIPAddress();
                 string publicIpAddress = await _serviceFactory.CreateDeviceInfoService().GetPublicIPAddress();
                 DateTime currentTime = DateTime.Now;
@@ -120,7 +121,7 @@ namespace VAVS_Client.Controllers.Auth
                 if (existingDeviceInfo == null)
                 {
                     string otp = Utility.GenerateOtp();
-                    Console.WriteLine("Otp is.............: " + otp);
+                    Console.WriteLine("Otp is1.............: " + otp);
                     /*
                      * Send otp code via sms
                      */
@@ -129,6 +130,7 @@ namespace VAVS_Client.Controllers.Auth
                     _serviceFactory.CreateDeviceInfoService().CreateDeviceInfo(InitializeDeviceInfo(ipAddress, publicIpAddress, HashUtil.ComputeSHA256Hash(otp)));
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    Console.WriteLine("nrctonhipno:........................" + personalDetail.NRCTownshipNumber);
                     return View("RegistrationAuthCode", personalDetail);
                 }
                 /*
@@ -147,6 +149,8 @@ namespace VAVS_Client.Controllers.Auth
                         _serviceFactory.CreateDeviceInfoService().UpdateRegistrationTime(ipAddress);
                         HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                         ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                        Console.WriteLine("nrctonhipno:........................" + personalDetail.NRCTownshipNumber);
+
                         return View("RegistrationAuthCode", personalDetail);
                     }
                 }
@@ -165,7 +169,7 @@ namespace VAVS_Client.Controllers.Auth
                     if (existingDeviceInfo.AllowNextTimeResendOTP())
                     {
                         string otp = Utility.GenerateOtp();
-                        Console.WriteLine("Otp is..................: " + otp);
+                        Console.WriteLine("Otp is11..................: " + otp);
                         /*
                          * Send otp code via sms
                          */
@@ -174,6 +178,8 @@ namespace VAVS_Client.Controllers.Auth
                         _serviceFactory.CreateDeviceInfoService().UpdateResendCodeTime(ipAddress, HashUtil.ComputeSHA256Hash(otp));
                         HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                         ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                        Console.WriteLine("nrctonhipno:........................" + personalDetail.NRCTownshipNumber);
+
                         return View("RegistrationAuthCode", personalDetail);
                     }
                 }
@@ -183,7 +189,7 @@ namespace VAVS_Client.Controllers.Auth
                 if ((string.IsNullOrEmpty(storedExpireTime) || (!string.IsNullOrEmpty(storedExpireTime) && currentTime > DateTime.Parse(storedExpireTime))))
                 {
                     string otp = Utility.GenerateOtp();
-                    Console.WriteLine("Otp is.................................: " + otp);
+                    Console.WriteLine("Otp is3.................................: " + otp);
                     /*
                      * Send otp code via sms
                      */
@@ -198,6 +204,8 @@ namespace VAVS_Client.Controllers.Auth
                     }
                     HttpContext.Session.SetString("ExpireTime", expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
                     ViewData["ExpireTime"] = HttpContext.Session.GetString("ExpireTime");
+                    Console.WriteLine("nrctonhipno:........................" + personalDetail.NRCTownshipNumber);
+
                     return View("RegistrationAuthCode", personalDetail);
                 }
                 /*
