@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using VAVS_Client.APIService;
@@ -259,6 +260,32 @@ namespace VAVS_Client.Services.Impl
             {
                 List<string> madeModels = await _vehicleStandardValueAPIService.GetVehicleByMadeModel(searchString);
                 return madeModels;
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
+
+        public async Task<List<string>> GetModelYear(string madeModel)
+        {
+            try
+            {
+                List<string> years = await _vehicleStandardValueAPIService.GetModelYears(madeModel);
+                return years;
+            }
+            catch (HttpRequestException e)
+            {
+                throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
+            }
+        }
+
+        public async Task<List<VehicleStandardValue>>  GetVehicleStandardValueByModelAndYear(string madeModel, string modelYear)
+        {
+            try
+            {
+                List<VehicleStandardValue> vehicleStandardValues = await _vehicleStandardValueAPIService.GetVehicleStandardValueByModelAndYear(madeModel, modelYear);
+                return vehicleStandardValues;
             }
             catch (HttpRequestException e)
             {

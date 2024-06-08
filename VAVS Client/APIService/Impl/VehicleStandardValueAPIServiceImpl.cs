@@ -116,5 +116,55 @@ namespace VAVS_Client.APIService.Impl
             throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
 
         }
+
+        public async Task<List<string>> GetModelYears(string makeModel)
+        {
+            Console.WriteLine("searchString api........" + makeModel);
+            string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+            string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/VehicleStandard/GetVehicleMadeYearbyMadeModel";
+            string url = $"{baseUrl}?mademodel={makeModel}&apiKey={apiKey}";
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            Console.WriteLine("success state code: " + response.StatusCode);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<string> vehicleModels = JsonSerializer.Deserialize<List<string>>(json);
+                return vehicleModels;
+            }
+
+            Console.WriteLine("fail state code: " + response.StatusCode);
+            Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+            throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
+        }
+
+        public async Task<List<VehicleStandardValue>> GetVehicleStandardValueByModelAndYear(string makeModel, string makeyear)
+        {
+            Console.WriteLine("searchString api........" + makeModel);
+            string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
+            string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/VehicleStandard/GetVehicleByMadeModelandMadeYear";
+            string url = $"{baseUrl}?mademodel={makeModel}&modelYear={makeyear}&apiKey={apiKey}";
+
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            Console.WriteLine("success state code: " + response.StatusCode);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                List<VehicleStandardValue> vehicleModels = JsonSerializer.Deserialize<List<VehicleStandardValue>>(json);
+                return vehicleModels;
+            }
+
+            Console.WriteLine("fail state code: " + response.StatusCode);
+            Console.WriteLine($"Failed to send message. Status code: {response.StatusCode}");
+            throw new HttpRequestException($"Failed to send message. Status code: {response.StatusCode}");
+        }
     }
 }

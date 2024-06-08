@@ -92,6 +92,28 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
                 return RedirectToAction(nameof(SearchVehicleStandardValue));
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GetVehicleValueBySearchModelType(string MadeModel, string makeModelYear)
+        {
+            try
+            {
+                if (!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
+                {
+                    Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                    return RedirectToAction("Index", "Login");
+                }
+                List<VehicleStandardValue> vehicleStandardValues = await _serviceFactory.CreateVehicleStandardValueService().GetVehicleStandardValueByModelAndYear(MadeModel, makeModelYear);
+                return View("Details", vehicleStandardValues); 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception...." + e);
+                Utility.AlertMessage(this, "Server Error encounter. Fail to view detail page.", "alert-danger");
+                return RedirectToAction(nameof(SearchVehicleStandardValue));
+            }
+        }
+
         public IActionResult Details(int Id)
         {
             
@@ -124,6 +146,13 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         public async Task<JsonResult> GetMadeModel(string searchString)
         {
             List<string> models = await _serviceFactory.CreateVehicleStandardValueService().GetMadeModel(searchString);
+            return Json(models);
+        }
+
+        public async Task<JsonResult> GetMadeModelYear(string madeModel)
+        {
+            Console.WriteLine("here year api call............................."+madeModel);
+            List<string> models = await _serviceFactory.CreateVehicleStandardValueService().GetModelYear(madeModel);
             return Json(models);
         }
     }

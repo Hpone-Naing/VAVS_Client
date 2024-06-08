@@ -17,6 +17,8 @@ namespace VAVS_Client.Services
         Task<VehicleStandardValue> GetVehicleValueByVehicleNumber(string carNumber);
         bool CreateVehicleStandardValue(VehicleStandardValue vehicleStandardValue);
         Task<List<string>> GetMadeModel(string searchString);
+        Task<List<string>> GetModelYear(string madeModel);
+        Task<List<VehicleStandardValue>> GetVehicleStandardValueByModelAndYear(string madeModel, string modelYear);
 
 
     }
