@@ -177,7 +177,7 @@
 
 <!-- Create model-->
 <div class="modal fade" id="register" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div id="registerModel" class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="staticBackdropLabel" style="font-size: 20px;font-weight: bold;">Register Here</h5>
@@ -190,23 +190,23 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Name"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" asp-for="PersonalDetail.Name" placeholder="အမည်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Name"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mt-2">
+                            <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Global_Nrc"> Nrc Number: </label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col-2">
                                                 <select id="lstNRCTownshipNumberId1" class="form-control" asp-for="PersonalDetail.NRCTownshipNumber" onchange="FilterNRCTownshipInitial1(this, 'lstNRCTownshipInitial1')" required>
                                                     <option value="">?</option>
                                                     <option value="၁">၁/</option>
@@ -225,14 +225,14 @@
                                                     <option value="၁၄">၁၄/</option>
                                                 </select>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-2">
                                                 <select class="form-control" id="lstNRCTownshipInitial1" asp-for="PersonalDetail.NRCTownshipInitial" required>
                                                     <option value="">?</option>
                                                     <option value="ဥကတ">ဥကတ</option>
                                                     <option value="လသယ">လသယ</option>
                                                 </select>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-2">
                                                 <select class="form-control" asp-for="PersonalDetail.NRCType" required>
                                                     <option value="">?</option>
                                                     <option value="(နိုင်)">(နိုင်)</option>
@@ -252,12 +252,12 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="form-group mt-2">
+                            @*<div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Name" asp-for="PersonalDetail.EntryDate"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" type="date" id="entryDate" asp-for="PersonalDetail.EntryDate" placeholder="Entry Date" />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.EntryDate"></span>
                                     </div>
@@ -265,10 +265,10 @@
                             </div>*@
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_StateDivision">State/Division</label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <select class="form-control" id="lstStateDivisionId" asp-for="PersonalDetail.StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required>
                                             <option value="">ရွေးချယ်ရန်</option>
                                             <option value="01">ကချင်</option>
@@ -293,10 +293,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Township"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <select class="form-control" id="lstTownship" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required>
 
                                         </select>
@@ -306,10 +306,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Quarter"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" asp-for="PersonalDetail.Quarter" placeholder="ရပ်ကွက်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Quarter"></span>
                                     </div>
@@ -317,10 +317,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_HousingNumber"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" asp-for="PersonalDetail.HousingNumber" placeholder="အိမ်အမှတ်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.HousingNumber"></span>
                                     </div>
@@ -328,10 +328,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Email"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" asp-for="PersonalDetail.Email" placeholder="Email" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Email"></span>
                                     </div>
@@ -339,17 +339,17 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <!--<div class="form-group mt-2">
+                            <!--<div class="form-group mt-3">
                                 <label class="control-label" asp-for="PersonalDetail.PersonTINNumber"></label>
                                 <input class="form-control" asp-for="PersonalDetail.PersonTINNumber" placeholder="အခွန်ထမ်းအှတ်ပုံတင်အမှတ်" required />
                                 <span class="text-danger" asp-validation-for="PersonalDetail.PersonTINNumber"></span>
                             </div>-->
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Reg_Street"></label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control" asp-for="PersonalDetail.Street" placeholder="လမ်းအမှတ်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Street"></span>
                                     </div>
@@ -357,10 +357,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-4">
                                         <label class="control-label fw-bold" data-translate="Global_PhoneNo">Phone Number</label>
                                     </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-9">
+                                    <div class="col-8">
                                         <input class="form-control phone" asp-for="PersonalDetail.PhoneNumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="17" pattern="^09\d{5,15}$" title="Phone number must be 09 followed by 5 to 15 number." required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.PhoneNumber"></span>
                                     </div>

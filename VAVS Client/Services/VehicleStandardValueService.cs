@@ -20,6 +20,5 @@ namespace VAVS_Client.Services
         Task<List<string>> GetModelYear(string madeModel);
         Task<List<VehicleStandardValue>> GetVehicleStandardValueByModelAndYear(string madeModel, string modelYear);
 
-
     }
 }

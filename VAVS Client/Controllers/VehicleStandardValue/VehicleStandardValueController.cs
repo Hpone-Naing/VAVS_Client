@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Mvc;
 using VAVS_Client.Classes;
 using VAVS_Client.Factories;
+using VAVS_Client.Paging;
 using VAVS_Client.Util;
 using VAVS_Client.ViewModels;
 
@@ -93,8 +95,7 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetVehicleValueBySearchModelType(string MadeModel, string makeModelYear)
+        public async Task<IActionResult> GetVehicleValueByModelAndYear(string MadeModel, string makeModelYear, int? pageNo)
         {
             try
             {
@@ -104,7 +105,18 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
                     return RedirectToAction("Index", "Login");
                 }
                 List<VehicleStandardValue> vehicleStandardValues = await _serviceFactory.CreateVehicleStandardValueService().GetVehicleStandardValueByModelAndYear(MadeModel, makeModelYear);
-                return View("Details", vehicleStandardValues); 
+                int pageSize = Utility.DEFAULT_PAGINATION_NUMBER;
+                PagingList<VehicleStandardValue> pageVehicleStandardValues =  PagingList<VehicleStandardValue>.CreateAsync(vehicleStandardValues.AsQueryable<VehicleStandardValue>(), pageNo ?? 1, pageSize);
+
+                if (vehicleStandardValues.Count == 1)
+                {
+                    Console.WriteLine("Here cont 1..................");
+                    return View("Details", vehicleStandardValues[0]); 
+                }
+                Console.WriteLine("Here cont > 1..................");
+                ViewBag.MadeModel = MadeModel;
+                ViewBag.MadeYear = makeModelYear;
+                return View("SearchVehicleStandardValue", pageVehicleStandardValues);
             }
             catch (Exception e)
             {
@@ -114,9 +126,9 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
             }
         }
 
-        public IActionResult Details(int Id)
+        public async Task<IActionResult> Details(int Id, int pkId, string madeModel, string modelYear)
         {
-            
+
             try
             {
                 if (!_serviceFactory.CreateSessionServiceService().IsActiveSession(HttpContext))
@@ -124,14 +136,21 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
                     Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
                     return RedirectToAction("Index", "Login");
                 }
-
-                VehicleStandardValue vehicleStandardValue = _serviceFactory.CreateVehicleStandardValueService().FindVehicleStandardValueByIdEgerLoad(Id);
-                if (vehicleStandardValue != null)
+                if (string.IsNullOrEmpty(madeModel) && string.IsNullOrEmpty(modelYear))
                 {
+                    VehicleStandardValue vehicleStandardValue = _serviceFactory.CreateVehicleStandardValueService().FindVehicleStandardValueByIdEgerLoad(Id);
                     return View(vehicleStandardValue);
                 }
                 else
                 {
+                    List<VehicleStandardValue> vehicleStandardValues = await _serviceFactory.CreateVehicleStandardValueService().GetVehicleStandardValueByModelAndYear(madeModel, modelYear);
+                    foreach(VehicleStandardValue vehicleStandard in vehicleStandardValues)
+                    {
+                        if(pkId == vehicleStandard.VehicleStandardValuePkid)
+                        {
+                            return View(vehicleStandard);
+                        }
+                    }
                     Utility.AlertMessage(this, "Server Error encounter. Fail to view detail page.", "alert-danger");
                     return RedirectToAction(nameof(SearchVehicleStandardValue));
                 }

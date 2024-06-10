@@ -31,79 +31,78 @@
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="row p-2" style="background-color: #c0c0c052;">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
+                    <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                         <label class="fw-bold control-label" data-translate="VehicleDetail_VehicleBrand"></label>
                     </div>
-                    <div class="col">
+                    <div class="col-7">
                         <input type="text" asp-for="VehicleBrand" value="@Model.VehicleBrand" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
             </div>
             <div class="row p-2">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
+                    <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                         <label class="fw-bold control-label" data-translate="VehicleDetail_BuildType"></label>
                     </div>
-                    <div class="col">
+                    <div class="col-7">
                         <input type="text" asp-for="BuildType" value="@Model.BuildType" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
             </div>
             <div class="row p-2" style="background-color: #c0c0c052;">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
+                    <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                         <label class="fw-bold control-label" data-translate="VehicleDetail_EnginePower"></label>
                     </div>
-                    <div class="col">
+                    <div class="col-7">
                         <input type="text" asp-for="EnginePower" value="@Model.EnginePower" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
             </div>
             <div class="row p-2">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
+                    <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                         <label class="fw-bold control-label" data-translate="VehicleDetail_ModelYear"></label>
                     </div>
-                    <div class="col">
+                    <div class="col-7">
                         <input type="text" asp-for="ModelYear" value="@Model.ModelYear" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="row p-1" style="background-color: #c0c0c052;">
-                <div class="row p-2">
+            <div class="row p-2" style="background-color: #c0c0c052;">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-3">
+                        <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                             <label class="fw-bold control-label" data-translate="VehicleDetail_FuelType"></label>
                         </div>
-                        <div class="col">
+                        <div class="col-7">
                             <input type="text" asp-for="Fuel.FuelType" value="@Model.Fuel.FuelType" readonly="" style="background-color: inherit;border: none;">
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-3">
+                <div class="row p-2">
+                    <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                         <label class="fw-bold  control-label" data-translate="VehicleDetail_StandardValue"></label>
                     </div>
-                    <div class="col">
+                    <div class="col-7">
                         <div class="input-group">
-                            <input type="text" class="form-control" asp-for="StandardValue" value="@(string.Concat(Model.StandardValue, "00000"))" readonly style="background-color: inherit;border: none;">
+                            <input type="text" class="form-control" asp-for="StandardValue" value="@(Model.StandardValue == "NULL" || Model.StandardValue == "0" ? "0" : string.Concat(Model.StandardValue, "00000"))"
+                                   readonly style="background-color: inherit;border: none;">
                             <div class="input-group-append">
                                 <span class="input-group-text">Kyat</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @if (Model.VehicleNumber != null)
             {
                 <div class="row p-2" style="background-color: #c0c0c052;">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-3">
+                        <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                             <label class="fw-bold control-label" data-translate="VehicleDetail_VehicleNumber"></label>
                         </div>
-                        <div class="col">
+                        <div class="col-7">
                             <input type="text" asp-for="VehicleNumber" value="@Model.VehicleNumber" readonly="" style="background-color: inherit;border: none;">
                         </div>
                     </div>

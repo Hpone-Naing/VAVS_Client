@@ -37,6 +37,7 @@
         Vehicle_SearchByMType: "Search By Made Model",
 
         Vehicle_SearchBtn: "Search",
+        Vehicle_MadeModel_SearchBtn: "Made Model",
 
         VehicleDetail_Manufacturer: "Manufacturer",
         VehicleDetail_FuelType: "Fuel Type",
@@ -46,7 +47,7 @@
         VehicleDetail_ModelYear: "Make Year",
         VehicleDetail_EnginePower: "Engine Power",
         VehicleDetail_VehicleNumber: "Vehicle Number",
-        VehicleDetail_CalcTaxBtn: "Calculate Tax",
+        VehicleDetail_CalcTaxBtn: "Calculate",
 
         CalculateTax_PlateNo: "Plate No",
         CalculateTax_MakeModel: "Make Model",
@@ -78,7 +79,7 @@
 
     },
     my: {
-        Global_Nrc: "မှတ်ပုံတင်နံပါတ်",
+        Global_Nrc: "မှတ်ပုံတင်",
         Global_OldPhone: "ဖုန်းနံပါတ်အဟောင်း",
         Global_NewPhone: "ဖုန်ံးနံပါတ်အသစ်",
         Global_PhoneNo: "ဖုန်ံးနံပါတ်",
@@ -114,6 +115,8 @@
         Vehicle_SearchNotFound: "ရှာဖွေမှုရလာဒ်များမတွေ့ရှိပါ",
         Vehicle_SearchByVehicleInfo: "မော်တော်ယာဥ်အချက်အလက်ဖြင့်",
         Vehicle_SearchByMType: "Model Type ဖြင့်",
+        Vehicle_MadeModel_SearchBtn: "Made Model",
+
 
         VehicleDetail_Manufacturer: "ထုတ်လုပ်သူ",
         VehicleDetail_FuelType: "ဆီအမျိုးအစား",
@@ -123,7 +126,7 @@
         VehicleDetail_ModelYear: "ထုတ်လုပ်သည့်ခုနစ်",
         VehicleDetail_EnginePower: "အင်ဂျင်ပါဝါ",
         VehicleDetail_VehicleNumber: "ကားနံပါတ်",
-        VehicleDetail_CalcTaxBtn: "အခွန်တွက်မည်",
+        VehicleDetail_CalcTaxBtn: "တွက်မည်",
 
         CalculateTax_PlateNo: "ကားနံပါတ်",
         CalculateTax_MakeModel: "ကားမော်ဒယ်",

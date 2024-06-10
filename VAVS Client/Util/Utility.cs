@@ -120,7 +120,8 @@ namespace VAVS_Client.Util
             }
             else
             {
-                throw new ArgumentException("Digit is not valid.");
+                return 0;
+                //throw new ArgumentException("Digit is not valid.");
             }
         }
     }

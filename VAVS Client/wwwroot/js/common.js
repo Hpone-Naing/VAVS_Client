@@ -196,3 +196,23 @@ function srvTime() {
 })(this); 
 
 //console.log(myanmarNumToWord.convertToBurmeseWords(625000000));
+function updateModalClass() {
+    var modal = document.getElementById('registerModel');
+    if (modal) { 
+        if (window.innerWidth < 413) {
+            modal.classList.add('modal-fullscreen-xxl-down');
+            modal.classList.add('mt-3');
+            modal.classList.remove('modal-xl');
+        } else {
+            modal.classList.add('modal-xl');
+            modal.classList.remove('modal-fullscreen-xxl-down');
+            modal.classList.remove('mt-3');
+        }
+    } else {
+        console.error('Element with id "registerModel" not found.');
+    }
+}
+
+updateModalClass();
+
+window.addEventListener('resize', updateModalClass);

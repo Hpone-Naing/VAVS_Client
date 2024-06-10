@@ -7,7 +7,7 @@
         public int FuelTypePkid { get; set; }
 
         [StringLength(20)]
-        public string FuelType { get; set; }
+        public string? FuelType { get; set; }
 
         public bool? IsDeleted { get; set; }
 

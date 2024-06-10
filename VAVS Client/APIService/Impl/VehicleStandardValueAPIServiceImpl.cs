@@ -147,7 +147,7 @@ namespace VAVS_Client.APIService.Impl
             Console.WriteLine("searchString api........" + makeModel);
             string apiKey = Utility.SEARCH_VEHICLE_STANDARD_VALUE_API_KEY;
             string baseUrl = "http://203.81.89.218:99/VehicleStandardAPI/api/VehicleStandard/GetVehicleByMadeModelandMadeYear";
-            string url = $"{baseUrl}?mademodel={makeModel}&modelYear={makeyear}&apiKey={apiKey}";
+            string url = $"{baseUrl}?mademodel={makeModel}&madeYear={makeyear}&apiKey={apiKey}";
 
             HttpResponseMessage response = await _httpClient.GetAsync(url);
             Console.WriteLine("success state code: " + response.StatusCode);
@@ -158,8 +158,39 @@ namespace VAVS_Client.APIService.Impl
             if (response.IsSuccessStatusCode)
             {
                 string json = await response.Content.ReadAsStringAsync();
-                List<VehicleStandardValue> vehicleModels = JsonSerializer.Deserialize<List<VehicleStandardValue>>(json);
+                var vehicleModels = new List<VehicleStandardValue>();
+
+                using (JsonDocument doc = JsonDocument.Parse(json))
+                {
+                    JsonElement root = doc.RootElement;
+                    if (root.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (JsonElement element in root.EnumerateArray())
+                        {
+                            var vehicle = new VehicleStandardValue
+                            {
+                                VehicleStandardValuePkid = element.GetProperty("vehiclePkid").GetInt32(),
+                                VehicleBrand = element.GetProperty("made_Model").GetString(),
+                                BuildType = element.GetProperty("type").GetString(),
+                                EnginePower = element.GetProperty("ep").GetString(),
+                                ModelYear = element.GetProperty("made_Year").GetString(),
+                                StandardValue = element.GetProperty("standard_Value").GetString(),
+                                Fuel = new Fuel()
+                                {
+                                   FuelType = element.GetProperty("f_Id").GetString(),
+                                },
+
+                                Remarks = element.GetProperty("remark").GetString(),
+                                IsDeleted = element.GetProperty("isDeleted").GetBoolean()
+                            };
+
+                            vehicleModels.Add(vehicle);
+                        }
+                    }
+                }
+
                 return vehicleModels;
+
             }
 
             Console.WriteLine("fail state code: " + response.StatusCode);

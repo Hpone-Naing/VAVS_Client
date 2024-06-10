@@ -83,7 +83,7 @@ namespace VAVS_Client.Controllers.TaxValidationController
                         // Set background color for the header rows
                         ws.Range("A3:S3").Style.Fill.BackgroundColor = XLColor.DodgerBlue;
 
-                        DataTable dt = _serviceFactory.CreateTaxValidationService().MakeVehicleDataExcelData(taxValidations, HttpContext);
+                        DataTable dt = _serviceFactory.CreateTaxValidationService().MakeVehicleDataExcelData(_serviceFactory.CreateTaxValidationService().GetTaxValidationPendigListForExcelPagin(HttpContext, pageNo, pageSize), HttpContext);
                         ws.Cell(4, 1).InsertTable(dt);
                         ws.Range("A4:N4").Style.Fill.BackgroundColor = XLColor.DodgerBlue;
                         ws.Rows().AdjustToContents();
@@ -167,7 +167,7 @@ namespace VAVS_Client.Controllers.TaxValidationController
                         // Set background color for the header rows
                         ws.Range("A3:S3").Style.Fill.BackgroundColor = XLColor.DodgerBlue;
 
-                        DataTable dt = _serviceFactory.CreateTaxValidationService().MakeVehicleDataExcelData(taxValidations, HttpContext);
+                        DataTable dt = _serviceFactory.CreateTaxValidationService().MakeVehicleDataExcelData(_serviceFactory.CreateTaxValidationService().GetTaxValidationApprevedListForExcelPagin(HttpContext, pageNo, pageSize), HttpContext);
                         ws.Cell(4, 1).InsertTable(dt);
                         ws.Range("A4:N4").Style.Fill.BackgroundColor = XLColor.DodgerBlue;
                         ws.Rows().AdjustToContents();

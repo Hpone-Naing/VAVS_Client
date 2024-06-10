@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -292,5 +293,6 @@ namespace VAVS_Client.Services.Impl
                 throw new HttpRequestException($"Failed to send message. Status code: {e.StatusCode}");
             }
         }
+
     }
 }

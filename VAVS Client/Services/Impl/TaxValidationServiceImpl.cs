@@ -107,6 +107,36 @@ namespace VAVS_Client.Services.Impl
             }
         }
 
+        public PagingList<TaxValidation> GetTaxValidationPendigListForExcelPagin(HttpContext httpContext, int? pageNo, int PageSize)
+        {
+            try
+            {
+                try
+                {
+                    TaxpayerInfo loginTaxPayerInfo = _sessionService.GetLoginUserInfo(httpContext);
+
+                    List<TaxValidation> taxValidationPendingList = _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.NRC && (taxValidation.QRCodeNumber == null && taxValidation.DemandNumber == null))
+                        .Include(taxValidation => taxValidation.PersonalDetail)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township.StateDivision)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township.StateDivision)
+                        .ToList();
+                    return GetAllWithPagin(taxValidationPendingList, pageNo, PageSize);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error occur " + e);
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur. TaxValidation Pending  List paginate eger load list. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
         public  PagingList<TaxValidation> GetTaxValidationApprevedListPagin(HttpContext httpContext, int? pageNo, int PageSize)
         {
             try
@@ -116,6 +146,35 @@ namespace VAVS_Client.Services.Impl
                     TaxpayerInfo loginTaxPayerInfo = _sessionService.GetLoginUserInfo(httpContext);
                     List<TaxValidation> taxValidationPendingList = _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.NRC && (taxValidation.QRCodeNumber != null || taxValidation.DemandNumber != null)).ToList();
                     return GetAllWithPagin(taxValidationPendingList, pageNo, PageSize);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(" Error occur " + e);
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(">>>>>>>>>> Error occur. TaxValidation Pending  List paginate eger load list. <<<<<<<<<<" + e);
+                throw;
+            }
+        }
+
+        public PagingList<TaxValidation> GetTaxValidationApprevedListForExcelPagin(HttpContext httpContext, int? pageNo, int PageSize)
+        {
+            try
+            {
+                try
+                {
+                    TaxpayerInfo loginTaxPayerInfo = _sessionService.GetLoginUserInfo(httpContext);
+                    List<TaxValidation> taxValidationApproveList = _context.TaxValidations.Where(taxValidation => taxValidation.PersonNRC == loginTaxPayerInfo.NRC && (taxValidation.QRCodeNumber != null || taxValidation.DemandNumber != null))
+                        .Include(taxValidation => taxValidation.PersonalDetail)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township.StateDivision)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township)
+                        .Include(taxValidation => taxValidation.PersonalDetail.Township.StateDivision)
+                        .ToList();
+                    return GetAllWithPagin(taxValidationApproveList, pageNo, PageSize);
                 }
                 catch (Exception e)
                 {
@@ -178,10 +237,10 @@ namespace VAVS_Client.Services.Impl
                 {
                     foreach (var taxValidation in list)
                     {
-                        dt.Rows.Add(sessionService.GetLoginUserInfo(httpContext).Name,
+                            dt.Rows.Add(sessionService.GetLoginUserInfo(httpContext).Name,
                             taxValidation.PersonNRC,
-                            taxValidation.Township.StateDivision.StateDivisionName,
-                            taxValidation.Township.TownshipName,
+                            taxValidation.PersonalDetail.Township.StateDivision.StateDivisionName,
+                            taxValidation.PersonalDetail.Township.TownshipName,
                             string.Concat(taxValidation.PersonalDetail.HousingNumber,"၊", taxValidation.PersonalDetail.Quarter, taxValidation.PersonalDetail.Street), 
                             taxValidation.PersonalDetail.PhoneNumber,
                             taxValidation.PersonalDetail.Email,
