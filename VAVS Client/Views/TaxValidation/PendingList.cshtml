@@ -97,7 +97,7 @@
                 </th>
 
                 <th class="text-white">
-                    အခွန်ထမ်း<br />အမည်
+                    အခွန်ထမ်းအမည်
                 </th>
                 <th class="text-white">
                     မှတ်ပုံတင်<br />အမှတ်
@@ -136,7 +136,7 @@
                         <td>
                             -
                         </td>
-                        <td class="shortCell">
+                        <td>
                             @{
                                 var name = "";
                                 var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
@@ -227,14 +227,14 @@
         var totalPageNo = Model.TotalPageNo;
         var currentPageNo = Model.PageIndex;
         var searchString = ViewBag.SearchString ?? null;
-        
-        <a asp-action="List"
+
+        <a asp-action="PendingList"
            asp-route-pageNo="@(Model.PageIndex - 1)"
            asp-route-SearchString="@searchString"
            class="link btn btn-primary btn-sm @prevDisabled">
             Previous
         </a>
-        <a asp-action="List"
+        <a asp-action="PendingList"
            asp-route-pageNo="@(Model.PageIndex + 1)"
            asp-route-SearchString="@searchString"
            class="link btn btn-primary btn-sm @nextDisabled">

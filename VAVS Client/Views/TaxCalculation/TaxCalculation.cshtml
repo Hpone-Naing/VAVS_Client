@@ -18,7 +18,16 @@
                             <label class="control-label fw-bold" data-translate="CalculateTax_PlateNo"> Plate No </label>
                         </div>
                         <div class="col">
-                            <input class="form-control" asp-for="VehicleNumber" value="@Model.VehicleNumber" readonly />
+                           @if(string.IsNullOrEmpty(Model.VehicleNumber))
+                            {
+                                <input class="form-control" asp-for="VehicleNumber" value="@Model.VehicleNumber" required />
+
+                            }
+                            else
+                            {
+                                <input class="form-control" asp-for="VehicleNumber" value="@Model.VehicleNumber" readonly />
+
+                            }
                         </div>
                     </div>
                     <span class="text-danger"></span>

@@ -120,6 +120,7 @@ namespace VAVS_Client.Controllers.TaxCalculation
             };
             LoginUserInfo loginUserInfo = _serviceFactory.CreateTaxPayerInfoService().GetLoginUserByHashedToken(SessionUtil.GetToken(HttpContext));
             loginUserInfo.TaxVehicleInfo.StandardValue = vehicleStandardValue?.StandardValue;
+            loginUserInfo.TaxVehicleInfo.VehicleNumber = vehicleStandardValue?.VehicleNumber;
             loginUserInfo.TaxVehicleInfo.TaxAmount = totalTax.ToString();
             loginUserInfo.TaxVehicleInfo.ContractValue = ContractPrice.ToString();
             _serviceFactory.CreateTaxPayerInfoService().CreateLoginUserInfo(SessionUtil.GetToken(HttpContext), loginUserInfo);

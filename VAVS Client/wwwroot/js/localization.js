@@ -119,9 +119,9 @@
 
 
         VehicleDetail_Manufacturer: "ထုတ်လုပ်သူ",
-        VehicleDetail_FuelType: "ဆီအမျိုးအစား",
-        VehicleDetail_VehicleBrand: "အမှတ်တံဆိပ်",
-        VehicleDetail_BuildType: "အမျိုးအစား",
+        VehicleDetail_FuelType: "လောင်စာအမျိုးအစား",
+        VehicleDetail_VehicleBrand: "ယာဥ်အမျိုးအစား",
+        VehicleDetail_BuildType: "ယာဥ်ဖွဲ့စည်းမှု",
         VehicleDetail_StandardValue: "သတ်မှတ်တန်ဖိုး",
         VehicleDetail_ModelYear: "ထုတ်လုပ်သည့်ခုနစ်",
         VehicleDetail_EnginePower: "အင်ဂျင်ပါဝါ",

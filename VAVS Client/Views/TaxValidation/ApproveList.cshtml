@@ -290,13 +290,13 @@
         var currentPageNo = Model.PageIndex;
         var searchString = ViewBag.SearchString ?? null;
 
-        <a asp-action="List"
+        <a asp-action="ApproveList"
            asp-route-pageNo="@(Model.PageIndex - 1)"
            asp-route-SearchString="@searchString"
            class="link btn btn-primary btn-sm @prevDisabled">
             Previous
         </a>
-        <a asp-action="List"
+        <a asp-action="ApproveList"
            asp-route-pageNo="@(Model.PageIndex + 1)"
            asp-route-SearchString="@searchString"
            class="link btn btn-primary btn-sm @nextDisabled">
