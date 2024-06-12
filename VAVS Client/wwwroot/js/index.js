@@ -1,5 +1,6 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $('.selectpicker').selectpicker();
+    $('.bs-searchbox input').attr('placeholder', 'ယာဥ်အမျိုးအစား ထည့်ပါ');
     $('.bs-searchbox input').on('input', function () {
         var searchValue = $(this).val();
         var result = null;
