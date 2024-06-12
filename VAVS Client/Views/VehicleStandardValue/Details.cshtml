@@ -20,14 +20,14 @@
 {
     <div class="alert @TempData["CssColor"]"> @TempData["Message"] </div>
 }
-<div style="background-color: #0f3cbd;" class="row border border-dark">
+<div style="background-color: #0f3cbd;" class="row ">
     <div class="d-flex justify-content-center align-item-center p-1">
         <label class="text-white"> အသေးစိတ် </label>
     </div>
 </div>
 
 <form method="post" action="@Url.Action("ShowCalculateTaxForm", "TaxCalculation")">
-    <div class="row mt-1 border border-dark" style="border-radius: 20px;">
+    <div class="row mt-1 " style="border-radius: 20px;">
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="row p-2" style="background-color: #c0c0c052;">
                 <div class="row">
@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
-            <div class="row p-2" style="background-color: #c0c0c052;">
+                <div class="row p-2" style="background-color: #c0c0c052;">
                     <div class="row">
                         <div class="col-lg-5 col-md-3 col-sm-3 col-5">
                             <label class="fw-bold control-label" data-translate="VehicleDetail_FuelType"></label>
@@ -81,20 +81,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="row p-2">
+           
+            <div class="row p-2">
+                <div class="row">
                     <div class="col-lg-5 col-md-3 col-sm-3 col-5">
-                        <label class="fw-bold  control-label" data-translate="VehicleDetail_StandardValue"></label>
+                        <label class="fw-bold control-label" data-translate="VehicleDetail_StandardValue"></label>
                     </div>
                     <div class="col-7">
-                        <div class="input-group">
-                            <input type="text" class="form-control" asp-for="StandardValue" value="@(Model.StandardValue == "NULL" || Model.StandardValue == "0" ? "0" : string.Concat(Model.StandardValue, "00000"))"
-                                   readonly style="background-color: inherit;border: none;">
-                            <div class="input-group-append">
-                                <span class="input-group-text">Kyat</span>
-                            </div>
-                        </div>
+                        <input type="text" asp-for="StandardValue" value="@(Model.StandardValue == "NULL" || Model.StandardValue == "0" ? "0" : string.Concat(Model.StandardValue, "00000"))" readonly="" style="background-color: inherit;border: none;">
                     </div>
                 </div>
+            </div>
+
             @if (Model.VehicleNumber != null)
             {
                 <div class="row p-2" style="background-color: #c0c0c052;">

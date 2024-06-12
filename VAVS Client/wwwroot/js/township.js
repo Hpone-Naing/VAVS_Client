@@ -24,12 +24,12 @@
 
 
 function FilterNRCTownshipInitial(lstNRCTownshipNumberCtrl, lstNRCTownshipInitialId) {
-
+    console.log("here ............................nrc townshp initial")
     var lstNRCTownshipInitials = $("#" + lstNRCTownshipInitialId);
     lstNRCTownshipInitials.empty();
 
     var selectedNRCTownshipNumber = lstNRCTownshipNumberCtrl.options[lstNRCTownshipNumberCtrl.selectedIndex].value;
-
+    console.log("township number................" + selectedNRCTownshipNumber);
     if (selectedNRCTownshipNumber != null && selectedNRCTownshipNumber != '') {
         $.getJSON("/IRD_VAVS_Client/Login/GetNRCTownshipInitials", { nrcTownshipNumber: selectedNRCTownshipNumber }, function (townships) {
             if (townships != null && !jQuery.isEmptyObject(townships)) {
