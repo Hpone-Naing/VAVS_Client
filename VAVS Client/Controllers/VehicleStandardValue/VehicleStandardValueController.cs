@@ -172,6 +172,7 @@ namespace VAVS_Client.Controllers.VehicleStandardValueController
         {
             Console.WriteLine("here year api call............................."+madeModel);
             List<string> models = await _serviceFactory.CreateVehicleStandardValueService().GetModelYear(madeModel);
+            models = models.OrderBy(m => m).ToList();
             return Json(models);
         }
     }

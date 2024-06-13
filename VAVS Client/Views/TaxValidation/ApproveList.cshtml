@@ -211,7 +211,7 @@
                             ? standardValue
                             : standardValue.Split('.')[0] + "<br />";
                         }
-                            @Html.Raw(formatStandardValue)
+                            <label class="d-flex align-item-end justify-content-end"> @Html.Raw(formatStandardValue)</label>
                     </td>
 
                     <td>
@@ -221,7 +221,7 @@
                             ? taxAmt
                             : taxAmt.Split('.')[0] + "<br />";
                         }
-                        @Html.Raw(formatTaxAmt)
+                            <label class="d-flex align-item-end justify-content-end">@Html.Raw(formatTaxAmt)</label>
                     </td>
                     <td>
                         @{
@@ -230,7 +230,7 @@
                             ? taxAmt
                             : taxAmt.Split('.')[0] + "<br />";
                         }
-                        @Html.Raw(formatPaidTaxAmt)
+                            <label class="d-flex align-item-end justify-content-end"> @Html.Raw(formatPaidTaxAmt)</label>
                     </td>
                     <td>
                         -
