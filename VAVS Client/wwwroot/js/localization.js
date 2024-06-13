@@ -129,7 +129,7 @@
         VehicleDetail_CalcTaxBtn: "တွက်မည်",
 
         CalculateTax_PlateNo: "ကားနံပါတ်",
-        CalculateTax_MakeModel: "ကားမော်ဒယ်",
+        CalculateTax_MakeModel: "ယာဥ်အမျိုးအစား",
         CalculateTax_Type: "အမျိုးအစား",
         CalculateTax_EnginePower: "အင်ဂျင်ပါဝါ",
         CalculateTax_MakeYear: "ထုတ်လုပ်သည့်ခုနစ်",

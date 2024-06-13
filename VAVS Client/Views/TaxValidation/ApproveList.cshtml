@@ -105,25 +105,25 @@
                     <label class="mb-2">မြို့နယ်</label>
                 </th>
                 <th class="text-white">
-                    အခွန်ထမ်း<br />အမည်
+                    <label class="mb-2">အခွန်ထမ်းအမည်</label>
                 </th>
                 <th class="text-white">
-                    မှတ်ပုံတင်<br />အမှတ်
+                    <label class="mb-2">မှတ်ပုံတင်အမှတ်</label>
                 </th>
                 <th class="text-white">
                     <label class="mb-2">လိပ်စာ</label>
                 </th>
                 <th class="text-white">
-                    မော်တော်ယာဥ်<br />အချက်အလက်
+                    <label class="mb-2">မော်တော်ယာဥ်အချက်အလက်</label>
                 </th>
                 <th class="text-white">
-                    စည်းကြပ်<br />တန်ဖိုး
+                    <label class="mb-2">စည်းကြပ်တန်ဖိုး</label>
                 </th>
                 <th class="text-white">
-                    ကျသင့်<br />အခွန်
+                    <label class="mb-2">ကျသင့်အခွန်</label>
                 </th>
                 <th class="text-white">
-                    ပေးသွင်းသည့်<br />အခွန်
+                    <label class="mb-2">ပေးသွင်းသည့်အခွန်</label>
                 </th>
                 <th class="text-white">
                     Pay Id
@@ -174,7 +174,7 @@
                     <td>
                         @ViewBag.Township
                     </td>
-                    <td class="shortCell">
+                    <td>
                         @{
                             var name = "";
                             var loginUserInfoJson = HttpContextAccessor.HttpContext.Session.GetString("LoginUserInfo");
@@ -190,11 +190,12 @@
                         @name
                     </td>
                     <td>
-                        @{
+                        @*@{
                             string personNRC = item.PersonNRC;
                             string formattedPersonNRC = string.IsNullOrEmpty(personNRC) ? personNRC : personNRC.Replace(")", ")<br />");
                         }
-                        @Html.Raw(formattedPersonNRC)
+                        @Html.Raw(formattedPersonNRC)*@
+                        @item.PersonNRC
                     </td>
                     <td class ="address">
                         @ViewBag.Address
@@ -229,7 +230,7 @@
                             ? taxAmt
                             : taxAmt.Split('.')[0] + "<br />";
                         }
-                        သိန်း @Html.Raw(formatPaidTaxAmt) ကျပ်
+                        @Html.Raw(formatPaidTaxAmt)
                     </td>
                     <td>
                         -
