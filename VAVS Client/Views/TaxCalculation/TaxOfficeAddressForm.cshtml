@@ -6,10 +6,10 @@
 
 <div class="card" style="border-radius: 20px;">
     <div class="card-body">
-        <p class="mb-2" style="font-size: clamp(14px, 4vw, 20px);">စည်းကြပ်ခံယူမည့်ရုံးမှာ‌အောက်ပါအတိုင်းဖြစ်ပါသည်</p>
+        <p class="mb-3" style="font-size: clamp(14px, 4vw, 20px);">စည်းကြပ်ခံယူမည့်ရုံးမှာ‌အောက်ပါအတိုင်းဖြစ်ပါသည်</p>
 
         <form class="mb-2" action="@Url.Action("SaveTaxTransaction", "TaxCalculation")" method="post">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group mt-2">
                         <div class="row">
@@ -17,7 +17,7 @@
                                 <label class="control-label fw-bold" data-translate="Reg_StateDivision">State/Division</label>
                             </div>
                             <div class="col">
-                                <select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required="">
+                                @*<select class="form-control" id="lstStateDivisionId" asp-for="StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required="">
                                         <option value="">ရွေးချယ်ရန်</option>
                                         <option value="01">ကချင်</option>
                                         <option value="02">ကယား</option>
@@ -34,7 +34,8 @@
                                         <option value="13">ရှမ်း</option>
                                         <option value="14">ဧရာဝတီ</option>
                                         <option value="15">နေပြည်တော်</option>
-                                </select>
+                                </select>*@
+                                <label class="control-label">@ViewBag.RegisteredStateDivisionName</label>
                             </div>
                         </div>
                     </div>
@@ -46,7 +47,8 @@
                                 <label class="control-label fw-bold" data-translate="Reg_Township">Township</label>
                             </div>
                             <div class="col">
-                                <select class="form-control" id="lstTownship" asp-for="TownshipPkid" asp-items="ViewBag.Townships" required></select>
+                                @*<select class="form-control" id="lstTownship" asp-for="TownshipPkid" asp-items="ViewBag.Townships" required></select>*@
+                                <label class="control-label">@ViewBag.RegisteredTownshipName</label>
                             </div>
                         </div>
                     </div>

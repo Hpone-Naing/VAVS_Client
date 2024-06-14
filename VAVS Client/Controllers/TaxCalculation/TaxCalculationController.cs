@@ -55,10 +55,14 @@ namespace VAVS_Client.Controllers.TaxCalculation
             return View("TaxCalculation", vehicleStandardValue);
         }
 
-        private void MakeViewBag()
+        private async void MakeViewBag()
         {
-            ViewBag.StateDivisions = _serviceFactory.CreateStateDivisionService().GetSelectListStateDivisions();
-            ViewBag.Townships = _serviceFactory.CreateTownshipService().GetSelectListTownshipsByStateDivision();//factoryBuilder.CreateTownshipService().GetSelectListTownships();
+            //ViewBag.StateDivisions = _serviceFactory.CreateStateDivisionService().GetSelectListStateDivisions();
+            //ViewBag.Townships = _serviceFactory.CreateTownshipService().GetSelectListTownshipsByStateDivision();//factoryBuilder.CreateTownshipService().GetSelectListTownships();
+            TaxpayerInfo taxPayerInfo = _serviceFactory.CreateSessionServiceService().GetLoginUserInfo(HttpContext);
+            PersonalDetail personalDetail = await _serviceFactory.CreatePersonalDetailService().GetPersonalInformationByNRCInDBAndAPI(taxPayerInfo.NRC);
+            ViewBag.RegisteredStateDivisionName = personalDetail.Township.StateDivision.StateDivisionName;
+            ViewBag.RegisteredTownshipName = personalDetail.Township.TownshipName;
         }
 
         [HttpPost]
