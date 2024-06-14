@@ -134,6 +134,12 @@ namespace VAVS_Client.Controllers.TaxCalculation
 
         public  IActionResult ShowTaxOfficeAddressForm()
         {
+            SessionService sessionService = _serviceFactory.CreateSessionServiceService();
+            if (!sessionService.IsActiveSession(HttpContext))
+            {
+                Utility.AlertMessage(this, "You haven't login yet.", "alert-danger");
+                return RedirectToAction("Index", "Login");
+            }
             MakeViewBag();
             return View("TaxOfficeAddressForm", new TaxInfo());
         }
