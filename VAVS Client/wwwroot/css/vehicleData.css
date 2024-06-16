@@ -18,22 +18,22 @@
 
 /*for screens with a width less than 510px*/
 @media (max-width: 510px) {
-    .advance-search-btn {
+    .make-model-desktop-view {
         display: none;
     }
 
-    .advance-search-btn-swl-510 {
-        display: block;
+    .make-model-mobile-view {
+        display: flex;
     }
 }
 
 /*for screens with a width greater than 510px*/
 @media (min-width: 510px) {
-    .advance-search-btn {
+    .make-model-desktop-view {
         display: block;
     }
 
-    .advance-search-btn-swl-510 {
+    .make-model-mobile-view {
         display: none;
     }
 }

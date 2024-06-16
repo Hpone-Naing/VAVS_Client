@@ -25,7 +25,7 @@
             </div>
         </form>
     </div>
-    <div class="col"> 
+    <div class="col make-model-desktop-view">
         <button class="btn btn-outline-primary"  data-bs-toggle="modal" data-bs-target="#searchModelType">
             <label class="mb-1" style="font-size: clamp(11px, 2vw, 15px);">စံနှုန်းဖြင့်စည်းကြပ်မှုခံယူရန်</label>
         </button>
@@ -105,50 +105,17 @@
 }
 else
 {
-    if (!string.IsNullOrEmpty(ViewBag.SearchString))
-    {
-        <div class="d-flex align-item-center justify-content-center mt-2">
-            <span class="text-danger" style="font-size: 20px;font-weight: bold;opacity: 0.5;">ရှာဖွေမှုရလာဒ်များမတွေ့ရှိပါ</span>
-        </div>
-        @*<div class="row mt-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="row">
-                    <div class="col">
-                        <div class="d-flex align-item-center justify-content-center mt-2">
-                            <span class="text-primary" data-translate="Vehicle_SearchByVehicleInfo" style="font-size: clamp(14px, 4vw, 20px);font-weight: bold;opacity: 0.5;">မော်တော်ယာဥ်အချက်အလက်ဖြင့်</span>
-                            <button class="btn btn-outline-primary btn-sm ms-2" data-translate="Vehicle_SearchBtn" data-bs-toggle="modal" data-bs-target="#search" style="border-radius: 50px;padding-bottom: 10px;">
-                                ရှာဖွေမည်
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+        {
+            <div class="d-flex align-items-center justify-content-center mt-2">
+                <span class="text-danger" style="font-size: 20px; font-weight: bold; opacity: 0.5;">ရှာဖွေမှုရလာဒ်များမတွေ့ရှိပါ</span>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="row">
-                    <div class="col">
-                        <div class="d-flex align-item-center justify-content-center mt-2 me-4">
-                            <span class="text-primary" data-translate="Vehicle_SearchByMType" style="font-size: clamp(14px, 4vw, 20px);font-weight: bold;opacity: 0.5;">Model Type ဖြင့်</span>
-                            <button class="btn btn-outline-primary btn-sm ms-2" data-translate="Vehicle_SearchBtn" data-bs-toggle="modal" data-bs-target="#searchModelType" style="border-radius: 50px;padding-bottom: 10px;">
-                                ရှာဖွေမည်
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-        @*<div class="d-flex align-item-center justify-content-center mt-2">
-            <span class="text-danger" style="font-size: clamp(14px, 4vw, 20px);font-weight: bold;opacity: 0.5;">အချက်အလက်များဖြင့်ရှာဖွေပါမည်</span>
-            <span class="text-danger" style="font-size: clamp(14px, 4vw, 20px);font-weight: bold;opacity: 0.5;">Model Typeအချက်အလက်များဖြင့်ရှာဖွေပါမည်</span>
+        }
+        <div class="align-items-center justify-content-center mt-2 make-model-mobile-view">
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#searchModelType">
+                <label class="mb-1" style="font-size: clamp(14px, 2vw, 15px);">စံနှုန်းဖြင့်စည်းကြပ်မှုခံယူရန်</label>
+            </button>
         </div>
-        <div class="d-flex align-item-center justify-content-center mt-2">
-            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#search" style="border-radius: 50px;padding-bottom: 10px;">
-                ရှာဖွေမည်
-            </button>
-            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#search" style="border-radius: 50px;padding-bottom: 10px;">
-                ရှာဖွေမည်
-            </button>
-        </div>*@
-    }
 }
 
 <!-- Search model-->
