@@ -133,7 +133,7 @@
         CalculateTax_Type: "အမျိုးအစား",
         CalculateTax_EnginePower: "အင်ဂျင်ပါဝါ",
         CalculateTax_MakeYear: "ထုတ်လုပ်သည့်ခုနစ်",
-        CalculateTax_AssetValue: "ခန့်မှန်းတန်ဖိုး",
+        CalculateTax_AssetValue: "သတ်မှတ်စံနှုန်း",
         CalculateTax_ContractValue: "စာချုပ်ပါတန်ဖိုး",
         CalculateTax_IncomeTax: "ကျသင့်အခွန်",
 

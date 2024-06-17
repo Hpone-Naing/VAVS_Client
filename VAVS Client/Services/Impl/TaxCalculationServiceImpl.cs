@@ -1,4 +1,6 @@
 ﻿
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Http;
 using VAVS_Client.Classes;
 using VAVS_Client.Classes.TaxCalculation;
 using VAVS_Client.Data;
@@ -17,7 +19,8 @@ namespace VAVS_Client.Services.Impl
         private readonly VehicleStandardValueService _vehicleStandardValueService;
         private readonly FuelTypeService _fuelTypeService;
         private readonly TaxPayerInfoService _taxPayerInfoService;
-        public TaxCalculationServiceImpl(VAVSClientDBContext context, HttpClient httpClient, ILogger<TaxCalculationServiceImpl> logger, PersonalDetailService personalDetailService, TownshipService townshipService, StateDivisionService staetDivisionService, VehicleStandardValueService vehicleStandardValueService, FuelTypeService fuelTypeService, TaxPayerInfoService taxPayerInfoService) : base(context, logger)
+        private readonly FinancialYearService _financialYearService;
+        public TaxCalculationServiceImpl(VAVSClientDBContext context, HttpClient httpClient, ILogger<TaxCalculationServiceImpl> logger, PersonalDetailService personalDetailService, TownshipService townshipService, StateDivisionService staetDivisionService, VehicleStandardValueService vehicleStandardValueService, FuelTypeService fuelTypeService, TaxPayerInfoService taxPayerInfoService, FinancialYearService financialYearService) : base(context, logger)
         {
             _httpClient = httpClient;
             _logger = logger;
@@ -27,6 +30,7 @@ namespace VAVS_Client.Services.Impl
             _vehicleStandardValueService = vehicleStandardValueService;
             _fuelTypeService = fuelTypeService;
             _taxPayerInfoService = taxPayerInfoService;
+            _financialYearService = financialYearService;
         }
 
         public long CalculateTotalTax(long contractPrice, long assetValue)
@@ -59,7 +63,13 @@ namespace VAVS_Client.Services.Impl
                     _personalDetailService.CreatePersonalDetail(personalDetail);
                 }
                 Console.WriteLine("here personalpkid not null.............." + personalDetail.PersonalPkid);
-                
+                var financialYear = _financialYearService.GetFinancialYear(personalDetail.EntryDate);
+                string taxYear = null;
+                if (financialYear != null)
+                {
+                    taxYear = financialYear["FinancialYear"].ToString();
+                }
+
                 TaxValidation taxValidation = new TaxValidation
                 {
                     PersonTINNumber = personalDetail?.PersonTINNumber,
@@ -75,6 +85,7 @@ namespace VAVS_Client.Services.Impl
                     StandardValue = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.StandardValue),
                     ContractValue = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.ContractValue),
                     TaxAmount = decimal.Parse(loginTaxPayerInfo.TaxVehicleInfo.TaxAmount),
+                    TaxYear = taxYear,
                     PersonalDetail = personalDetail,
                     Township = township,
                     EntryDate = DateTime.Now,

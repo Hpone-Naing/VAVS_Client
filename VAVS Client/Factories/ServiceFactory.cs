@@ -18,6 +18,7 @@ namespace VAVS_Client.Factories
         TaxValidationService CreateTaxValidationService();
         ResetPhoneNumberAuthService CreateResetPhoneNumberAuthService();
         SessionService CreateSessionServiceService();
+        FinancialYearService CreateFinancialYearService();
 
     }
 }

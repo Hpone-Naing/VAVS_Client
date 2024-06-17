@@ -68,6 +68,9 @@ namespace VAVS_Client.Models
         [StringLength(50)]
         public string? FormNumber { get; set; }
 
+        [StringLength(50)]
+        public string? TaxYear { get; set; }
+
         public bool? IsDeleted { get; set; }
 
         public int? CreatedBy { get; set; }

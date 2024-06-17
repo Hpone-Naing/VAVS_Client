@@ -37,6 +37,7 @@ builder.Services.AddTransient<ServiceFactory, ServiceFactoryImpl>();
 builder.Services.AddTransient<FileService, FileServiceImpl>();
 builder.Services.AddTransient<APIServiceFactory, APIServiceFactoryImpl>();
 builder.Services.AddSingleton<SessionService, SessionServiceImpl>();
+builder.Services.AddSingleton<FinancialYearService, FinancialYearServiceImpl>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

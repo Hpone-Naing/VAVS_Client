@@ -17,8 +17,9 @@ namespace VAVS_Client.Factories.Impl
         private readonly FileService _fileService;
         private readonly APIServiceFactory _apiServiceFactory;
         private readonly SessionService _sessionService;
+        private readonly FinancialYearService _financialYearService;
 
-        public ServiceFactoryImpl(VAVSClientDBContext context, IFirebaseConfig firebaseConfig, HttpClient httpClient, ILoggerFactory loggerFactory, FileService fileService, IWebHostEnvironment hostEnvironment, APIServiceFactory apiServiceFactory, SessionService sessionService)
+        public ServiceFactoryImpl(VAVSClientDBContext context, IFirebaseConfig firebaseConfig, HttpClient httpClient, ILoggerFactory loggerFactory, FileService fileService, IWebHostEnvironment hostEnvironment, APIServiceFactory apiServiceFactory, SessionService sessionService, FinancialYearService financialYearService)
         {
             _context = context;
             _firebaseConfig = firebaseConfig;
@@ -28,6 +29,7 @@ namespace VAVS_Client.Factories.Impl
             _fileService = fileService;
             _apiServiceFactory = apiServiceFactory;
             _sessionService = sessionService;
+            _financialYearService = financialYearService;
         }
 
         public UserService CreateUserService()
@@ -91,7 +93,7 @@ namespace VAVS_Client.Factories.Impl
         public TaxCalculationService CreateTaxCalculationService()
         {
             ILogger<TaxCalculationServiceImpl> taxCalculationServiceLogger = new Logger<TaxCalculationServiceImpl>(_loggerFactory);
-            return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger, CreatePersonalDetailService(), CreateTownshipService(), CreateStateDivisionService(), CreateVehicleStandardValueService(), CreateFuelTypeService(), CreateTaxPayerInfoService());
+            return new TaxCalculationServiceImpl(_context, _httpClient, taxCalculationServiceLogger, CreatePersonalDetailService(), CreateTownshipService(), CreateStateDivisionService(), CreateVehicleStandardValueService(), CreateFuelTypeService(), CreateTaxPayerInfoService(), _financialYearService);
         }
         public TaxValidationService CreateTaxValidationService()
         {
@@ -107,6 +109,11 @@ namespace VAVS_Client.Factories.Impl
         public SessionService CreateSessionServiceService()
         {
             return _sessionService;
+        }
+
+        public FinancialYearService CreateFinancialYearService()
+        {
+            return _financialYearService;
         }
     }
 }
