@@ -190,10 +190,10 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Name"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" asp-for="PersonalDetail.Name" placeholder="အမည်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Name"></span>
                                     </div>
@@ -201,11 +201,50 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Global_Nrc"> Nrc Number: </label>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="row">
+                                    <div class="mt-1 col">
+                                        <div class="d-flex">
+                                                <select id="lstNRCTownshipNumberId1" class="form-control me-1" asp-for="PersonalDetail.NRCTownshipNumber" onchange="FilterNRCTownshipInitial1(this, 'lstNRCTownshipInitial1')" required>
+                                                    <option value="">?</option>
+                                                    <option value="၁">၁/</option>
+                                                    <option value="၂">၂/</option>
+                                                    <option value="၃">၃/</option>
+                                                    <option value="၄">၄/</option>
+                                                    <option value="၅">၅/</option>
+                                                    <option value="၆">၆/</option>
+                                                    <option value="၇">၇/</option>
+                                                    <option value="၈">၈/</option>
+                                                    <option value="၉">၉/</option>
+                                                    <option value="၁၀">၁၀/</option>
+                                                    <option value="၁၁">၁၁/</option>
+                                                    <option value="၁၂">၁၂/</option>
+                                                    <option value="၁၃">၁၃/</option>
+                                                    <option value="၁၄">၁၄/</option>
+                                                </select>
+                                            
+                                                <select class="form-control me-1" id="lstNRCTownshipInitial1" asp-for="PersonalDetail.NRCTownshipInitial" required>
+                                                    <option value="">?</option>
+                                                    <option value="ဥကတ">ဥကတ</option>
+                                                    <option value="လသယ">လသယ</option>
+                                                </select>
+                                            
+                                                <select class="form-control me-1" asp-for="PersonalDetail.NRCType" required>
+                                                    <option value="">?</option>
+                                                    <option value="(နိုင်)">(နိုင်)</option>
+                                                    <option value="(ဧည့်)">(ဧည့်)</option>
+                                                    <option value="(ဝတ်)">(ဝတ်)</option>
+                                                    <option value="(ပြု)">(ပြု)</option>
+                                                </select>
+                                            
+                                                <input class="form-control" asp-for="PersonalDetail.NRCNumber" pattern="\d{5,6}" title="NRC number must contain only 5 to 6 digits" maxlength="6" required />
+                                            <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipNumber"></span>
+                                            <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
+                                            <span class="text-danger" asp-validation-for="PersonalDetail.NRCType"></span>
+                                            <span class="text-danger" asp-validation-for="PersonalDetail.NRCNumber"></span>
+                                        </div>
+                                        @*<div class="row">
                                             <div class="col-2">
                                                 <select id="lstNRCTownshipNumberId1" class="form-control" asp-for="PersonalDetail.NRCTownshipNumber" onchange="FilterNRCTownshipInitial1(this, 'lstNRCTownshipInitial1')" required>
                                                     <option value="">?</option>
@@ -248,16 +287,16 @@
                                             <span class="text-danger" asp-validation-for="PersonalDetail.NRCTownshipInitial"></span>
                                             <span class="text-danger" asp-validation-for="PersonalDetail.NRCType"></span>
                                             <span class="text-danger" asp-validation-for="PersonalDetail.NRCNumber"></span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </div>
                             </div>
                             @*<div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Name" asp-for="PersonalDetail.EntryDate"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" type="date" id="entryDate" asp-for="PersonalDetail.EntryDate" placeholder="Entry Date" />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.EntryDate"></span>
                                     </div>
@@ -265,10 +304,10 @@
                             </div>*@
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_StateDivision">State/Division</label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <select class="form-control" id="lstStateDivisionId" asp-for="PersonalDetail.StateDivisionPkid" onchange="FilterStateDivision(this, 'lstTownship')" required>
                                             <option value="">ရွေးချယ်ရန်</option>
                                             <option value="01">ကချင်</option>
@@ -293,10 +332,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Township"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <select class="form-control" id="lstTownship" asp-for="PersonalDetail.TownshipPkid" asp-items="ViewBag.Townships" required>
 
                                         </select>
@@ -306,10 +345,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Quarter"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" asp-for="PersonalDetail.Quarter" placeholder="ရပ်ကွက်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Quarter"></span>
                                     </div>
@@ -317,10 +356,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_HousingNumber"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" asp-for="PersonalDetail.HousingNumber" placeholder="အိမ်အမှတ်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.HousingNumber"></span>
                                     </div>
@@ -328,10 +367,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Street"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" asp-for="PersonalDetail.Street" placeholder="လမ်းအမှတ်" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Street"></span>
                                     </div>
@@ -347,10 +386,10 @@
                             </div>-->
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Reg_Email"></label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control" asp-for="PersonalDetail.Email" placeholder="Email" required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.Email"></span>
                                     </div>
@@ -358,10 +397,10 @@
                             </div>
                             <div class="form-group mt-3">
                                 <div class="row">
-                                    <div class="col-lg-2 col-4">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
                                         <label class="control-label fw-bold" data-translate="Global_PhoneNo">Phone Number</label>
                                     </div>
-                                    <div class="col-8">
+                                    <div class="mt-1 col">
                                         <input class="form-control phone" asp-for="PersonalDetail.PhoneNumber" placeholder="ဆက်သွယ်ရန်ဖုန်း (09--------)" maxlength="17" pattern="^09\d{5,15}$" title="Phone number must be 09 followed by 5 to 15 number." required />
                                         <span class="text-danger" asp-validation-for="PersonalDetail.PhoneNumber"></span>
                                     </div>
