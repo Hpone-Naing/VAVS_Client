@@ -239,16 +239,25 @@
                         @String.Format("{0:dd/MM/yyyy}", DateTime.Now)
                     </td>
                     <td>
-                        -
+                            @{
+                                string formNumber = string.IsNullOrEmpty(item.FormNumber) ? "-" : item.FormNumber;
+                            }
+                            @formNumber
                     </td>
                     <td>
-                        -
+                            @{
+                                string qrNumber = string.IsNullOrEmpty(item.QRCodeNumber) ? "-" : item.QRCodeNumber;
+                            }
+                            @qrNumber
                     </td>
                     <td>
                         <span class="text-success">Approve</span>
                     </td>
                     <td>
-                        -
+                            @{
+                                string tinNumber = string.IsNullOrEmpty(item.PersonTINNumber) ? "-" : item.PersonTINNumber;
+                            }
+                            @tinNumber
                     </td>
                 </tr>
                 <!-- Delete Modal -->
